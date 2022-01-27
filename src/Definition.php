@@ -23,13 +23,19 @@ class Definition
         $this->additionalProperties = $additionalProperties;
     }
 
-    public function property(string $name, bool $required = false): Property
+    public function property(string $name, bool $required = false, Definition $definition = null): Property
     {
         if(array_key_exists($name, $this->properties)) {
             throw new \InvalidArgumentException('Property exists');
         }
 
-        return $this->properties[$name] = new Property($this->rulesFactory, $required);
+        if ($definition === null) {
+            $property = new Property($this->rulesFactory, $required);
+        } else {
+            $property = new ReferencedProperty($this->rulesFactory, $required, $definition);
+        }
+
+        return $this->properties[$name] = $property;
     }
 
     public function isAdditionalPropertiesAllowed(): bool

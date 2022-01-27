@@ -25,14 +25,24 @@ class Property
 
     public function stringType(?string $message = null): self
     {
-        $this->rules[] = $this->rulesFactory->createStringTypeRule($message);
+        $rule = $this->rulesFactory->createStringTypeRule($message);
+        $this->addRule($rule);
 
         return $this;
     }
 
     public function callback(callable $callback, ?string $message = null): self
     {
-        $this->rules[] = $this->rulesFactory->createCallbackRule($callback, $message);
+        $rule = $this->rulesFactory->createCallbackRule($callback, $message);
+        $this->addRule($rule);
+
+        return $this;
+    }
+
+    public function notEmptyStringType(?string $message = null): self
+    {
+        $rule = $this->rulesFactory->createNotEmptyStringRule($message);
+        $this->addRule($rule);
 
         return $this;
     }
@@ -48,6 +58,11 @@ class Property
     public function getRules(): array
     {
         return $this->rules;
+    }
+
+    protected function addRule(Rule $rule): void
+    {
+        $this->rules[] = $rule;
     }
 
 }

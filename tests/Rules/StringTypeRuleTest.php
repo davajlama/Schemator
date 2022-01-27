@@ -9,7 +9,7 @@ use Davajlama\Schemator\Rules\CallbackRule;
 use Davajlama\Schemator\Rules\StringTypeRule;
 use PHPUnit\Framework\TestCase;
 
-final class StringTypeTest extends TestCase
+final class StringTypeRuleTest extends TestCase
 {
     public function testSuccessValidation(): void
     {

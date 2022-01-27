@@ -16,4 +16,9 @@ class RulesFactory
     {
         return new CallbackRule($callback, $message);
     }
+
+    public function createNotEmptyStringRule(?string $message): NotEmptyStringTypeRule
+    {
+        return new NotEmptyStringTypeRule($message);
+    }
 }
