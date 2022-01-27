@@ -14,12 +14,7 @@ final class ValidatorTest extends TestCase
 {
     public function testBaseValidation()
     {
-        $rulesFactory = new RulesFactory();
-        $def = new Definition($rulesFactory);
-        $def->property('firstname')
-            ->stringType()
-            ->callback(fn(string $value) => $value !== 'David');
-
+        $def = $this->prepareBaseDefinition();
 
         $extractor = new ArrayValueExtractor();
         $validator = new Validator($extractor);
@@ -33,6 +28,34 @@ final class ValidatorTest extends TestCase
 
     public function testAllowedAdditionalProperties()
     {
+        $def = $this->prepareBaseDefinition(true);
 
+        $extractor = new ArrayValueExtractor();
+        $validator = new Validator($extractor);
+
+        $data = ['firstname' => 'Martin', 'lastname' => 'Stark'];
+        self::assertTrue($validator->validate($def, $data));
+    }
+
+    public function testDeniedAdditionalProperties()
+    {
+        $def = $this->prepareBaseDefinition();
+
+        $extractor = new ArrayValueExtractor();
+        $validator = new Validator($extractor);
+
+        $data = ['firstname' => 'Martin', 'lastname' => 'Stark'];
+        self::assertFalse($validator->validate($def, $data));
+    }
+
+    protected function prepareBaseDefinition(bool $additionalProperties = false): Definition
+    {
+        $rulesFactory = new RulesFactory();
+        $def = new Definition($rulesFactory, $additionalProperties);
+        $def->property('firstname')
+            ->stringType()
+            ->callback(fn(string $value) => $value !== 'David');
+
+        return $def;
     }
 }

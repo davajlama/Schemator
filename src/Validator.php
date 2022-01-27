@@ -20,36 +20,55 @@ class Validator
 
     public function validate(Definition $definition, $data): bool
     {
-        $rules = $definition->buildRules()->toArray();
+        $properties = $definition->getProperties();
 
         $data = (array) $data;
 
-        $resolvedProperties = [];
         $unresolvedProperties = array_keys($data);
 
         $errors = [];
-        foreach($unresolvedProperties as $property) {
-            if(array_key_exists($property, $rules)) {
+        foreach($unresolvedProperties as $unresolvedProperty) {
+            if(array_key_exists($unresolvedProperty, $properties)) {
                 try {
-
-                    foreach($rules[$property] as $rule) {
+                    $property = $properties[$unresolvedProperty];
+                    foreach($property->getRules() as $rule) {
                         if($rule instanceof ExtractorAwareInterface) {
                             $rule->setExtractor($this->extractor);
                         }
 
-                        $rule->validate($data, $property);
+                        try {
+                            $rule->validate($data, $unresolvedProperty);
+                        } catch (\InvalidArgumentException $e) {
+                            $errors[] = $e;
+                        }
                     }
 
-                    unset($unresolvedProperties[$property]);
-                    $resolvedProperties[] = $property;
+                    unset($unresolvedProperties[array_search($unresolvedProperty, $unresolvedProperties)]);
+                    unset($properties[$unresolvedProperty]);
                 } catch (\InvalidArgumentException $e) {
-                    $errors[] = $e;
+
                 }
             }
         }
 
+        if(!$definition->isAdditionalPropertiesAllowed() && count($unresolvedProperties) > 0) {
+            $errors[] = new \InvalidArgumentException('Additional properties not allowed.');
+        }
+
+        foreach($properties as $property) {
+            if($property->isRequired()) {
+                $errors[] = new \InvalidArgumentException('Property is required.');
+            }
+        }
+
+        //var_dump(array_map(fn($e) => $e->getMessage(), $errors));
         $this->errors = $errors;
         return count($errors) === 0;
+    }
+
+    public function dumpErrors()
+    {
+        var_dump(array_map(fn($e) => $e->getMessage(), $this->errors));
     }
 
 }
