@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Generator;
 
+use Davajlama\Schemator\Rules\IntegerType;
 use Davajlama\Schemator\Rules\NonEmptyStringRule;
+use Davajlama\Schemator\Rules\NullableInteger;
+use Davajlama\Schemator\Rules\NullableString;
 use Davajlama\Schemator\Rules\StringTypeRule;
 use Davajlama\Schemator\Schema;
-use phpDocumentor\Reflection\PseudoTypes\NonEmptyString;
-use phpDocumentor\Reflection\Types\Integer;
 
 class JsonSchemaGenerator
 {
@@ -35,12 +36,14 @@ class JsonSchemaGenerator
 
         $body = $this->_generate($this->schema);
 
-        $footer = [
-            'definitions' => $this->definitions,
-        ];
+        $footer = [];
+        if(count($this->definitions) > 0) {
+            $footer = [
+                'definitions' => $this->definitions,
+            ];
+        }
 
         $full = array_merge($header, $body, $footer);
-
         return $full;
     }
 
@@ -94,12 +97,23 @@ class JsonSchemaGenerator
     {
         $types = [];
         foreach($rules as $rule) {
-            switch (get_class($rule)) {
-                case NonEmptyStringRule::class:
-                case StringTypeRule::class:
-                    $types[] = 'string';
-                    break;
+            $classList = class_parents($rule);
+            $classList[] = get_class($rule);
+            foreach ($classList as $class) {
+                switch ($class) {
+                    case NullableInteger::class:
+                    case NullableString::class:
+                        $types[] = 'null';
+                        break;
+                    case IntegerType::class:
+                        $types[] = 'integer';
+                        break;
+                    case StringTypeRule::class:
+                        $types[] = 'string';
+                        break;
+                }
             }
+
         }
 
         return array_unique($types);

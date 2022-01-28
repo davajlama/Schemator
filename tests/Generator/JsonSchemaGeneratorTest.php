@@ -6,11 +6,11 @@ namespace Davajlama\Schemator\Tests\Generator;
 
 use Davajlama\Schemator\Generator\JsonSchemaGenerator;
 use Davajlama\Schemator\Tests\Generator\Fixtures\SimpleSchemaFactory;
+use Davajlama\Schemator\Tests\Generator\Fixtures\TypedSchemaFactory;
 use PHPUnit\Framework\TestCase;
 
 class JsonSchemaGeneratorTest extends TestCase
 {
-
     public function testSimpleSchemaGeneration(): void
     {
         $schema = SimpleSchemaFactory::create();
@@ -18,6 +18,17 @@ class JsonSchemaGeneratorTest extends TestCase
         $result = $generator->generate();
 
         $jsonContent = (string) file_get_contents(__DIR__ . '/Fixtures/output/simple.schema.json');
+        $expectedResult = json_decode($jsonContent, true, 512, JSON_THROW_ON_ERROR);
+        self:self::assertEquals($expectedResult, $result);
+    }
+
+    public function testTypedSchemaGeneration(): void
+    {
+        $schema = TypedSchemaFactory::create();
+        $generator = new JsonSchemaGenerator($schema);
+        $result = $generator->generate();
+
+        $jsonContent = (string) file_get_contents(__DIR__ . '/Fixtures/output/typed.schema.json');
         $expectedResult = json_decode($jsonContent, true, 512, JSON_THROW_ON_ERROR);
         self:self::assertEquals($expectedResult, $result);
     }

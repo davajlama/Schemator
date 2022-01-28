@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Typed schema",
+  "additionalProperties": false,
+  "required": [
+    "integerId",
+    "nullableIntegerId",
+    "stringName",
+    "nullableStringName",
+    "nonEmptyStringName"
+  ],
+  "properties": {
+    "integerId": {
+      "$id": "#/properties/integerId",
+      "type": "integer",
+      "examples": [
+        666
+      ]
+    },
+    "nullableIntegerId": {
+      "$id": "#/properties/nullableIntegerId",
+      "type": ["integer", "null"],
+      "examples": [
+        666, null
+      ]
+    },
+    "stringName": {
+      "$id": "#/properties/stringName",
+      "type": "string",
+      "examples": [
+        "foo", ""
+      ]
+    },
+    "nullableStringName": {
+      "$id": "#/properties/nullableStringName",
+      "type": ["string", "null"],
+      "examples": [
+        "foo", "", null
+      ]
+    },
+    "nonEmptyStringName": {
+      "$id": "#/properties/nonEmptyStringName",
+      "type": "string",
+      "minLength": 1,
+      "examples": [
+        "foo"
+      ]
+    }
+  }
+}
