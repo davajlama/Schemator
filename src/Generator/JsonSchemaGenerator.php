@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Generator;
 
+use Davajlama\Schemator\Rules\NonEmptyStringRule;
+use Davajlama\Schemator\Rules\StringTypeRule;
 use Davajlama\Schemator\Schema;
+use phpDocumentor\Reflection\PseudoTypes\NonEmptyString;
+use phpDocumentor\Reflection\Types\Integer;
 
 class JsonSchemaGenerator
 {
@@ -72,6 +76,35 @@ class JsonSchemaGenerator
         return $data;
     }
 
+    protected function getMinLength(array $rules): ?int
+    {
+        $min = null;
+        foreach($rules as $rule) {
+            switch (get_class($rule)) {
+                case NonEmptyStringRule::class:
+                    $min = 1;
+                    break;
+            }
+        }
+
+        return $min;
+    }
+
+    protected function getTypes(array $rules): array
+    {
+        $types = [];
+        foreach($rules as $rule) {
+            switch (get_class($rule)) {
+                case NonEmptyStringRule::class:
+                case StringTypeRule::class:
+                    $types[] = 'string';
+                    break;
+            }
+        }
+
+        return array_unique($types);
+    }
+
     protected function buildProperty(Schema\SchemaProperty $property, string $name): array
     {
         if($property->isDefinition()) {
@@ -84,8 +117,18 @@ class JsonSchemaGenerator
         } else {
             $body = [
                 '$id' => '#/properties/' . $name,
-                'type' => 'string',
             ];
+
+            $types = $this->getTypes($property->getRules());
+            if($types) {
+                $type = count($types) === 1 ? reset($types) : $types;
+                $body['type'] = $type;
+            }
+
+            $minLength = $this->getMinLength($property->getRules());
+            if($minLength !== null) {
+                $body['minLength'] = $minLength;
+            }
 
             if($property->getTitle() !== null) {
                 $body['title'] = $property->getTitle();

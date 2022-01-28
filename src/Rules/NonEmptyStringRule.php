@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Rules;
 
-class NotEmptyStringTypeRule extends StringTypeRule
+class NonEmptyStringRule extends StringTypeRule
 {
     public function validateValue($value)
     {
@@ -15,5 +15,4 @@ class NotEmptyStringTypeRule extends StringTypeRule
             $this->fail('String cannot be empty!');
         }
     }
-
 }

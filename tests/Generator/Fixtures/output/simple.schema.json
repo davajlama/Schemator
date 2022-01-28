@@ -13,6 +13,7 @@
       "$id": "#/properties/id",
       "type": "string",
       "title": "Order ID",
+      "minLength": 1,
       "examples": [
         "abcd"
       ]

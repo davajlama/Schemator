@@ -53,12 +53,12 @@ final class ValidatorTest extends TestCase
     {
         $rulesFactory = new RulesFactory();
         $contactDefinition = new Definition($rulesFactory, 'Contact');
-        $contactDefinition->property('firstname', true)->notEmptyStringType();
-        $contactDefinition->property('surname', true)->notEmptyStringType();
+        $contactDefinition->property('firstname', true)->nonEmptyString();
+        $contactDefinition->property('surname', true)->nonEmptyString();
 
 
         $orderDefinition = new Definition($rulesFactory);
-        $orderDefinition->property('id', true)->notEmptyStringType();
+        $orderDefinition->property('id', true)->nonEmptyString();
         $orderDefinition->property('fromContact', true, $contactDefinition);
         $orderDefinition->property('toContact', true, $contactDefinition);
 
@@ -84,12 +84,12 @@ final class ValidatorTest extends TestCase
     {
         $rulesFactory = new RulesFactory();
         $contactDefinition = new Definition($rulesFactory, 'Contact');
-        $contactDefinition->property('firstname', true)->notEmptyStringType();
-        $contactDefinition->property('surname', true)->notEmptyStringType();
+        $contactDefinition->property('firstname', true)->nonEmptyString();
+        $contactDefinition->property('surname', true)->nonEmptyString();
 
 
         $orderDefinition = new Definition($rulesFactory);
-        $orderDefinition->property('id', true)->notEmptyStringType();
+        $orderDefinition->property('id', true)->nonEmptyString();
         $orderDefinition->property('fromContact', true, $contactDefinition);
         $orderDefinition->property('toContact', true, $contactDefinition);
 

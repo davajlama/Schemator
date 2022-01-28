@@ -39,9 +39,9 @@ class Property
         return $this;
     }
 
-    public function notEmptyStringType(?string $message = null): self
+    public function nonEmptyString(?string $message = null): self
     {
-        $rule = $this->rulesFactory->createNotEmptyStringRule($message);
+        $rule = $this->rulesFactory->createNonEmptyStringRule($message);
         $this->addRule($rule);
 
         return $this;
