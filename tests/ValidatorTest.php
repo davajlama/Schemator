@@ -51,13 +51,12 @@ final class ValidatorTest extends TestCase
 
     public function testSuccessReferencedDefinition(): void
     {
-        $rulesFactory = new RulesFactory();
-        $contactDefinition = new Definition($rulesFactory, 'Contact');
+        $contactDefinition = new Definition('Contact');
         $contactDefinition->property('firstname', true)->nonEmptyString();
         $contactDefinition->property('surname', true)->nonEmptyString();
 
 
-        $orderDefinition = new Definition($rulesFactory);
+        $orderDefinition = new Definition();
         $orderDefinition->property('id', true)->nonEmptyString();
         $orderDefinition->property('fromContact', true, $contactDefinition);
         $orderDefinition->property('toContact', true, $contactDefinition);
@@ -82,13 +81,12 @@ final class ValidatorTest extends TestCase
 
     public function testFailedReferencedDefinition(): void
     {
-        $rulesFactory = new RulesFactory();
-        $contactDefinition = new Definition($rulesFactory, 'Contact');
+        $contactDefinition = new Definition('Contact');
         $contactDefinition->property('firstname', true)->nonEmptyString();
         $contactDefinition->property('surname', true)->nonEmptyString();
 
 
-        $orderDefinition = new Definition($rulesFactory);
+        $orderDefinition = new Definition();
         $orderDefinition->property('id', true)->nonEmptyString();
         $orderDefinition->property('fromContact', true, $contactDefinition);
         $orderDefinition->property('toContact', true, $contactDefinition);
@@ -112,8 +110,7 @@ final class ValidatorTest extends TestCase
 
     protected function prepareBaseDefinition(): Definition
     {
-        $rulesFactory = new RulesFactory();
-        $def = new Definition($rulesFactory);
+        $def = new Definition();
         $def->property('firstname')
             ->stringType()
             ->callback(fn(string $value) => $value !== 'David');

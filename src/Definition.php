@@ -19,9 +19,9 @@ class Definition
 
     private ?string $name = null;
 
-    public function __construct(RulesFactory $rulesFactory, string $name = null)
+    public function __construct(string $name = null)
     {
-        $this->rulesFactory = $rulesFactory;
+        $this->rulesFactory = new RulesFactory();
         $this->name = $name;
     }
 

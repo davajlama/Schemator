@@ -12,15 +12,11 @@ final class SimpleSchemaFactory
 {
     public static function create(): Schema
     {
-        //Examples::firstname();
-        //Examples::lastname();
-
-        $rulesFactory = new RulesFactory();
-        $contactDefinition = new Definition($rulesFactory, 'Contact');
+        $contactDefinition = new Definition('Contact');
         $contactDefinition->property('firstname', true)->nonEmptyString();
         $contactDefinition->property('surname', true)->nonEmptyString();
 
-        $orderDefinition = new Definition($rulesFactory);
+        $orderDefinition = new Definition();
         $orderDefinition->property('id', true)->nonEmptyString();
         $orderDefinition->property('fromContact', true, $contactDefinition);
         $orderDefinition->property('toContact', true, $contactDefinition);
@@ -37,8 +33,6 @@ final class SimpleSchemaFactory
         $schema->property('id')->title('Order ID')->examples('abcd');
         $schema->property('fromContact')->title('From contact');
         $schema->property('toContact')->title('To contact');
-
-
 
         return $schema;
     }
