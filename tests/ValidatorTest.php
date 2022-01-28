@@ -28,7 +28,8 @@ final class ValidatorTest extends TestCase
 
     public function testAllowedAdditionalProperties(): void
     {
-        $def = $this->prepareBaseDefinition(true);
+        $def = $this->prepareBaseDefinition();
+        $def->additionalProperties(true);
 
         $extractor = new ArrayValueExtractor();
         $validator = new Validator($extractor);
@@ -51,7 +52,7 @@ final class ValidatorTest extends TestCase
     public function testSuccessReferencedDefinition(): void
     {
         $rulesFactory = new RulesFactory();
-        $contactDefinition = new Definition($rulesFactory);
+        $contactDefinition = new Definition($rulesFactory, 'Contact');
         $contactDefinition->property('firstname', true)->notEmptyStringType();
         $contactDefinition->property('surname', true)->notEmptyStringType();
 
@@ -76,17 +77,13 @@ final class ValidatorTest extends TestCase
             ]
         ];
 
-        $result = $validator->validate($orderDefinition, $data);
-        //$validator->dumpErrors();
-        self::assertTrue($result);
-
-        //self::assertTrue($validator->validate($orderDefinition, $data));
+        self::assertTrue($validator->validate($orderDefinition, $data));
     }
 
     public function testFailedReferencedDefinition(): void
     {
         $rulesFactory = new RulesFactory();
-        $contactDefinition = new Definition($rulesFactory);
+        $contactDefinition = new Definition($rulesFactory, 'Contact');
         $contactDefinition->property('firstname', true)->notEmptyStringType();
         $contactDefinition->property('surname', true)->notEmptyStringType();
 
@@ -110,15 +107,13 @@ final class ValidatorTest extends TestCase
             ]
         ];
 
-        $result = $validator->validate($orderDefinition, $data);
-        $validator->dumpErrors();
-        self::assertFalse($result);
+        self::assertFalse($validator->validate($orderDefinition, $data));
     }
 
-    protected function prepareBaseDefinition(bool $additionalProperties = false): Definition
+    protected function prepareBaseDefinition(): Definition
     {
         $rulesFactory = new RulesFactory();
-        $def = new Definition($rulesFactory, $additionalProperties);
+        $def = new Definition($rulesFactory);
         $def->property('firstname')
             ->stringType()
             ->callback(fn(string $value) => $value !== 'David');

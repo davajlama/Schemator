@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Order request schema",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "fromContact",
+    "toContact"
+  ],
+  "properties": {
+    "id": {
+      "$id": "#/properties/id",
+      "type": "string",
+      "title": "Order ID",
+      "examples": [
+        "abcd"
+      ]
+    },
+    "fromContact": {
+      "$ref": "#/definitions/Contact"
+    },
+    "toContact": {
+      "$ref": "#/definitions/Contact"
+    }
+  },
+  "definitions": {
+    "Contact": {
+      "$id": "#/definitions/Contact",
+      "type": "object",
+      "title": "Contact definition",
+      "additionalProperties": false,
+      "required": [
+        "firstname",
+        "surname"
+      ],
+      "properties": {
+        "firstname": {
+          "$id": "#/properties/firstname",
+          "type": "string",
+          "minLength": 1,
+          "title": "Firstname"
+        },
+        "surname": {
+          "$id": "#/properties/surname",
+          "type": "string",
+          "minLength": 1,
+          "title": "Surname"
+        }
+      }
+    }
+  }
+}

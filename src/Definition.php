@@ -15,12 +15,21 @@ class Definition
 
     private RulesFactory $rulesFactory;
 
-    private bool $additionalProperties;
+    private bool $additionalProperties = false;
 
-    public function __construct(RulesFactory $rulesFactory, bool $additionalProperties = false)
+    private ?string $name = null;
+
+    public function __construct(RulesFactory $rulesFactory, string $name = null)
     {
         $this->rulesFactory = $rulesFactory;
-        $this->additionalProperties = $additionalProperties;
+        $this->name = $name;
+    }
+
+    public function additionalProperties(bool $allowed): self
+    {
+        $this->additionalProperties = $allowed;
+
+        return $this;
     }
 
     public function property(string $name, bool $required = false, Definition $definition = null): Property
@@ -32,6 +41,10 @@ class Definition
         if ($definition === null) {
             $property = new Property($this->rulesFactory, $required);
         } else {
+            if($definition->getName() === null) {
+                throw new \RuntimeException('Referenced definition must have a name');
+            }
+
             $property = new ReferencedProperty($this->rulesFactory, $required, $definition);
         }
 
@@ -49,5 +62,13 @@ class Definition
     public function getProperties(): array
     {
         return $this->properties;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
     }
 }
