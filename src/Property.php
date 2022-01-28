@@ -71,6 +71,14 @@ class Property
         return $this;
     }
 
+    public function arrayOf(Definition $definition, ?string $message = null): self
+    {
+        $rule = $this->rulesFactory->createArrayOf($definition, $message);
+        $this->addRule($rule);
+
+        return $this;
+    }
+
     public function isRequired(): bool
     {
         return $this->required;

@@ -9,6 +9,8 @@ use Davajlama\Schemator\Schema\SchemaProperty;
 
 class Schema
 {
+    private Definition $definition;
+
     /** @var SchemaProperty[] */
     private array $properties = [];
 
@@ -32,6 +34,8 @@ class Schema
      */
     public function __construct(Definition $definition, array $referencedDefinitions = [])
     {
+        $this->definition = $definition;
+
         $this->name = $definition->getName();
         $this->additionalProperties = $definition->isAdditionalPropertiesAllowed();
 
@@ -95,6 +99,11 @@ class Schema
         }
 
         throw new \RuntimeException("Schema [$name] not exists.");
+    }
+
+    public function getDefinition(): Definition
+    {
+        return $this->definition;
     }
 
     public function title(string $title): self

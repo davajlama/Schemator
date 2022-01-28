@@ -108,6 +108,55 @@ final class ValidatorTest extends TestCase
         self::assertFalse($validator->validate($orderDefinition, $data));
     }
 
+    public function testSuccessArrayOf(): void
+    {
+        $contactDefinition = new Definition('Contact');
+        $contactDefinition->property('firstname', true)->nonEmptyString();
+        $contactDefinition->property('surname', true)->nonEmptyString();
+
+        $contactListDefinition = new Definition();
+        $contactListDefinition->property('contacts')->arrayOf($contactDefinition);
+
+        $data = [
+            'contacts' => [
+                ['firstname' => 'Dave', 'surname' => 'Lister'],
+                ['firstname' => 'Arnold', 'surname' => 'Rimmer'],
+            ]
+        ];
+
+        $extractor = new ArrayValueExtractor();
+        $validator = new Validator($extractor);
+
+        $result = $validator->validate($contactListDefinition, $data);
+        //$validator->dumpErrors();
+        self::assertTrue($result);
+    }
+
+    public function testFailedArrayOf(): void
+    {
+        $contactDefinition = new Definition('Contact');
+        $contactDefinition->property('firstname', true)->nonEmptyString();
+        $contactDefinition->property('surname', true)->nonEmptyString();
+
+        $contactListDefinition = new Definition();
+        $contactListDefinition->property('contacts')->arrayOf($contactDefinition);
+
+        $data = [
+            'contacts' => [
+                ['firstname' => 'Dave', 'surname' => 'Lister'],
+                ['firstname' => 123, 'surname' => 'Lister'],
+                ['firstname' => 'Arnold'],
+            ]
+        ];
+
+        $extractor = new ArrayValueExtractor();
+        $validator = new Validator($extractor);
+
+        $result = $validator->validate($contactListDefinition, $data);
+        $validator->dumpErrors();
+        self::assertFalse($result);
+    }
+
     protected function prepareBaseDefinition(): Definition
     {
         $def = new Definition();

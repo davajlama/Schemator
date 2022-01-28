@@ -12,14 +12,26 @@ final class SimpleSchemaFactory
 {
     public static function create(): Schema
     {
+        $bankDefinition = new Definition('Bank');
+        $bankDefinition->property('number', true)->integerType();
+        $bankDefinition->property('name', true)->stringType();
+        $bankDefinition->property('description')->stringType();
+
         $contactDefinition = new Definition('Contact');
         $contactDefinition->property('firstname', true)->nonEmptyString();
         $contactDefinition->property('surname', true)->nonEmptyString();
+        $contactDefinition->property('bank', true, $bankDefinition);
+
+        $packageDefinition = new Definition('Package');
+        $packageDefinition->property('weight')->integerType();
+        $packageDefinition->property('width')->integerType();
+        $packageDefinition->property('height')->integerType();
 
         $orderDefinition = new Definition();
         $orderDefinition->property('id', true)->nonEmptyString();
         $orderDefinition->property('fromContact', true, $contactDefinition);
         $orderDefinition->property('toContact', true, $contactDefinition);
+        $orderDefinition->property('packages', true)->arrayOf($packageDefinition);
 
         $contactSchema = new Schema($contactDefinition);
         $contactSchema->title('Contact definition');

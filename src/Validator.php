@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator;
 
+use Davajlama\Schemator\Exception\ValidationFailedException;
 use Davajlama\Schemator\Extractor\ValueExtractor;
 use Davajlama\Schemator\Rules\ExtractorAwareInterface;
 
@@ -59,8 +60,8 @@ class Validator
 
                             try {
                                 $rule->validate($data, $unresolvedProperty);
-                            } catch (\InvalidArgumentException $e) {
-                                $errors[] = new ErrorMessage($e->getMessage(), $unresolvedProperty, $path);
+                            } catch (ValidationFailedException $e) {
+                                $errors[] = new ErrorMessage($e->getMessage(), $unresolvedProperty, $path, null, $e->getErrors());
                             }
                         }
 
@@ -87,12 +88,43 @@ class Validator
         return $errors;
     }
 
+    /**
+     * @return ErrorMessage[]
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
+
     public function dumpErrors()
     {
-        var_dump(array_map(function(ErrorMessage $e) {
-            $path = implode('->', $e->getPath());
-            return '[' . $path . '] ' . $e->getProperty() . " : " . $e->getMessage();
-        }, $this->errors));
+        $list = [];
+        foreach($this->getErrors() as $error) {
+            $path = $error->getPath();
+            array_unshift($path, '^');
+
+            if($error->getErrors()) {
+
+                foreach($error->getErrors() as $e2) {
+                    $path = $error->getPath();
+                    array_unshift($path, '^');
+                    $path[] = $error->getProperty() . '[' . $e2->getIndex() . ']';
+
+                    $path = implode('->', $path);
+
+                    $list[] = '[' . $path . '] ' . $e2->getProperty() . " : " . $e2->getMessage();
+                }
+
+            } else {
+                $path = $error->getPath();
+                array_unshift($path, '^');
+
+
+                $list[] = '[' . $path . '] ' . $error->getProperty() . " : " . $error->getMessage();
+            }
+        }
+
+        var_dump($list);
     }
 
 }

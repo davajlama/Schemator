@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Rules;
 
+use Davajlama\Schemator\ErrorMessage;
+use Davajlama\Schemator\Exception\ValidationFailedException;
 use Davajlama\Schemator\Extractor\ValueExtractor;
 
 abstract class BaseRule implements Rule, ExtractorAwareInterface
@@ -22,8 +24,8 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
         try {
             $value = $this->getExtractor()->extract($data, $property);
             $this->validateValue($value);
-        } catch (\InvalidArgumentException $e) {
-            $this->fail($this->getMessage($e->getMessage()), $property);
+        } catch (ValidationFailedException $e) {
+            $this->fail($this->getMessage($e->getMessage()), $e->getErrors());
         }
     }
 
@@ -46,9 +48,12 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
         return $this->message ?? $message;
     }
 
-    protected function fail(string $message, string $property = null)
+    /**
+     * @param ErrorMessage[] $errors
+     */
+    protected function fail(string $message, array $errors = [])
     {
-        throw new \InvalidArgumentException($message);
+        throw new ValidationFailedException($message, $errors);
     }
 
     abstract public function validateValue($value);

@@ -16,14 +16,24 @@ final class ErrorMessage
      */
     private array $path;
 
+    private ?int $index;
+
+    /**
+     * @var ErrorMessage[]
+     */
+    private array $errors;
+
     /**
      * @param string[] $path
+     * @param ErrorMessage[] $errors
      */
-    public function __construct(string $message, string $property, array $path = [])
+    public function __construct(string $message, string $property, array $path = [], ?int $index = null, array $errors = [])
     {
         $this->message = $message;
         $this->property = $property;
         $this->path = $path;
+        $this->errors = $errors;
+        $this->index = $index;
     }
 
     public function getMessage(): string
@@ -42,5 +52,18 @@ final class ErrorMessage
     public function getPath(): array
     {
         return $this->path;
+    }
+
+    public function getIndex(): ?int
+    {
+        return $this->index;
+    }
+
+    /**
+     * @return ErrorMessage[]
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 }
