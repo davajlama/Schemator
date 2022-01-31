@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Generator;
 
+use Davajlama\Schemator\Definition;
+use Davajlama\Schemator\Rules\ArrayOf;
 use Davajlama\Schemator\Rules\IntegerType;
 use Davajlama\Schemator\Rules\NonEmptyStringRule;
 use Davajlama\Schemator\Rules\NullableInteger;
@@ -61,7 +63,7 @@ class JsonSchemaGenerator
                 $required[] = $name;
             }
 
-            $properties[$name] = $this->buildProperty($property, $name);
+            $properties[$name] = $this->buildProperty($schema, $property, $name);
         }
 
         $data = [];
@@ -71,9 +73,16 @@ class JsonSchemaGenerator
             $data['$id'] = '#/definitions/' . $definitionName;
         }
 
-        $data['title'] = $schema->getTitle();
+        if($schema->getTitle() !== null) {
+            $data['title'] = $schema->getTitle();
+        }
+
         $data['additionalProperties'] = $schema->isAdditionalPropertiesAllowed();
-        $data['required'] = $required;
+
+        if(count($required) > 0) {
+            $data['required'] = $required;
+        }
+
         $data['properties'] = $properties;
 
         return $data;
@@ -111,6 +120,9 @@ class JsonSchemaGenerator
                     case StringTypeRule::class:
                         $types[] = 'string';
                         break;
+                    case ArrayOf::class:
+                        $types[] = 'array';
+                        break;
                 }
             }
 
@@ -119,14 +131,26 @@ class JsonSchemaGenerator
         return array_unique($types);
     }
 
-    protected function buildProperty(Schema\SchemaProperty $property, string $name): array
+    protected function buildProperty(Schema $schema, Schema\SchemaProperty $property, string $name): array
     {
-        if($property->isDefinition()) {
-            $definition = $this->schema->definition($name);
-            $definitionName = $definition->getName() ?: $name;
-            $this->buildDefinition($definition, $definitionName);
+        if($property->isReferencedDefinition()) {
+            $definition = $property->getReferencedDefinition();
+            if($definition->getName() === null) {
+                throw new \RuntimeException('Definition withou name not allowed');
+            }
+
+            $referencedSchema = null;
+            foreach($schema->getReferences() as $reference) {
+                if($reference->getName() === $definition->getName()) {
+                    $referencedSchema = $reference;
+                    break;
+                }
+            }
+
+            $referencedSchema = $referencedSchema ?? new Schema($definition);
+            $this->buildDefinition($referencedSchema, $definition->getName());
             return [
-                '$ref' => '#/definitions/' . $definitionName,
+                '$ref' => '#/definitions/' . $definition->getName(),
             ];
         } else {
             $body = [
@@ -137,6 +161,13 @@ class JsonSchemaGenerator
             if($types) {
                 $type = count($types) === 1 ? reset($types) : $types;
                 $body['type'] = $type;
+            }
+
+            if(in_array('array', $types)) {
+                $items = $this->getItems($schema, $property->getRules());
+                if($items !== null) {
+                    $body['items'] = $items;
+                }
             }
 
             $minLength = $this->getMinLength($property->getRules());
@@ -154,6 +185,38 @@ class JsonSchemaGenerator
 
             return $body;
         }
+    }
+
+    protected function getItems(Schema $schema, array $rules): array
+    {
+        $definition = null;
+        foreach($rules as $rule) {
+            switch (get_class($rule)) {
+                case ArrayOf::class:
+                    /** @var ArrayOf $rule */
+                    $definition = $rule->getDefinition();
+                    break;
+            }
+        }
+
+        if($definition === null) {
+            throw new \RuntimeException('Cannot find definition of Array items');
+        }
+
+        $referencedSchema = null;
+        foreach($schema->getReferences() as $reference) {
+            if($reference->getName() === $definition->getName()) {
+                $referencedSchema = $reference;
+                break;
+            }
+        }
+
+        $referencedSchema = $referencedSchema ?? new Schema($definition);
+        $this->buildDefinition($referencedSchema, $definition->getName());
+
+        return [
+            '$ref' => '#/definitions/' . $definition->getName()
+        ];
     }
 
     protected function buildDefinition(Schema $schema, string $name): void

@@ -41,4 +41,8 @@ class ArrayOf extends BaseRule
         }
     }
 
+    public function getDefinition(): Definition
+    {
+        return $this->definition;
+    }
 }

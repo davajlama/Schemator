@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Schema;
 
+use Davajlama\Schemator\Definition;
 use Davajlama\Schemator\Property;
 use Davajlama\Schemator\ReferencedProperty;
 use Davajlama\Schemator\Rules\Rule;
 
 class SchemaProperty
 {
+    /** @var Property | ReferencedProperty */
     private Property $property;
 
     private ?string $title = null;
@@ -88,9 +90,18 @@ class SchemaProperty
         return $this->property->isRequired();
     }
 
-    public function isDefinition(): bool
+    public function isReferencedDefinition(): bool
     {
         return $this->property instanceof ReferencedProperty;
+    }
+
+    public function getReferencedDefinition(): Definition
+    {
+        if(!$this->isReferencedDefinition()) {
+            throw new \RuntimeException('Property is not a referenced definition.');
+        }
+
+        return $this->property->getReferencedDefinition();
     }
 
     /**

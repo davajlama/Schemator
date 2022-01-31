@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Tests\Generator\Fixtures;
 
 use Davajlama\Schemator\Definition;
-use Davajlama\Schemator\Rules\RulesFactory;
 use Davajlama\Schemator\Schema;
 
 final class SimpleSchemaFactory
@@ -33,12 +32,22 @@ final class SimpleSchemaFactory
         $orderDefinition->property('toContact', true, $contactDefinition);
         $orderDefinition->property('packages', true)->arrayOf($packageDefinition);
 
-        $contactSchema = new Schema($contactDefinition);
+        $bankSchema = new Schema($bankDefinition);
+        $bankSchema->property('number')->title('Bank number');
+        $bankSchema->property('name')->title('Bank name');
+        $bankSchema->property('description')->title('Description');
+
+        $packageSchema = new Schema($packageDefinition);
+        $packageSchema->property('weight')->title('Weight');
+        $packageSchema->property('width')->title('Width');
+        $packageSchema->property('height')->title('Height');
+
+        $contactSchema = new Schema($contactDefinition, [$bankSchema]);
         $contactSchema->title('Contact definition');
         $contactSchema->property('firstname')->title('Firstname');
         $contactSchema->property('surname')->title('Surname');
 
-        $schema = new Schema($orderDefinition, [$contactSchema]);
+        $schema = new Schema($orderDefinition, [$contactSchema, $packageSchema]);
         $schema->title('Order request schema');
         $schema->description('More and more descriptions');
 

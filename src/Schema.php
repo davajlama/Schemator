@@ -11,64 +11,27 @@ class Schema
 {
     private Definition $definition;
 
+    /** @var Schema[] */
+    private array $references = [];
+
     /** @var SchemaProperty[] */
     private array $properties = [];
-
-    /** @var Schema[] */
-    private array $definitions = [];
-
-    /** @var Schema[] */
-    private array $namedDefinitions = [];
 
     private ?string $title = null;
 
     private ?string $description = null;
 
-    private ?string $name;
-
-    private bool $additionalProperties;
-
     /**
      * @param Definition $definition
-     * @param Schema[] $referencedDefinitions
+     * @param Schema[] $references
      */
-    public function __construct(Definition $definition, array $referencedDefinitions = [])
+    public function __construct(Definition $definition, array $references = [])
     {
         $this->definition = $definition;
-
-        $this->name = $definition->getName();
-        $this->additionalProperties = $definition->isAdditionalPropertiesAllowed();
-
-        foreach($referencedDefinitions as $referencedDefinition) {
-            if($referencedDefinition->getName() === null) {
-                throw new \RuntimeException('Referenced definitions must be named.');
-            }
-
-            if(array_key_exists($referencedDefinition->getName(), $this->namedDefinitions)) {
-                throw new \RuntimeException(sprintf(
-                    'Referenced definition %s already exits.',
-                    $referencedDefinition->getName(),
-                ));
-            }
-
-            $this->namedDefinitions[$referencedDefinition->getName()] = $referencedDefinition;
-        }
+        $this->references = $references;
 
         foreach($definition->getProperties() as $name => $property) {
             $this->properties[$name] = new SchemaProperty($property);
-
-            if($property instanceof ReferencedProperty) {
-                $referencedDefinition = $property->getReferencedDefinition();
-                if($referencedDefinition->getName() !== null) {
-                    if(!array_key_exists($referencedDefinition->getName(), $this->namedDefinitions)) {
-                        $this->namedDefinitions[$referencedDefinition->getName()] = new self($referencedDefinition);
-                    }
-
-                    $this->definitions[$name] = $this->namedDefinitions[$referencedDefinition->getName()];
-                } else {
-                    $this->definitions[$name] = new self($property->getReferencedDefinition());
-                }
-            }
         }
     }
 
@@ -79,31 +42,6 @@ class Schema
         }
 
         return $this->properties[$name];
-    }
-
-    public function definition(string $name): Schema
-    {
-        if (!array_key_exists($name, $this->definitions)) {
-            throw new \RuntimeException("Definition [$name] not exists.");
-        }
-
-        return $this->definitions[$name];
-    }
-
-    public function schema(string $name): Schema
-    {
-        foreach($this->definitions as $definition) {
-            if($definition->getName() === $name) {
-                return $definition;
-            }
-        }
-
-        throw new \RuntimeException("Schema [$name] not exists.");
-    }
-
-    public function getDefinition(): Definition
-    {
-        return $this->definition;
     }
 
     public function title(string $title): self
@@ -128,6 +66,14 @@ class Schema
         return $this->properties;
     }
 
+    /**
+     * @return Schema[]
+     */
+    public function getReferences(): array
+    {
+        return $this->references;
+    }
+
     public function getTitle(): ?string
     {
         return $this->title;
@@ -140,11 +86,13 @@ class Schema
 
     public function isAdditionalPropertiesAllowed(): bool
     {
-        return $this->additionalProperties;
+        return $this->definition->isAdditionalPropertiesAllowed();
     }
 
     public function getName(): ?string
     {
-        return $this->name;
+        return $this->definition->getName();
     }
+
+
 }

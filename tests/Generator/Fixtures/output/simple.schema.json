@@ -6,7 +6,8 @@
   "required": [
     "id",
     "fromContact",
-    "toContact"
+    "toContact",
+    "packages"
   ],
   "properties": {
     "id": {
@@ -23,9 +24,64 @@
     },
     "toContact": {
       "$ref": "#/definitions/Contact"
+    },
+    "packages": {
+      "$id": "#/properties/packages",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Package"
+      }
     }
   },
   "definitions": {
+    "Bank": {
+      "$id": "#/definitions/Bank",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "number",
+        "name"
+      ],
+      "properties": {
+        "number": {
+          "$id": "#/properties/number",
+          "title": "Bank number",
+          "type": "integer"
+        },
+        "name": {
+          "$id": "#/properties/name",
+          "title": "Bank name",
+          "type": "string"
+        },
+        "description": {
+          "$id": "#/properties/description",
+          "title": "Description",
+          "type": "string"
+        }
+      }
+    },
+    "Package": {
+      "$id": "#/definitions/Package",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "weight": {
+          "$id": "#/properties/weight",
+          "title": "Weight",
+          "type": "integer"
+        },
+        "width": {
+          "$id": "#/properties/width",
+          "title": "Width",
+          "type": "integer"
+        },
+        "height": {
+          "$id": "#/properties/height",
+          "title": "Height",
+          "type": "integer"
+        }
+      }
+    },
     "Contact": {
       "$id": "#/definitions/Contact",
       "type": "object",
@@ -33,7 +89,8 @@
       "additionalProperties": false,
       "required": [
         "firstname",
-        "surname"
+        "surname",
+        "bank"
       ],
       "properties": {
         "firstname": {
@@ -47,6 +104,9 @@
           "type": "string",
           "minLength": 1,
           "title": "Surname"
+        },
+        "bank": {
+          "$ref": "#/definitions/Bank"
         }
       }
     }

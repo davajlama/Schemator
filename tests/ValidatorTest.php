@@ -153,7 +153,7 @@ final class ValidatorTest extends TestCase
         $validator = new Validator($extractor);
 
         $result = $validator->validate($contactListDefinition, $data);
-        $validator->dumpErrors();
+        //$validator->dumpErrors();
         self::assertFalse($result);
     }
 
