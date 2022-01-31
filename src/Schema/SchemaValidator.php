@@ -40,7 +40,7 @@ final class SchemaValidator
 
         // Burn after reading
         if(count($this->errors) > 0) {
-            var_dump(MessagesFormatter::formatErrors($this->errors));
+            //var_dump(MessagesFormatter::formatErrors($this->errors));
         }
 
         return count($this->errors) === 0;
