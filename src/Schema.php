@@ -74,6 +74,21 @@ class Schema
         return $this->references;
     }
 
+    public function getReferencedSchema(Definition $definition): self
+    {
+        if($definition->getName() === null) {
+            throw new \RuntimeException('Definition without name not allowed!');
+        }
+
+        foreach($this->getReferences() as $reference) {
+            if($reference->getName() === $definition->getName()) {
+                return $reference;
+            }
+        }
+
+        throw new \RuntimeException('Missing reference.');
+    }
+
     public function getTitle(): ?string
     {
         return $this->title;
@@ -94,5 +109,9 @@ class Schema
         return $this->definition->getName();
     }
 
+    public function getDefinition(): Definition
+    {
+        return $this->definition;
+    }
 
 }

@@ -98,33 +98,7 @@ class Validator
 
     public function dumpErrors()
     {
-        $list = [];
-        foreach($this->getErrors() as $error) {
-            $path = $error->getPath();
-            array_unshift($path, '^');
-
-            if($error->getErrors()) {
-
-                foreach($error->getErrors() as $e2) {
-                    $path = $error->getPath();
-                    array_unshift($path, '^');
-                    $path[] = $error->getProperty() . '[' . $e2->getIndex() . ']';
-
-                    $path = implode('->', $path);
-
-                    $list[] = '[' . $path . '] ' . $e2->getProperty() . " : " . $e2->getMessage();
-                }
-
-            } else {
-                $path = $error->getPath();
-                array_unshift($path, '^');
-
-
-                $list[] = '[' . $path . '] ' . $error->getProperty() . " : " . $error->getMessage();
-            }
-        }
-
-        var_dump($list);
+        var_dump(MessagesFormatter::formatErrors($this->getErrors()));
     }
 
 }

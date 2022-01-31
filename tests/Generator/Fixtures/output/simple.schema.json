@@ -28,6 +28,7 @@
     "packages": {
       "$id": "#/properties/packages",
       "type": "array",
+      "title": "List of packages",
       "items": {
         "$ref": "#/definitions/Package"
       }
@@ -37,6 +38,7 @@
     "Bank": {
       "$id": "#/definitions/Bank",
       "type": "object",
+      "title": "Bank description",
       "additionalProperties": false,
       "required": [
         "number",
@@ -46,39 +48,58 @@
         "number": {
           "$id": "#/properties/number",
           "title": "Bank number",
-          "type": "integer"
+          "type": "string",
+          "examples": [
+            "12345811/0600"
+          ]
         },
         "name": {
           "$id": "#/properties/name",
           "title": "Bank name",
-          "type": "string"
+          "type": "string",
+          "examples": [
+            "Equa"
+          ]
         },
         "description": {
           "$id": "#/properties/description",
           "title": "Description",
-          "type": "string"
+          "type": "string",
+          "examples": [
+            "Bank description"
+          ]
         }
       }
     },
     "Package": {
       "$id": "#/definitions/Package",
       "type": "object",
+      "title": "Package description",
       "additionalProperties": false,
       "properties": {
         "weight": {
           "$id": "#/properties/weight",
           "title": "Weight",
-          "type": "integer"
+          "type": "integer",
+          "examples": [
+            20
+          ]
         },
         "width": {
           "$id": "#/properties/width",
           "title": "Width",
-          "type": "integer"
+          "type": "integer",
+          "examples": [
+            150
+          ]
         },
         "height": {
           "$id": "#/properties/height",
           "title": "Height",
-          "type": "integer"
+          "type": "integer",
+          "examples": [
+            45
+          ]
         }
       }
     },
@@ -97,13 +118,19 @@
           "$id": "#/properties/firstname",
           "type": "string",
           "minLength": 1,
-          "title": "Firstname"
+          "title": "Firstname",
+          "examples": [
+            "Dave"
+          ]
         },
         "surname": {
           "$id": "#/properties/surname",
           "type": "string",
           "minLength": 1,
-          "title": "Surname"
+          "title": "Surname",
+          "examples": [
+            "Lister"
+          ]
         },
         "bank": {
           "$ref": "#/definitions/Bank"

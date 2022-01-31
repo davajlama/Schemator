@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Tests\Generator\Fixtures;
 
 use Davajlama\Schemator\Definition;
+use Davajlama\Schemator\Fixty;
 use Davajlama\Schemator\Schema;
 
 final class SimpleSchemaFactory
@@ -12,7 +13,7 @@ final class SimpleSchemaFactory
     public static function create(): Schema
     {
         $bankDefinition = new Definition('Bank');
-        $bankDefinition->property('number', true)->integerType();
+        $bankDefinition->property('number', true)->stringType();
         $bankDefinition->property('name', true)->stringType();
         $bankDefinition->property('description')->stringType();
 
@@ -33,19 +34,22 @@ final class SimpleSchemaFactory
         $orderDefinition->property('packages', true)->arrayOf($packageDefinition);
 
         $bankSchema = new Schema($bankDefinition);
-        $bankSchema->property('number')->title('Bank number');
-        $bankSchema->property('name')->title('Bank name');
-        $bankSchema->property('description')->title('Description');
+        $bankSchema->title('Bank description');
+        $bankSchema->property('number')->title('Bank number')->examples(Fixty::bankAccountNumber());
+        $bankSchema->property('name')->title('Bank name')->examples(Fixty::bankName());
+        $bankSchema->property('description')->title('Description')->examples('Bank description');
 
         $packageSchema = new Schema($packageDefinition);
-        $packageSchema->property('weight')->title('Weight');
-        $packageSchema->property('width')->title('Width');
-        $packageSchema->property('height')->title('Height');
+        $packageSchema->title('Package description');
+        $packageSchema->property('weight')->title('Weight')->examples(20);
+        $packageSchema->property('width')->title('Width')->examples(150);
+        $packageSchema->property('height')->title('Height')->examples(45);
 
         $contactSchema = new Schema($contactDefinition, [$bankSchema]);
         $contactSchema->title('Contact definition');
-        $contactSchema->property('firstname')->title('Firstname');
-        $contactSchema->property('surname')->title('Surname');
+        $contactSchema->property('firstname')->title('Firstname')->examples(Fixty::firstname());
+        $contactSchema->property('surname')->title('Surname')->examples(Fixty::surname());
+        $contactSchema->property('bank')->title('Customer bank account info');
 
         $schema = new Schema($orderDefinition, [$contactSchema, $packageSchema]);
         $schema->title('Order request schema');
@@ -54,7 +58,7 @@ final class SimpleSchemaFactory
         $schema->property('id')->title('Order ID')->examples('abcd');
         $schema->property('fromContact')->title('From contact');
         $schema->property('toContact')->title('To contact');
-
+        $schema->property('packages')->title('List of packages');
         return $schema;
     }
 }
