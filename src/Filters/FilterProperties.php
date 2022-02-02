@@ -19,8 +19,9 @@ class FilterProperties extends FilterProperty
      */
     public function __construct(array $properties, FiltersFactory $filtersFactory, \Davajlama\Schemator\Filter $filter)
     {
+        parent::__construct($filtersFactory);
+
         $this->properties = $properties;
-        $this->filtersFactory = $filtersFactory;
         $this->filter = $filter;
     }
 
@@ -29,5 +30,7 @@ class FilterProperties extends FilterProperty
         foreach($this->properties as $property) {
             $this->filter->property($property)->addFilter($filter);
         }
+
+        return $this;
     }
 }

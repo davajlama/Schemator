@@ -35,7 +35,7 @@ class Filter
         return $this->properties[$name];
     }
 
-    public function properties(array $properties): FilterProperties
+    public function properties(...$properties): FilterProperties
     {
         return new FilterProperties($properties, $this->filtersFactory, $this);
     }

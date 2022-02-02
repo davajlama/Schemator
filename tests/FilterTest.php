@@ -30,4 +30,16 @@ final class FilterTest extends TestCase
         self::assertEqualsCanonicalizing($expectedData, $data);
     }
 
+    public function testSuccessMultipleFilter(): void
+    {
+        $filter = new Filter();
+        $filter->properties('foo', 'bar', 'tar')->trim();
+
+        $payload = ['foo' => ' 1', 'bar' => '1 ', 'tar' => ' 1 '];
+        $data = $filter->apply($payload);
+
+        $expected = ['foo' => '1', 'bar' => '1', 'tar' => '1'];
+        self::assertEquals($expected, $data);
+    }
+
 }
