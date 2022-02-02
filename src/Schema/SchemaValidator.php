@@ -7,7 +7,7 @@ namespace Davajlama\Schemator\Schema;
 
 use Davajlama\Schemator\ErrorMessage;
 use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Extractor\ArrayValueExtractor;
+use Davajlama\Schemator\Extractor\ArrayExtractor;
 use Davajlama\Schemator\MessagesFormatter;
 use Davajlama\Schemator\Rules\ArrayOf;
 use Davajlama\Schemator\Schema;
@@ -79,7 +79,7 @@ final class SchemaValidator
             }
         }
 
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $validator = new Validator($extractor);
         foreach($dataset as $data) {
             $validator->validate($schema->getDefinition(), $data);

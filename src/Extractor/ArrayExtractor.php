@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Extractor;
 
-class ArrayValueExtractor implements ValueExtractor
+class ArrayExtractor implements Extractor
 {
     public function extract($data, string $property)
     {

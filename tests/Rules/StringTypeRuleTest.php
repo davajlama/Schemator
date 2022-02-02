@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Tests\Rules;
 
-use Davajlama\Schemator\Extractor\ArrayValueExtractor;
+use Davajlama\Schemator\Extractor\ArrayExtractor;
 use Davajlama\Schemator\Rules\CallbackRule;
 use Davajlama\Schemator\Rules\StringTypeRule;
 use PHPUnit\Framework\TestCase;
@@ -13,7 +13,7 @@ final class StringTypeRuleTest extends TestCase
 {
     public function testSuccessValidation(): void
     {
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $rule = new StringTypeRule();
         $rule->setExtractor($extractor);
 
@@ -29,7 +29,7 @@ final class StringTypeRuleTest extends TestCase
 
     public function testFailedValidation(): void
     {
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $rule = new StringTypeRule();
         $rule->setExtractor($extractor);
 

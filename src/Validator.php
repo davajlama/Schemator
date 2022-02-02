@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Davajlama\Schemator;
 
 use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Extractor\ValueExtractor;
-use Davajlama\Schemator\Rules\ExtractorAwareInterface;
+use Davajlama\Schemator\Extractor\Extractor;
+use Davajlama\Schemator\Extractor\ExtractorAwareInterface;
 
 class Validator
 {
-    private ValueExtractor $extractor;
+    private Extractor $extractor;
 
     private array $errors = [];
 
-    public function __construct(ValueExtractor $extractor)
+    public function __construct(Extractor $extractor)
     {
         $this->extractor = $extractor;
     }

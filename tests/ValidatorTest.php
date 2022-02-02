@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Tests;
 
 use Davajlama\Schemator\Definition;
-use Davajlama\Schemator\Extractor\ArrayValueExtractor;
+use Davajlama\Schemator\Extractor\ArrayExtractor;
 use Davajlama\Schemator\Rules\RulesFactory;
 use Davajlama\Schemator\Validator;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ final class ValidatorTest extends TestCase
     {
         $def = $this->prepareBaseDefinition();
 
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $validator = new Validator($extractor);
 
         $data = ['firstname' => 'Martin'];
@@ -31,7 +31,7 @@ final class ValidatorTest extends TestCase
         $def = $this->prepareBaseDefinition();
         $def->additionalProperties(true);
 
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $validator = new Validator($extractor);
 
         $data = ['firstname' => 'Martin', 'lastname' => 'Stark'];
@@ -42,7 +42,7 @@ final class ValidatorTest extends TestCase
     {
         $def = $this->prepareBaseDefinition();
 
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $validator = new Validator($extractor);
 
         $data = ['firstname' => 'Martin', 'lastname' => 'Stark'];
@@ -61,7 +61,7 @@ final class ValidatorTest extends TestCase
         $orderDefinition->property('fromContact', true, $contactDefinition);
         $orderDefinition->property('toContact', true, $contactDefinition);
 
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $validator = new Validator($extractor);
 
         $data = [
@@ -91,7 +91,7 @@ final class ValidatorTest extends TestCase
         $orderDefinition->property('fromContact', true, $contactDefinition);
         $orderDefinition->property('toContact', true, $contactDefinition);
 
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $validator = new Validator($extractor);
 
         $data = [
@@ -124,7 +124,7 @@ final class ValidatorTest extends TestCase
             ]
         ];
 
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $validator = new Validator($extractor);
 
         $result = $validator->validate($contactListDefinition, $data);
@@ -149,7 +149,7 @@ final class ValidatorTest extends TestCase
             ]
         ];
 
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $validator = new Validator($extractor);
 
         $result = $validator->validate($contactListDefinition, $data);

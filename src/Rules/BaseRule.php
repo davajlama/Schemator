@@ -6,13 +6,14 @@ namespace Davajlama\Schemator\Rules;
 
 use Davajlama\Schemator\ErrorMessage;
 use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Extractor\ValueExtractor;
+use Davajlama\Schemator\Extractor\Extractor;
+use Davajlama\Schemator\Extractor\ExtractorAwareInterface;
 
 abstract class BaseRule implements Rule, ExtractorAwareInterface
 {
     private ?string $message;
 
-    private ?ValueExtractor $extractor = null;
+    private ?Extractor $extractor = null;
 
     public function __construct(?string $message = null)
     {
@@ -29,7 +30,7 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
         }
     }
 
-    public function getExtractor(): ValueExtractor
+    public function getExtractor(): Extractor
     {
         if($this->extractor === null) {
             throw new \RuntimeException('None extractor');
@@ -38,7 +39,7 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
         return $this->extractor;
     }
 
-    public function setExtractor(ValueExtractor $extractor): void
+    public function setExtractor(Extractor $extractor): void
     {
         $this->extractor = $extractor;
     }

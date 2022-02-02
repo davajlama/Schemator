@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Tests\Rules;
 
-use Davajlama\Schemator\Extractor\ArrayValueExtractor;
+use Davajlama\Schemator\Extractor\ArrayExtractor;
 use Davajlama\Schemator\Rules\NonEmptyStringRule;
 use PHPUnit\Framework\TestCase;
 
@@ -12,7 +12,7 @@ final class NonEmptyStringRuleTest extends TestCase
 {
     public function testSuccessValidation(): void
     {
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $rule = new NonEmptyStringRule();
         $rule->setExtractor($extractor);
 
@@ -25,7 +25,7 @@ final class NonEmptyStringRuleTest extends TestCase
 
     public function testFailedEmptyValidation(): void
     {
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $rule = new NonEmptyStringRule();
         $rule->setExtractor($extractor);
 
@@ -37,7 +37,7 @@ final class NonEmptyStringRuleTest extends TestCase
 
     public function testFailedTypeValidation(): void
     {
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $rule = new NonEmptyStringRule();
         $rule->setExtractor($extractor);
 
@@ -49,7 +49,7 @@ final class NonEmptyStringRuleTest extends TestCase
 
     public function testFailedWhiteSpaceValidation(): void
     {
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $rule = new NonEmptyStringRule();
         $rule->setExtractor($extractor);
 

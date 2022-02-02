@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Tests\Rules;
 
-use Davajlama\Schemator\Extractor\ArrayValueExtractor;
+use Davajlama\Schemator\Extractor\ArrayExtractor;
 use Davajlama\Schemator\Rules\CallbackRule;
 use PHPUnit\Framework\TestCase;
 
@@ -12,7 +12,7 @@ final class CallbackRuleTest extends TestCase
 {
     public function testSuccessValidation(): void
     {
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $rule = new CallbackRule(fn($value) => $value !== 'deniedValue');
         $rule->setExtractor($extractor);
 
@@ -22,7 +22,7 @@ final class CallbackRuleTest extends TestCase
 
     public function testFailedValidation(): void
     {
-        $extractor = new ArrayValueExtractor();
+        $extractor = new ArrayExtractor();
         $rule = new CallbackRule(fn($value) => $value !== 'deniedValue');
         $rule->setExtractor($extractor);
 
