@@ -43,4 +43,9 @@ class RulesFactory
     {
         return new ArrayOf($definition, $message);
     }
+
+    public function createOneOf(array $values, ?string $message): OneOf
+    {
+        return new OneOf($values, $message);
+    }
 }

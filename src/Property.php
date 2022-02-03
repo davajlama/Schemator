@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator;
 
+use Davajlama\Schemator\Rules\OneOf;
 use Davajlama\Schemator\Rules\Rule;
 use Davajlama\Schemator\Rules\RulesFactory;
 
@@ -74,6 +75,14 @@ class Property
     public function arrayOf(Definition $definition, ?string $message = null): self
     {
         $rule = $this->rulesFactory->createArrayOf($definition, $message);
+        $this->addRule($rule);
+
+        return $this;
+    }
+
+    public function oneOf(array $values, ?string $message = null): self
+    {
+        $rule = $this->rulesFactory->createOneOf($values, $message);
         $this->addRule($rule);
 
         return $this;
