@@ -48,4 +48,9 @@ class RulesFactory
     {
         return new OneOf($values, $message);
     }
+
+    public function createBooleanType(?string $message): BooleanType
+    {
+        return new BooleanType($message);
+    }
 }

@@ -55,7 +55,6 @@ final class ValidatorTest extends TestCase
         $contactDefinition->property('firstname')->nonEmptyString();
         $contactDefinition->property('surname')->nonEmptyString();
 
-
         $orderDefinition = new Definition();
         $orderDefinition->property('id')->nonEmptyString();
         $orderDefinition->property('fromContact', $contactDefinition);

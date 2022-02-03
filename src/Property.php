@@ -94,6 +94,14 @@ class Property
         return $this;
     }
 
+    public function boolean(?string $message): self
+    {
+        $rule = $this->rulesFactory->createBooleanType($message);
+        $this->addRule($rule);
+
+        return $this;
+    }
+
     public function isRequired(): bool
     {
         return $this->required;
