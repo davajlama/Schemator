@@ -32,20 +32,20 @@ class Definition
         return $this;
     }
 
-    public function property(string $name, bool $required = false, Definition $definition = null): Property
+    public function property(string $name, Definition $definition = null): Property
     {
         if(array_key_exists($name, $this->properties)) {
             throw new \InvalidArgumentException('Property exists');
         }
 
         if ($definition === null) {
-            $property = new Property($this->rulesFactory, $required);
+            $property = new Property($this->rulesFactory);
         } else {
             if($definition->getName() === null) {
                 throw new \RuntimeException('Referenced definition must have a name');
             }
 
-            $property = new ReferencedProperty($this->rulesFactory, $required, $definition);
+            $property = new ReferencedProperty($this->rulesFactory, $definition);
         }
 
         return $this->properties[$name] = $property;

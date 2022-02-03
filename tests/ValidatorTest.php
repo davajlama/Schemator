@@ -52,14 +52,14 @@ final class ValidatorTest extends TestCase
     public function testSuccessReferencedDefinition(): void
     {
         $contactDefinition = new Definition('Contact');
-        $contactDefinition->property('firstname', true)->nonEmptyString();
-        $contactDefinition->property('surname', true)->nonEmptyString();
+        $contactDefinition->property('firstname')->nonEmptyString();
+        $contactDefinition->property('surname')->nonEmptyString();
 
 
         $orderDefinition = new Definition();
-        $orderDefinition->property('id', true)->nonEmptyString();
-        $orderDefinition->property('fromContact', true, $contactDefinition);
-        $orderDefinition->property('toContact', true, $contactDefinition);
+        $orderDefinition->property('id')->nonEmptyString();
+        $orderDefinition->property('fromContact', $contactDefinition);
+        $orderDefinition->property('toContact', $contactDefinition);
 
         $extractor = new ArrayExtractor();
         $validator = new Validator($extractor);
@@ -82,14 +82,14 @@ final class ValidatorTest extends TestCase
     public function testFailedReferencedDefinition(): void
     {
         $contactDefinition = new Definition('Contact');
-        $contactDefinition->property('firstname', true)->nonEmptyString();
-        $contactDefinition->property('surname', true)->nonEmptyString();
+        $contactDefinition->property('firstname')->nonEmptyString();
+        $contactDefinition->property('surname')->nonEmptyString();
 
 
         $orderDefinition = new Definition();
-        $orderDefinition->property('id', true)->nonEmptyString();
-        $orderDefinition->property('fromContact', true, $contactDefinition);
-        $orderDefinition->property('toContact', true, $contactDefinition);
+        $orderDefinition->property('id')->nonEmptyString();
+        $orderDefinition->property('fromContact', $contactDefinition);
+        $orderDefinition->property('toContact', $contactDefinition);
 
         $extractor = new ArrayExtractor();
         $validator = new Validator($extractor);
@@ -111,8 +111,8 @@ final class ValidatorTest extends TestCase
     public function testSuccessArrayOf(): void
     {
         $contactDefinition = new Definition('Contact');
-        $contactDefinition->property('firstname', true)->nonEmptyString();
-        $contactDefinition->property('surname', true)->nonEmptyString();
+        $contactDefinition->property('firstname')->nonEmptyString();
+        $contactDefinition->property('surname')->nonEmptyString();
 
         $contactListDefinition = new Definition();
         $contactListDefinition->property('contacts')->arrayOf($contactDefinition);
@@ -135,8 +135,8 @@ final class ValidatorTest extends TestCase
     public function testFailedArrayOf(): void
     {
         $contactDefinition = new Definition('Contact');
-        $contactDefinition->property('firstname', true)->nonEmptyString();
-        $contactDefinition->property('surname', true)->nonEmptyString();
+        $contactDefinition->property('firstname')->nonEmptyString();
+        $contactDefinition->property('surname')->nonEmptyString();
 
         $contactListDefinition = new Definition();
         $contactListDefinition->property('contacts')->arrayOf($contactDefinition);
@@ -160,10 +160,10 @@ final class ValidatorTest extends TestCase
     protected function testRequiredFields()
     {
         $definition = new Definition();
-        $definition->property('firstname', true)->string();
-        $definition->property('surname', true)->string();
-        $definition->property('street', true)->string();
-        $definition->property('city', true)->string();
+        $definition->property('firstname')->string();
+        $definition->property('surname')->string();
+        $definition->property('street')->string();
+        $definition->property('city')->string();
 
         $extractor = new ArrayExtractor();
         $validator = new Validator($extractor);

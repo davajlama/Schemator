@@ -13,14 +13,14 @@ final class SimpleSchemaFactory
     public static function create(): Schema
     {
         $bankDefinition = new Definition('Bank');
-        $bankDefinition->property('number', true)->string();
-        $bankDefinition->property('name', true)->string();
+        $bankDefinition->property('number')->string();
+        $bankDefinition->property('name')->string();
         $bankDefinition->property('description')->required(false)->string();
 
         $contactDefinition = new Definition('Contact');
-        $contactDefinition->property('firstname', true)->nonEmptyString();
-        $contactDefinition->property('surname', true)->nonEmptyString();
-        $contactDefinition->property('bank', true, $bankDefinition);
+        $contactDefinition->property('firstname')->nonEmptyString();
+        $contactDefinition->property('surname')->nonEmptyString();
+        $contactDefinition->property('bank', $bankDefinition);
 
         $packageDefinition = new Definition('Package');
         $packageDefinition->property('weight')->required(false)->integer();
@@ -28,10 +28,10 @@ final class SimpleSchemaFactory
         $packageDefinition->property('height')->required(false)->integer();
 
         $orderDefinition = new Definition();
-        $orderDefinition->property('id', true)->nonEmptyString();
-        $orderDefinition->property('fromContact', true, $contactDefinition);
-        $orderDefinition->property('toContact', true, $contactDefinition);
-        $orderDefinition->property('packages', true)->arrayOf($packageDefinition);
+        $orderDefinition->property('id')->nonEmptyString();
+        $orderDefinition->property('fromContact', $contactDefinition);
+        $orderDefinition->property('toContact', $contactDefinition);
+        $orderDefinition->property('packages')->arrayOf($packageDefinition);
 
         $bankSchema = new Schema($bankDefinition);
         $bankSchema->title('Bank description');

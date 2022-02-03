@@ -12,11 +12,11 @@ final class TypedSchemaFactory
     public static function create(): Schema
     {
         $definition = new Definition();
-        $definition->property('integerId', true)->integer();
-        $definition->property('nullableIntegerId', true)->nullableInteger();
-        $definition->property('stringName', true)->string();
-        $definition->property('nullableStringName', true)->nullableString();
-        $definition->property('nonEmptyStringName', true)->nonEmptyString();
+        $definition->property('integerId')->integer();
+        $definition->property('nullableIntegerId')->nullableInteger();
+        $definition->property('stringName')->string();
+        $definition->property('nullableStringName')->nullableString();
+        $definition->property('nonEmptyStringName')->nonEmptyString();
 
         $schema = new Schema($definition);
         $schema->title('Typed schema');

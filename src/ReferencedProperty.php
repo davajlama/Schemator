@@ -11,9 +11,9 @@ class ReferencedProperty extends Property
 {
     private Definition $reference;
 
-    public function __construct(RulesFactory $rulesFactory, bool $required, Definition $reference)
+    public function __construct(RulesFactory $rulesFactory, Definition $reference)
     {
-        parent::__construct($rulesFactory, $required);
+        parent::__construct($rulesFactory);
 
         $this->reference = $reference;
     }
