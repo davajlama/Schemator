@@ -94,7 +94,7 @@ class Property
         return $this;
     }
 
-    public function boolean(?string $message): self
+    public function boolean(?string $message = null): self
     {
         $rule = $this->rulesFactory->createBooleanType($message);
         $this->addRule($rule);
