@@ -17,14 +17,16 @@ final class FilterTest extends TestCase
         $filter->property('age')->default(21);
         $filter->property('firstname')->trim();
         $filter->property('surname')->default('Lister')->trim();
+        $filter->property('type')->upper();
 
-        $payload = ['firstname' => '  Dave  '];
+        $payload = ['firstname' => '  Dave  ', 'type' => 'foo'];
 
         $data = $filter->apply($payload);
         $expectedData = [
             'age' => 21,
             'firstname' => 'Dave',
             'surname' => 'Lister',
+            'type' => 'FOO',
         ];
 
         self::assertEqualsCanonicalizing($expectedData, $data);

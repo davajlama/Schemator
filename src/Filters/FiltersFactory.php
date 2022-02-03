@@ -10,4 +10,9 @@ class FiltersFactory
     {
         return new Trim();
     }
+
+    public function createUpper()
+    {
+        return new Upper();
+    }
 }

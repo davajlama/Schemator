@@ -40,6 +40,14 @@ class FilterProperty
         return $this;
     }
 
+    public function upper(): self
+    {
+        $filter = $this->filtersFactory->createUpper();
+        $this->addFilter($filter);
+
+        return $this;
+    }
+
     public function addFilter(Filter $filter): self
     {
         $this->filters[] = $filter;
