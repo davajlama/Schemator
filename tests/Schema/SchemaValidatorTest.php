@@ -24,7 +24,7 @@ final class SchemaValidatorTest extends TestCase
     public function testFailedTitleValidation(): void
     {
         $definition = new Definition();
-        $definition->property('name')->stringType();
+        $definition->property('name')->string();
 
         $schema = new Schema($definition);
         $schema->property('name')->examples(Fixty::firstname());
@@ -37,7 +37,7 @@ final class SchemaValidatorTest extends TestCase
     public function testFailedExamplesValidation(): void
     {
         $definition = new Definition();
-        $definition->property('name')->stringType();
+        $definition->property('name')->string();
 
         $schema = new Schema($definition);
         $schema->property('name')->title('Name');

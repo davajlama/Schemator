@@ -160,10 +160,10 @@ final class ValidatorTest extends TestCase
     protected function testRequiredFields()
     {
         $definition = new Definition();
-        $definition->property('firstname', true)->stringType();
-        $definition->property('surname', true)->stringType();
-        $definition->property('street', true)->stringType();
-        $definition->property('city', true)->stringType();
+        $definition->property('firstname', true)->string();
+        $definition->property('surname', true)->string();
+        $definition->property('street', true)->string();
+        $definition->property('city', true)->string();
 
         $extractor = new ArrayExtractor();
         $validator = new Validator($extractor);
@@ -176,7 +176,7 @@ final class ValidatorTest extends TestCase
     {
         $def = new Definition();
         $def->property('firstname')
-            ->stringType()
+            ->string()
             ->callback(fn(string $value) => $value !== 'David');
 
         return $def;

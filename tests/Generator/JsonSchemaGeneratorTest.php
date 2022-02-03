@@ -16,7 +16,7 @@ class JsonSchemaGeneratorTest extends TestCase
         $schema = SimpleSchemaFactory::create();
         $generator = new JsonSchemaGenerator($schema);
         $result = $generator->generate();
-//var_dump($result);exit;
+
         $jsonContent = (string) file_get_contents(__DIR__ . '/Fixtures/output/simple.schema.json');
         $expectedResult = json_decode($jsonContent, true, 512, JSON_THROW_ON_ERROR);
         self:self::assertEquals($expectedResult, $result);

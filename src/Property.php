@@ -13,18 +13,24 @@ class Property
 {
     private RulesFactory $rulesFactory;
 
-    private bool $required;
+    private bool $required = true;
 
     /** @var Rule[] */
     private array $rules = [];
 
-    public function __construct(RulesFactory $rulesFactory, bool $required)
+    public function __construct(RulesFactory $rulesFactory)
     {
         $this->rulesFactory = $rulesFactory;
-        $this->required = $required;
     }
 
-    public function stringType(?string $message = null): self
+    public function required(bool $bool): self
+    {
+        $this->required = $bool;
+
+        return $this;
+    }
+
+    public function string(?string $message = null): self
     {
         $rule = $this->rulesFactory->createStringType($message);
         $this->addRule($rule);
@@ -40,7 +46,7 @@ class Property
         return $this;
     }
 
-    public function integerType(?string $message = null): self
+    public function integer(?string $message = null): self
     {
         $rule = $this->rulesFactory->createIntegerType($message);
         $this->addRule($rule);

@@ -13,9 +13,9 @@ final class SimpleSchemaFactory
     public static function create(): Schema
     {
         $bankDefinition = new Definition('Bank');
-        $bankDefinition->property('number', true)->stringType();
-        $bankDefinition->property('name', true)->stringType();
-        $bankDefinition->property('description')->stringType();
+        $bankDefinition->property('number', true)->string();
+        $bankDefinition->property('name', true)->string();
+        $bankDefinition->property('description')->required(false)->string();
 
         $contactDefinition = new Definition('Contact');
         $contactDefinition->property('firstname', true)->nonEmptyString();
@@ -23,9 +23,9 @@ final class SimpleSchemaFactory
         $contactDefinition->property('bank', true, $bankDefinition);
 
         $packageDefinition = new Definition('Package');
-        $packageDefinition->property('weight')->integerType();
-        $packageDefinition->property('width')->integerType();
-        $packageDefinition->property('height')->integerType();
+        $packageDefinition->property('weight')->required(false)->integer();
+        $packageDefinition->property('width')->required(false)->integer();
+        $packageDefinition->property('height')->required(false)->integer();
 
         $orderDefinition = new Definition();
         $orderDefinition->property('id', true)->nonEmptyString();
