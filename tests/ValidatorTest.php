@@ -157,6 +157,21 @@ final class ValidatorTest extends TestCase
         self::assertFalse($result);
     }
 
+    protected function testRequiredFields()
+    {
+        $definition = new Definition();
+        $definition->property('firstname', true)->stringType();
+        $definition->property('surname', true)->stringType();
+        $definition->property('street', true)->stringType();
+        $definition->property('city', true)->stringType();
+
+        $extractor = new ArrayExtractor();
+        $validator = new Validator($extractor);
+
+        self::assertFalse($validator->validate($definition, []));
+        self::assertCount(4, $validator->getErrors());
+    }
+
     protected function prepareBaseDefinition(): Definition
     {
         $def = new Definition();

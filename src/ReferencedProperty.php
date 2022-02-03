@@ -23,7 +23,7 @@ class ReferencedProperty extends Property
         return $this->reference;
     }
 
-    protected function addRule(Rule $rule): void
+    public function addRule(Rule $rule): void
     {
         throw new \LogicException('Cannot add rule to referenced property');
     }

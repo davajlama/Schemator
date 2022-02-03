@@ -84,6 +84,11 @@ class Property
         return $this->required;
     }
 
+    public function addRule(Rule $rule): void
+    {
+        $this->rules[] = $rule;
+    }
+
     /**
      * @return Rule[]
      */
@@ -91,10 +96,4 @@ class Property
     {
         return $this->rules;
     }
-
-    protected function addRule(Rule $rule): void
-    {
-        $this->rules[] = $rule;
-    }
-
 }

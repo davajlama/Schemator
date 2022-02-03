@@ -12,7 +12,7 @@ class FilterProperty
     /**
      * @var Filter[]
      */
-    private array $filters;
+    private array $filters = [];
 
     /** @var mixed */
     private $defaultValue = null;
