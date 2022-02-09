@@ -47,7 +47,7 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
 
     protected function getMessage(?string $message): string
     {
-        return $this->message ?? $message;
+        return (string) ($this->message ?? $message);
     }
 
     /**
@@ -58,5 +58,5 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
         throw new ValidationFailedException($message, $errors);
     }
 
-    abstract public function validateValue($value): void;
+    abstract public function validateValue(mixed $value): void;
 }

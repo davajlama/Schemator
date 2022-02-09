@@ -22,6 +22,9 @@ class Validator
 {
     private Extractor $extractor;
 
+    /**
+     * @var ErrorMessage[]
+     */
     private array $errors = [];
 
     public function __construct(Extractor $extractor)
@@ -29,14 +32,18 @@ class Validator
         $this->extractor = $extractor;
     }
 
-    public function validate(Definition $definition, $data): bool
+    public function validate(Definition $definition, mixed $data): bool
     {
-        $this->errors = $this->_validate($definition, $data, []);
+        $this->errors = $this->doValidate($definition, $data, []);
 
         return count($this->errors) === 0;
     }
 
-    protected function _validate(Definition $definition, $data, array $path): array
+    /**
+     * @param string[] $path
+     * @return ErrorMessage[]
+     */
+    protected function doValidate(Definition $definition, mixed $data, array $path): array
     {
         $properties = $definition->getProperties();
 
@@ -52,13 +59,13 @@ class Validator
 
                     if ($property instanceof ReferencedProperty) {
                         array_push($path, $unresolvedProperty);
-                        $subErrors = $this->_validate($property->getReferencedDefinition(), $data[$unresolvedProperty], $path);
+                        $subErrors = $this->doValidate($property->getReferencedDefinition(), $data[$unresolvedProperty], $path);
 
                         foreach ($subErrors as $subError) {
                             $errors[] = $subError;
                         }
 
-                        unset($unresolvedProperties[array_search($unresolvedProperty, $unresolvedProperties)]);
+                        unset($unresolvedProperties[array_search($unresolvedProperty, $unresolvedProperties, true)]);
                         unset($properties[$unresolvedProperty]);
 
                         array_pop($path);
@@ -75,7 +82,7 @@ class Validator
                             }
                         }
 
-                        unset($unresolvedProperties[array_search($unresolvedProperty, $unresolvedProperties)]);
+                        unset($unresolvedProperties[array_search($unresolvedProperty, $unresolvedProperties, true)]);
                         unset($properties[$unresolvedProperty]);
                     }
                 } catch (InvalidArgumentException $e) {

@@ -6,8 +6,11 @@ namespace Davajlama\Schemator\Rules;
 
 class RulesFactory
 {
-    public function create(string $class, ...$arguments): Rule
+    public function create(string $class, mixed ...$arguments): Rule
     {
-        return new $class(...$arguments);
+        /** @var Rule $rule */
+        $rule = new $class(...$arguments);
+
+        return $rule;
     }
 }

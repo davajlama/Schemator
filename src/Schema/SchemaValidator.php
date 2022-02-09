@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Schema;
 
+use Davajlama\Schemator\Definition;
 use Davajlama\Schemator\ErrorMessage;
 use Davajlama\Schemator\Exception\ValidationFailedException;
 use Davajlama\Schemator\Extractor\ArrayExtractor;
 use Davajlama\Schemator\Rules\ArrayOf;
+use Davajlama\Schemator\Rules\Rule;
 use Davajlama\Schemator\Schema;
 use Davajlama\Schemator\Validator;
 use Exception;
@@ -25,8 +27,11 @@ final class SchemaValidator
     public const VALID_DESCRIPTIONS = 4;
     public const VALID_ALL = self::VALID_EXAMPLES | self::VALID_TITLES | self::VALID_DESCRIPTIONS;
 
-    private $depth = 1;
+    private int $depth = 1;
 
+    /**
+     * @var ErrorMessage[]
+     */
     private array $errors = [];
 
     public function validate(Schema $schema, int $level = self::VALID_ALL): bool
@@ -34,24 +39,24 @@ final class SchemaValidator
         $this->errors = [];
         $this->depth = 1;
 
-        if ($level & self::VALID_EXAMPLES) {
+        $doValidExamples = (bool) ($level & self::VALID_EXAMPLES);
+        if ($doValidExamples) {
             $errors = $this->validateExamples($schema);
             $this->errors = array_merge($this->errors, $errors);
         }
 
-        if ($level & self::VALID_TITLES) {
+        $doValidTitles = (bool) ($level & self::VALID_TITLES);
+        if ($doValidTitles) {
             $errors = $this->validateTitles($schema);
             $this->errors = array_merge($this->errors, $errors);
-        }
-
-        // Burn after reading
-        if (count($this->errors) > 0) {
-            //var_dump(MessagesFormatter::formatErrors($this->errors));
         }
 
         return count($this->errors) === 0;
     }
 
+    /**
+     * @return ErrorMessage[]
+     */
     private function validateTitles(Schema $schema): array
     {
         $errors = [];
@@ -69,7 +74,10 @@ final class SchemaValidator
         return $errors;
     }
 
-    private function validateExamples(Schema $schema)
+    /**
+     * @return ErrorMessage[]
+     */
+    private function validateExamples(Schema $schema): array
     {
         $errors = [];
         $dataset = [];
@@ -106,14 +114,16 @@ final class SchemaValidator
         foreach ($properties as $name => $property) {
             $this->depth = max($this->depth, count($property->getExamples()));
 
+            $rulesDefinitions = $this->getRulesDefinitions($property->getRules());
+
             if ($property->isReferencedDefinition()) {
                 $referencedSchema = $schema->getReferencedSchema($property->getReferencedDefinition());
                 $data[$name] = $this->mineExamples($referencedSchema, $referencedSchema->getProperties(), $index);
-            } elseif ($rulesDefinition = $this->getRulesDefinitions($property->getRules())) {
-                if (count($rulesDefinition) !== 1) {
+            } elseif (count($rulesDefinitions) > 0) {
+                if (count($rulesDefinitions) !== 1) {
                     throw new Exception('Still not supported.');
                 }
-                $referencedSchema = $schema->getReferencedSchema(reset($rulesDefinition));
+                $referencedSchema = $schema->getReferencedSchema(reset($rulesDefinitions));
                 $data[$name] = [$this->mineExamples($referencedSchema, $referencedSchema->getProperties(), $index)];
             } else {
                 $examples = $property->getExamples();
@@ -130,6 +140,10 @@ final class SchemaValidator
         return $data;
     }
 
+    /**
+     * @param Rule[] $rules
+     * @return Definition[]
+     */
     protected function getRulesDefinitions(array $rules): array
     {
         $definitions = [];

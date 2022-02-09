@@ -95,6 +95,9 @@ class Property
         return $this;
     }
 
+    /**
+     * @param scalar[] $values
+     */
     public function oneOf(array $values, ?string $message = null): self
     {
         $rule = $this->rulesFactory->create(OneOf::class, $values, $message);

@@ -6,6 +6,7 @@ namespace Davajlama\Schemator\Rules;
 
 use Davajlama\Schemator\Definition;
 use Davajlama\Schemator\ErrorMessage;
+use Davajlama\Schemator\Exception\ValidationFailedException;
 use Davajlama\Schemator\Validator;
 
 use function count;
@@ -22,10 +23,11 @@ class ArrayOf extends BaseRule
         $this->definition = $definition;
     }
 
-    public function validateValue($value): void
+    public function validateValue(mixed $value): void
     {
         if (!is_array($value)) {
-            $this->fail('Value must be an array.');
+            // prdelat na fail, ktery vraci exception
+            throw new ValidationFailedException('Value must be an array.');
         }
 
         $errors = [];

@@ -6,12 +6,12 @@ namespace Davajlama\Schemator\Filters;
 
 class FiltersFactory
 {
-    public function crateTrim()
+    public function crateTrim(): Trim
     {
         return new Trim();
     }
 
-    public function createUpper()
+    public function createUpper(): Upper
     {
         return new Upper();
     }

@@ -46,6 +46,9 @@ final class RulesTest extends TestCase
         }
     }
 
+    /**
+     * @return array<string, array<mixed>>
+     */
     public function rulesProvider(): array
     {
         return [

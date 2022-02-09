@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Davajlama\Schemator;
 
 use function array_unshift;
+use function count;
 use function implode;
 
 final class MessagesFormatter
@@ -20,7 +21,7 @@ final class MessagesFormatter
             $path = $error->getPath();
             array_unshift($path, '^');
 
-            if ($error->getErrors()) {
+            if (count($error->getErrors()) > 0) {
                 foreach ($error->getErrors() as $e2) {
                     $path = $error->getPath();
                     array_unshift($path, '^');

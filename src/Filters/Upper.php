@@ -12,7 +12,7 @@ class Upper extends BaseFilter
     public function filterValue(mixed $value): mixed
     {
         if (is_string($value)) {
-            return mb_strtoupper((string) $value);
+            return mb_strtoupper($value);
         }
 
         return $value;

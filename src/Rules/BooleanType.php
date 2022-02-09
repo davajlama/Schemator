@@ -8,7 +8,7 @@ use function is_bool;
 
 class BooleanType extends BaseRule
 {
-    public function validateValue($value): void
+    public function validateValue(mixed $value): void
     {
         if (!is_bool($value)) {
             $this->fail('is not a boolean');

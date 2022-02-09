@@ -47,10 +47,7 @@ class SchemaProperty
         return $this;
     }
 
-    /**
-     * @param mixed[] ...$examples
-     */
-    public function examples(...$examples): self
+    public function examples(mixed ...$examples): self
     {
         $this->examples = $examples;
 
@@ -99,7 +96,7 @@ class SchemaProperty
 
     public function getReferencedDefinition(): Definition
     {
-        if (!$this->isReferencedDefinition()) {
+        if ($this->property instanceof ReferencedProperty === false) {
             throw new RuntimeException('Property is not a referenced definition.');
         }
 

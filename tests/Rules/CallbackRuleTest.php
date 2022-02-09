@@ -18,7 +18,7 @@ final class CallbackRuleTest extends TestCase
         $rule->setExtractor($extractor);
 
         $data = ['value' => 'allowedValue'];
-        self::assertNull($rule->validate($data, 'value'));
+        $rule->validate($data, 'value');
     }
 
     public function testFailedValidation(): void

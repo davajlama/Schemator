@@ -8,7 +8,7 @@ use function is_string;
 
 class StringTypeRule extends BaseRule
 {
-    public function validateValue($value): void
+    public function validateValue(mixed $value): void
     {
         if (!is_string($value)) {
             $this->fail('not a String');

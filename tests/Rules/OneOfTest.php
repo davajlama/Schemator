@@ -18,10 +18,10 @@ final class OneOfTest extends TestCase
         $rule->setExtractor($extractor);
 
         $data = ['value' => 'FOO'];
-        self::assertNull($rule->validate($data, 'value'));
+        $rule->validate($data, 'value');
 
         $data = ['value' => 'BAR'];
-        self::assertNull($rule->validate($data, 'value'));
+        $rule->validate($data, 'value');
     }
 
     public function testFailed(): void

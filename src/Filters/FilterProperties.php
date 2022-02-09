@@ -11,8 +11,6 @@ class FilterProperties extends FilterProperty
      */
     private array $properties;
 
-    private FiltersFactory $filtersFactory;
-
     private \Davajlama\Schemator\Filter $filter;
 
     /**

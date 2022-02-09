@@ -15,5 +15,6 @@ class DefaultValue extends BaseFilter
 
     public function filterValue(mixed $value): mixed
     {
+        return $this->defaultValue;
     }
 }

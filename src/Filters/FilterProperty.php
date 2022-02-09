@@ -22,7 +22,7 @@ class FilterProperty
         $this->filtersFactory = $filtersFactory;
     }
 
-    public function default($value): self
+    public function default(mixed $value): self
     {
         $this->defaultValue = $value;
         $this->defaultValueUsed = true;
@@ -53,7 +53,10 @@ class FilterProperty
         return $this;
     }
 
-    public function getFilters()
+    /**
+     * @return Filter[]
+     */
+    public function getFilters(): array
     {
         return $this->filters;
     }

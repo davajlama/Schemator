@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Generator;
 
+use Davajlama\Schemator\Definition;
 use Davajlama\Schemator\Rules\ArrayOf;
 use Davajlama\Schemator\Rules\IntegerType;
 use Davajlama\Schemator\Rules\NonEmptyStringRule;
 use Davajlama\Schemator\Rules\NullableInteger;
 use Davajlama\Schemator\Rules\NullableString;
+use Davajlama\Schemator\Rules\Rule;
 use Davajlama\Schemator\Rules\StringTypeRule;
 use Davajlama\Schemator\Schema;
+use Exception;
 use RuntimeException;
 
 use function array_merge;
@@ -28,6 +31,9 @@ class JsonSchemaGenerator
 
     private string $schemaType = 'object';
 
+    /**
+     * @var array<string, mixed>
+     */
     private array $definitions = [];
 
     public function __construct(Schema $schema)
@@ -35,6 +41,9 @@ class JsonSchemaGenerator
         $this->schema = $schema;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function generate(): array
     {
         $header = [
@@ -43,7 +52,7 @@ class JsonSchemaGenerator
             'title' => $this->schema->getTitle(),
         ];
 
-        $body = $this->_generate($this->schema);
+        $body = $this->doGenerate($this->schema);
 
         $footer = [];
         if (count($this->definitions) > 0) {
@@ -55,7 +64,10 @@ class JsonSchemaGenerator
         return array_merge($header, $body, $footer);
     }
 
-    protected function _generate(Schema $schema, ?string $definitionName = null): array
+    /**
+     * @return array<string, mixed>
+     */
+    protected function doGenerate(Schema $schema, ?string $definitionName = null): array
     {
         $required = [];
         $properties = [];
@@ -94,6 +106,9 @@ class JsonSchemaGenerator
         return $data;
     }
 
+    /**
+     * @param Rule[] $rules
+     */
     protected function getMinLength(array $rules): ?int
     {
         $min = null;
@@ -108,11 +123,20 @@ class JsonSchemaGenerator
         return $min;
     }
 
+    /**
+     * @param Rule[] $rules
+     * @return string[]
+     */
     protected function getTypes(array $rules): array
     {
         $types = [];
         foreach ($rules as $rule) {
             $classList = class_parents($rule);
+
+            if ($classList === false) {
+                throw new RuntimeException('Vsechno spatne');
+            }
+
             $classList[] = $rule::class;
             foreach ($classList as $class) {
                 switch ($class) {
@@ -136,6 +160,9 @@ class JsonSchemaGenerator
         return array_unique($types);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function buildProperty(Schema $schema, Schema\SchemaProperty $property, string $name): array
     {
         if ($property->isReferencedDefinition()) {
@@ -163,14 +190,14 @@ class JsonSchemaGenerator
             ];
 
             $types = $this->getTypes($property->getRules());
-            if ($types) {
+            if (count($types) > 0) {
                 $type = count($types) === 1 ? reset($types) : $types;
                 $body['type'] = $type;
             }
 
-            if (in_array('array', $types)) {
+            if (in_array('array', $types, true)) {
                 $items = $this->getItems($schema, $property->getRules());
-                if ($items !== null) {
+                if (count($items) > 0) {
                     $body['items'] = $items;
                 }
             }
@@ -192,13 +219,16 @@ class JsonSchemaGenerator
         }
     }
 
+    /**
+     * @param Rule[] $rules
+     * @return string[]
+     */
     protected function getItems(Schema $schema, array $rules): array
     {
         $definition = null;
         foreach ($rules as $rule) {
             switch ($rule::class) {
                 case ArrayOf::class:
-                    /** @var ArrayOf $rule */
                     $definition = $rule->getDefinition();
                     break;
             }
@@ -207,6 +237,8 @@ class JsonSchemaGenerator
         if ($definition === null) {
             throw new RuntimeException('Cannot find definition of Array items');
         }
+
+        /** @var Definition $definition */
 
         $referencedSchema = null;
         foreach ($schema->getReferences() as $reference) {
@@ -217,6 +249,11 @@ class JsonSchemaGenerator
         }
 
         $referencedSchema = $referencedSchema ?? new Schema($definition);
+
+        if ($definition->getName() === null) {
+            throw new Exception('Vsechno spatne');
+        }
+
         $this->buildDefinition($referencedSchema, $definition->getName());
 
         return [
@@ -226,6 +263,6 @@ class JsonSchemaGenerator
 
     protected function buildDefinition(Schema $schema, string $name): void
     {
-        $this->definitions[$name] = $this->_generate($schema, $name);
+        $this->definitions[$name] = $this->doGenerate($schema, $name);
     }
 }

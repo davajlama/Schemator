@@ -22,7 +22,7 @@ class ReferencedFilterProperty extends FilterProperty
         throw new RuntimeException('Cannot use in referenced filter property.');
     }
 
-    public function apply($payload)
+    public function apply(mixed $payload): mixed
     {
         return $this->definition->apply($payload);
     }

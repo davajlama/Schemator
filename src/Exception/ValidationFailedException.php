@@ -17,7 +17,7 @@ final class ValidationFailedException extends InvalidArgumentException
     /**
      * @param ErrorMessage[] $errors
      */
-    public function __construct(string $message, array $errors)
+    public function __construct(string $message, array $errors = [])
     {
         parent::__construct($message);
 

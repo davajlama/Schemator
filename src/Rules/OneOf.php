@@ -25,7 +25,7 @@ class OneOf extends BaseRule
         $this->values = $values;
     }
 
-    public function validateValue($value): void
+    public function validateValue(mixed $value): void
     {
         if (!in_array($value, $this->values, true)) {
             $this->fail(sprintf('Supported only one of [%s]', implode(',', $this->values)));

@@ -18,13 +18,13 @@ final class StringTypeRuleTest extends TestCase
         $rule->setExtractor($extractor);
 
         $data = ['value' => ''];
-        self::assertNull($rule->validate($data, 'value'));
+        $rule->validate($data, 'value');
 
         $data = ['value' => '0'];
-        self::assertNull($rule->validate($data, 'value'));
+        $rule->validate($data, 'value');
 
         $data = ['value' => 'stringValue'];
-        self::assertNull($rule->validate($data, 'value'));
+        $rule->validate($data, 'value');
     }
 
     public function testFailedValidation(): void

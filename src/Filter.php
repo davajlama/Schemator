@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator;
 
-use Davajlama\Schemator\Extractor\ArrayExtractor;
-use Davajlama\Schemator\Extractor\Extractor;
 use Davajlama\Schemator\Filters\FilterProperties;
 use Davajlama\Schemator\Filters\FilterProperty;
 use Davajlama\Schemator\Filters\FiltersFactory;
@@ -18,8 +16,6 @@ class Filter
 {
     private FiltersFactory $filtersFactory;
 
-    private Extractor $extractor;
-
     /**
      * @var FilterProperty[]
      */
@@ -28,7 +24,6 @@ class Filter
     public function __construct()
     {
         $this->filtersFactory = new FiltersFactory();
-        $this->extractor = new ArrayExtractor();
     }
 
     public function property(string $name): FilterProperty
@@ -40,12 +35,12 @@ class Filter
         return $this->properties[$name];
     }
 
-    public function properties(...$properties): FilterProperties
+    public function properties(string ...$properties): FilterProperties
     {
         return new FilterProperties($properties, $this->filtersFactory, $this);
     }
 
-    public function apply($payload): mixed
+    public function apply(mixed $payload): mixed
     {
         $payload = (array) $payload;
 
