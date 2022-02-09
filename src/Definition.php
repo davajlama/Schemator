@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Davajlama\Schemator;
 
 use Davajlama\Schemator\Rules\RulesFactory;
+use InvalidArgumentException;
+use RuntimeException;
+
+use function array_key_exists;
 
 class Definition
 {
@@ -19,7 +23,7 @@ class Definition
 
     private ?string $name = null;
 
-    public function __construct(string $name = null)
+    public function __construct(?string $name = null)
     {
         $this->rulesFactory = new RulesFactory();
         $this->name = $name;
@@ -32,17 +36,17 @@ class Definition
         return $this;
     }
 
-    public function property(string $name, Definition $definition = null): Property
+    public function property(string $name, ?Definition $definition = null): Property
     {
-        if(array_key_exists($name, $this->properties)) {
-            throw new \InvalidArgumentException('Property exists');
+        if (array_key_exists($name, $this->properties)) {
+            throw new InvalidArgumentException('Property exists');
         }
 
         if ($definition === null) {
             $property = new Property($this->rulesFactory);
         } else {
-            if($definition->getName() === null) {
-                throw new \RuntimeException('Referenced definition must have a name');
+            if ($definition->getName() === null) {
+                throw new RuntimeException('Referenced definition must have a name');
             }
 
             $property = new ReferencedProperty($this->rulesFactory, $definition);
@@ -69,9 +73,6 @@ class Definition
         return $this->properties;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;

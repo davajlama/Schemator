@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Davajlama\Schemator\Filters;
 
 class FilterProperty
@@ -14,8 +13,7 @@ class FilterProperty
      */
     private array $filters = [];
 
-    /** @var mixed */
-    private $defaultValue = null;
+    private mixed $defaultValue = null;
 
     private bool $defaultValueUsed = false;
 
@@ -60,10 +58,7 @@ class FilterProperty
         return $this->filters;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDefaultValue()
+    public function getDefaultValue(): mixed
     {
         return $this->defaultValue;
     }
@@ -72,6 +67,4 @@ class FilterProperty
     {
         return $this->defaultValueUsed;
     }
-
-
 }

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-
 namespace Davajlama\Schemator\Filters;
 
 use Davajlama\Schemator\Extractor\Extractor;
 use Davajlama\Schemator\Extractor\ExtractorAwareInterface;
+use RuntimeException;
 
 abstract class BaseFilter implements Filter, ExtractorAwareInterface
 {
@@ -17,16 +17,12 @@ abstract class BaseFilter implements Filter, ExtractorAwareInterface
         return $this->filterValue($value);
     }
 
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    abstract public function filterValue($value);
+    abstract public function filterValue(mixed $value): mixed;
 
     public function getExtractor(): Extractor
     {
-        if($this->extractor === null) {
-            throw new \RuntimeException('None extractor');
+        if ($this->extractor === null) {
+            throw new RuntimeException('None extractor');
         }
 
         return $this->extractor;

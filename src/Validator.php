@@ -7,6 +7,16 @@ namespace Davajlama\Schemator;
 use Davajlama\Schemator\Exception\ValidationFailedException;
 use Davajlama\Schemator\Extractor\Extractor;
 use Davajlama\Schemator\Extractor\ExtractorAwareInterface;
+use InvalidArgumentException;
+
+use function array_key_exists;
+use function array_keys;
+use function array_pop;
+use function array_push;
+use function array_search;
+use function count;
+use function sprintf;
+use function var_dump;
 
 class Validator
 {
@@ -35,16 +45,16 @@ class Validator
         $unresolvedProperties = array_keys($data);
 
         $errors = [];
-        foreach($unresolvedProperties as $unresolvedProperty) {
-            if(array_key_exists($unresolvedProperty, $properties)) {
+        foreach ($unresolvedProperties as $unresolvedProperty) {
+            if (array_key_exists($unresolvedProperty, $properties)) {
                 try {
                     $property = $properties[$unresolvedProperty];
 
-                    if($property instanceof ReferencedProperty) {
+                    if ($property instanceof ReferencedProperty) {
                         array_push($path, $unresolvedProperty);
                         $subErrors = $this->_validate($property->getReferencedDefinition(), $data[$unresolvedProperty], $path);
 
-                        foreach($subErrors as $subError) {
+                        foreach ($subErrors as $subError) {
                             $errors[] = $subError;
                         }
 
@@ -53,8 +63,8 @@ class Validator
 
                         array_pop($path);
                     } else {
-                        foreach($property->getRules() as $rule) {
-                            if($rule instanceof ExtractorAwareInterface) {
+                        foreach ($property->getRules() as $rule) {
+                            if ($rule instanceof ExtractorAwareInterface) {
                                 $rule->setExtractor($this->extractor);
                             }
 
@@ -68,18 +78,17 @@ class Validator
                         unset($unresolvedProperties[array_search($unresolvedProperty, $unresolvedProperties)]);
                         unset($properties[$unresolvedProperty]);
                     }
-                } catch (\InvalidArgumentException $e) {
-
+                } catch (InvalidArgumentException $e) {
                 }
             }
         }
 
-        if(!$definition->isAdditionalPropertiesAllowed() && count($unresolvedProperties) > 0) {
+        if (!$definition->isAdditionalPropertiesAllowed() && count($unresolvedProperties) > 0) {
             $errors[] = new ErrorMessage('Additional properties not allowed.', '*', $path);
         }
 
-        foreach($properties as $name => $property) {
-            if($property->isRequired()) {
+        foreach ($properties as $name => $property) {
+            if ($property->isRequired()) {
                 $message = sprintf('Property [%s] is required.', $name);
                 $errors[] = new ErrorMessage($message, $name, $path);
             }
@@ -96,9 +105,8 @@ class Validator
         return $this->errors;
     }
 
-    public function dumpErrors()
+    public function dumpErrors(): void
     {
         var_dump(MessagesFormatter::formatErrors($this->getErrors()));
     }
-
 }

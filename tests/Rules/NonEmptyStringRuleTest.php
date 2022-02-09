@@ -6,6 +6,7 @@ namespace Davajlama\Schemator\Tests\Rules;
 
 use Davajlama\Schemator\Extractor\ArrayExtractor;
 use Davajlama\Schemator\Rules\NonEmptyStringRule;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 final class NonEmptyStringRuleTest extends TestCase
@@ -29,7 +30,7 @@ final class NonEmptyStringRuleTest extends TestCase
         $rule = new NonEmptyStringRule();
         $rule->setExtractor($extractor);
 
-        self::expectException(\InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
 
         $data = ['value' => ''];
         $rule->validate($data, 'value');
@@ -41,7 +42,7 @@ final class NonEmptyStringRuleTest extends TestCase
         $rule = new NonEmptyStringRule();
         $rule->setExtractor($extractor);
 
-        self::expectException(\InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
 
         $data = ['value' => 999];
         $rule->validate($data, 'value');
@@ -53,7 +54,7 @@ final class NonEmptyStringRuleTest extends TestCase
         $rule = new NonEmptyStringRule();
         $rule->setExtractor($extractor);
 
-        self::expectException(\InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
 
         $data = ['value' => '    '];
         $rule->validate($data, 'value');

@@ -14,7 +14,7 @@ final class CallbackRuleTest extends TestCase
     public function testSuccessValidation(): void
     {
         $extractor = new ArrayExtractor();
-        $rule = new CallbackRule(fn($value) => $value !== 'deniedValue');
+        $rule = new CallbackRule(static fn($value) => $value !== 'deniedValue');
         $rule->setExtractor($extractor);
 
         $data = ['value' => 'allowedValue'];
@@ -24,7 +24,7 @@ final class CallbackRuleTest extends TestCase
     public function testFailedValidation(): void
     {
         $extractor = new ArrayExtractor();
-        $rule = new CallbackRule(fn($value) => $value !== 'deniedValue');
+        $rule = new CallbackRule(static fn($value) => $value !== 'deniedValue');
         $rule->setExtractor($extractor);
 
         self::expectException(ValidationFailedException::class);

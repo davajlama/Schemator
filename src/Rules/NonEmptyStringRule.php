@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-
 namespace Davajlama\Schemator\Rules;
+
+use function strlen;
+use function trim;
 
 class NonEmptyStringRule extends StringTypeRule
 {
-    public function validateValue($value)
+    public function validateValue($value): void
     {
         parent::validateValue($value);
 

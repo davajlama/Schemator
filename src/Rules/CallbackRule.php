@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace Davajlama\Schemator\Rules;
-
-use Davajlama\Schemator\Extractor\Extractor;
 
 class CallbackRule extends BaseRule
 {
@@ -21,11 +18,10 @@ class CallbackRule extends BaseRule
         $this->callback = $callback;
     }
 
-    public function validateValue($value)
+    public function validateValue($value): void
     {
-        if(($this->callback)($value) === false) {
+        if (($this->callback)($value) === false) {
             $this->fail('Callback fail!');
         }
     }
-
 }

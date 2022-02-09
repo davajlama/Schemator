@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Tests\Rules;
 
 use Davajlama\Schemator\Extractor\ArrayExtractor;
-use Davajlama\Schemator\Rules\CallbackRule;
 use Davajlama\Schemator\Rules\StringTypeRule;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 final class StringTypeRuleTest extends TestCase
@@ -33,7 +33,7 @@ final class StringTypeRuleTest extends TestCase
         $rule = new StringTypeRule();
         $rule->setExtractor($extractor);
 
-        self::expectException(\InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
 
         $data = ['value' => 123];
         $rule->validate($data, 'value');

@@ -6,6 +6,7 @@ namespace Davajlama\Schemator;
 
 use Davajlama\Schemator\Rules\Rule;
 use Davajlama\Schemator\Rules\RulesFactory;
+use LogicException;
 
 class ReferencedProperty extends Property
 {
@@ -25,6 +26,6 @@ class ReferencedProperty extends Property
 
     public function addRule(Rule $rule): self
     {
-        throw new \LogicException('Cannot add rule to referenced property');
+        throw new LogicException('Cannot add rule to referenced property');
     }
 }

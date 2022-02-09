@@ -6,7 +6,6 @@ namespace Davajlama\Schemator\Tests;
 
 use Davajlama\Schemator\Definition;
 use Davajlama\Schemator\Extractor\ArrayExtractor;
-use Davajlama\Schemator\Rules\RulesFactory;
 use Davajlama\Schemator\Validator;
 use PHPUnit\Framework\TestCase;
 
@@ -72,7 +71,7 @@ final class ValidatorTest extends TestCase
             'toContact' => [
                 'firstname' => 'František',
                 'surname' => 'Palacký',
-            ]
+            ],
         ];
 
         self::assertTrue($validator->validate($orderDefinition, $data));
@@ -101,7 +100,7 @@ final class ValidatorTest extends TestCase
             ],
             'toContact' => [
                 'lastname' => 'test',
-            ]
+            ],
         ];
 
         self::assertFalse($validator->validate($orderDefinition, $data));
@@ -120,7 +119,7 @@ final class ValidatorTest extends TestCase
             'contacts' => [
                 ['firstname' => 'Dave', 'surname' => 'Lister'],
                 ['firstname' => 'Arnold', 'surname' => 'Rimmer'],
-            ]
+            ],
         ];
 
         $extractor = new ArrayExtractor();
@@ -145,7 +144,7 @@ final class ValidatorTest extends TestCase
                 ['firstname' => 'Dave', 'surname' => 'Lister'],
                 ['firstname' => 123, 'surname' => 'Lister'],
                 ['firstname' => 'Arnold'],
-            ]
+            ],
         ];
 
         $extractor = new ArrayExtractor();
@@ -156,7 +155,7 @@ final class ValidatorTest extends TestCase
         self::assertFalse($result);
     }
 
-    protected function testRequiredFields()
+    protected function testRequiredFields(): void
     {
         $definition = new Definition();
         $definition->property('firstname')->string();
@@ -176,7 +175,7 @@ final class ValidatorTest extends TestCase
         $def = new Definition();
         $def->property('firstname')
             ->string()
-            ->callback(fn(string $value) => $value !== 'David');
+            ->callback(static fn(string $value) => $value !== 'David');
 
         return $def;
     }

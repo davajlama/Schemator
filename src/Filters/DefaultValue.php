@@ -2,25 +2,18 @@
 
 declare(strict_types=1);
 
-
 namespace Davajlama\Schemator\Filters;
 
 class DefaultValue extends BaseFilter
 {
-    /** @var mixed */
-    private $defaultValue;
+    private mixed $defaultValue;
 
-    /**
-     * @param mixed $defaultValue
-     */
-    public function __construct($defaultValue)
+    public function __construct(mixed $defaultValue)
     {
         $this->defaultValue = $defaultValue;
     }
 
-    public function filterValue($value)
+    public function filterValue($value): void
     {
-
     }
-
 }

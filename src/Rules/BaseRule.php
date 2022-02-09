@@ -8,6 +8,7 @@ use Davajlama\Schemator\ErrorMessage;
 use Davajlama\Schemator\Exception\ValidationFailedException;
 use Davajlama\Schemator\Extractor\Extractor;
 use Davajlama\Schemator\Extractor\ExtractorAwareInterface;
+use RuntimeException;
 
 abstract class BaseRule implements Rule, ExtractorAwareInterface
 {
@@ -20,7 +21,7 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
         $this->message = $message;
     }
 
-    public function validate($data, string $property)
+    public function validate($data, string $property): void
     {
         try {
             $value = $this->getExtractor()->extract($data, $property);
@@ -32,8 +33,8 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
 
     public function getExtractor(): Extractor
     {
-        if($this->extractor === null) {
-            throw new \RuntimeException('None extractor');
+        if ($this->extractor === null) {
+            throw new RuntimeException('None extractor');
         }
 
         return $this->extractor;
@@ -52,11 +53,10 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
     /**
      * @param ErrorMessage[] $errors
      */
-    protected function fail(string $message, array $errors = [])
+    protected function fail(string $message, array $errors = []): void
     {
         throw new ValidationFailedException($message, $errors);
     }
 
-    abstract public function validateValue($value);
-
+    abstract public function validateValue($value): void;
 }

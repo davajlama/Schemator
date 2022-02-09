@@ -22,7 +22,9 @@ class Property
 
     private bool $required = true;
 
-    /** @var Rule[] */
+    /**
+     * @var Rule[]
+     */
     private array $rules = [];
 
     public function __construct(RulesFactory $rulesFactory)

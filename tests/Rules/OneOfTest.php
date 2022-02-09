@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 final class OneOfTest extends TestCase
 {
-    public function testSuccess()
+    public function testSuccess(): void
     {
         $extractor = new ArrayExtractor();
         $rule = new OneOf(['FOO', 'BAR']);
@@ -24,7 +24,7 @@ final class OneOfTest extends TestCase
         self::assertNull($rule->validate($data, 'value'));
     }
 
-    public function testFailed()
+    public function testFailed(): void
     {
         $extractor = new ArrayExtractor();
         $rule = new OneOf(['FOO', 'BAR']);

@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-
 namespace Davajlama\Schemator\Rules;
 
 class NullableString extends StringTypeRule
 {
-    public function validateValue($value)
+    public function validateValue($value): void
     {
-        if($value !== null) {
+        if ($value !== null) {
             parent::validateValue($value);
         }
     }

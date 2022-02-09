@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Davajlama\Schemator\Tests;
 
 use Davajlama\Schemator\Filter;
@@ -10,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 final class FilterTest extends TestCase
 {
-
     public function testSuccessFilter(): void
     {
         $filter = new Filter();
@@ -43,5 +41,4 @@ final class FilterTest extends TestCase
         $expected = ['foo' => '1', 'bar' => '1', 'tar' => '1'];
         self::assertEquals($expected, $data);
     }
-
 }

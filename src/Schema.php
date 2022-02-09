@@ -2,19 +2,25 @@
 
 declare(strict_types=1);
 
-
 namespace Davajlama\Schemator;
 
 use Davajlama\Schemator\Schema\SchemaProperty;
+use RuntimeException;
+
+use function array_key_exists;
 
 class Schema
 {
     private Definition $definition;
 
-    /** @var Schema[] */
+    /**
+     * @var Schema[]
+     */
     private array $references = [];
 
-    /** @var SchemaProperty[] */
+    /**
+     * @var SchemaProperty[]
+     */
     private array $properties = [];
 
     private ?string $title = null;
@@ -22,7 +28,6 @@ class Schema
     private ?string $description = null;
 
     /**
-     * @param Definition $definition
      * @param Schema[] $references
      */
     public function __construct(Definition $definition, array $references = [])
@@ -30,7 +35,7 @@ class Schema
         $this->definition = $definition;
         $this->references = $references;
 
-        foreach($definition->getProperties() as $name => $property) {
+        foreach ($definition->getProperties() as $name => $property) {
             $this->properties[$name] = new SchemaProperty($property);
         }
     }
@@ -38,7 +43,7 @@ class Schema
     public function property(string $name): SchemaProperty
     {
         if (!array_key_exists($name, $this->properties)) {
-            throw new \RuntimeException("Property [$name] not exists.");
+            throw new RuntimeException("Property [$name] not exists.");
         }
 
         return $this->properties[$name];
@@ -76,17 +81,17 @@ class Schema
 
     public function getReferencedSchema(Definition $definition): self
     {
-        if($definition->getName() === null) {
-            throw new \RuntimeException('Definition without name not allowed!');
+        if ($definition->getName() === null) {
+            throw new RuntimeException('Definition without name not allowed!');
         }
 
-        foreach($this->getReferences() as $reference) {
-            if($reference->getName() === $definition->getName()) {
+        foreach ($this->getReferences() as $reference) {
+            if ($reference->getName() === $definition->getName()) {
                 return $reference;
             }
         }
 
-        throw new \RuntimeException('Missing reference.');
+        throw new RuntimeException('Missing reference.');
     }
 
     public function getTitle(): ?string
@@ -113,5 +118,4 @@ class Schema
     {
         return $this->definition;
     }
-
 }

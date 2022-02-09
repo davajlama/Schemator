@@ -8,10 +8,13 @@ use Davajlama\Schemator\Definition;
 use Davajlama\Schemator\Property;
 use Davajlama\Schemator\ReferencedProperty;
 use Davajlama\Schemator\Rules\Rule;
+use RuntimeException;
 
 class SchemaProperty
 {
-    /** @var Property | ReferencedProperty */
+    /**
+     * @var Property | ReferencedProperty
+     */
     private Property $property;
 
     private ?string $title = null;
@@ -28,7 +31,6 @@ class SchemaProperty
     public function __construct(Property $property)
     {
         $this->property = $property;
-
     }
 
     public function title(string $title): self
@@ -48,7 +50,7 @@ class SchemaProperty
     /**
      * @param mixed[] ...$examples
      */
-    public function examples(...$examples): self
+    public function examples(array ...$examples): self
     {
         $this->examples = $examples;
 
@@ -97,8 +99,8 @@ class SchemaProperty
 
     public function getReferencedDefinition(): Definition
     {
-        if(!$this->isReferencedDefinition()) {
-            throw new \RuntimeException('Property is not a referenced definition.');
+        if (!$this->isReferencedDefinition()) {
+            throw new RuntimeException('Property is not a referenced definition.');
         }
 
         return $this->property->getReferencedDefinition();
@@ -111,5 +113,4 @@ class SchemaProperty
     {
         return $this->property->getRules();
     }
-
 }

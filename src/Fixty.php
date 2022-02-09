@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Davajlama\Schemator;
 
 final class Fixty
@@ -26,5 +25,4 @@ final class Fixty
     {
         return 'Equa';
     }
-
 }

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-
 namespace Davajlama\Schemator\Filters;
+
+use RuntimeException;
 
 class ReferencedFilterProperty extends FilterProperty
 {
@@ -18,7 +19,7 @@ class ReferencedFilterProperty extends FilterProperty
 
     public function addFilter(Filter $filter): FilterProperty
     {
-        throw new \RuntimeException('Cannot use in referenced filter property.');
+        throw new RuntimeException('Cannot use in referenced filter property.');
     }
 
     public function apply($payload)

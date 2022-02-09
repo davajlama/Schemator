@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-
 namespace Davajlama\Schemator\Rules;
+
+use function is_int;
 
 class IntegerType extends BaseRule
 {
-    public function validateValue($value)
+    public function validateValue($value): void
     {
         if (is_int($value) === false) {
             $this->fail('Must be an integer type.');

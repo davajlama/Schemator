@@ -6,7 +6,9 @@ namespace Davajlama\Schemator\Filters;
 
 class FilterProperties extends FilterProperty
 {
-    /** @var string[] */
+    /**
+     * @var string[]
+     */
     private array $properties;
 
     private FiltersFactory $filtersFactory;
@@ -15,7 +17,6 @@ class FilterProperties extends FilterProperty
 
     /**
      * @param string[] $properties
-     * @param FiltersFactory $filtersFactory
      */
     public function __construct(array $properties, FiltersFactory $filtersFactory, \Davajlama\Schemator\Filter $filter)
     {
@@ -27,7 +28,7 @@ class FilterProperties extends FilterProperty
 
     public function addFilter(Filter $filter): FilterProperty
     {
-        foreach($this->properties as $property) {
+        foreach ($this->properties as $property) {
             $this->filter->property($property)->addFilter($filter);
         }
 

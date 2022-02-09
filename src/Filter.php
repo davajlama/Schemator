@@ -11,13 +11,18 @@ use Davajlama\Schemator\Filters\FilterProperty;
 use Davajlama\Schemator\Filters\FiltersFactory;
 use Davajlama\Schemator\Filters\ReferencedFilterProperty;
 
+use function array_key_exists;
+use function array_keys;
+
 class Filter
 {
     private FiltersFactory $filtersFactory;
 
     private Extractor $extractor;
 
-    /** @var FilterProperty[] */
+    /**
+     * @var FilterProperty[]
+     */
     private array $properties = [];
 
     public function __construct()
@@ -28,7 +33,7 @@ class Filter
 
     public function property(string $name): FilterProperty
     {
-        if(!array_key_exists($name, $this->properties)) {
+        if (!array_key_exists($name, $this->properties)) {
             $this->properties[$name] = new FilterProperty($this->filtersFactory);
         }
 
@@ -40,23 +45,20 @@ class Filter
         return new FilterProperties($properties, $this->filtersFactory, $this);
     }
 
-    /**
-     * @return mixed
-     */
-    public function apply($payload)
+    public function apply($payload): mixed
     {
         $payload = (array) $payload;
 
-        foreach(array_keys($payload) as $property) {
-            if(array_key_exists($property, $this->properties)) {
+        foreach (array_keys($payload) as $property) {
+            if (array_key_exists($property, $this->properties)) {
                 $prop = $this->property($property);
                 $val = $payload[$property];
 
-                if($prop instanceof ReferencedFilterProperty) {
+                if ($prop instanceof ReferencedFilterProperty) {
                     $val = $prop->apply($val);
                 } else {
                     $filters = $prop->getFilters();
-                    foreach($filters as $filter) {
+                    foreach ($filters as $filter) {
                         $val = $filter->filter($payload, $property, $val);
                     }
                 }
@@ -65,8 +67,8 @@ class Filter
             }
         }
 
-        foreach($this->properties as $name => $property) {
-            if($property->isDefaultValueUsed() && !array_key_exists($name, $payload)) {
+        foreach ($this->properties as $name => $property) {
+            if ($property->isDefaultValueUsed() && !array_key_exists($name, $payload)) {
                 $payload[$name] = $property->getDefaultValue();
             }
         }

@@ -9,6 +9,9 @@ use Davajlama\Schemator\Tests\Generator\Fixtures\SimpleSchemaFactory;
 use Davajlama\Schemator\Tests\Generator\Fixtures\TypedSchemaFactory;
 use PHPUnit\Framework\TestCase;
 
+use function file_get_contents;
+use function json_decode;
+
 class JsonSchemaGeneratorTest extends TestCase
 {
     public function testSimpleSchemaGeneration(): void
@@ -32,5 +35,4 @@ class JsonSchemaGeneratorTest extends TestCase
         $expectedResult = json_decode($jsonContent, true, 512, JSON_THROW_ON_ERROR);
         self:self::assertEquals($expectedResult, $result);
     }
-
 }

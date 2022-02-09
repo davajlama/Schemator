@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Exception;
 
 use Davajlama\Schemator\ErrorMessage;
+use InvalidArgumentException;
 
-final class ValidationFailedException extends \InvalidArgumentException
+final class ValidationFailedException extends InvalidArgumentException
 {
     /**
      * @var ErrorMessage[]
@@ -21,8 +22,6 @@ final class ValidationFailedException extends \InvalidArgumentException
         parent::__construct($message);
 
         $this->errors = $errors;
-
-
     }
 
     /**

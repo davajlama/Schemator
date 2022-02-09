@@ -1,0 +1,9 @@
+parameters:
+    level: 9
+    excludes_analyse:
+        #- src/Kernel.php
+        #- tests/bootstrap.php
+
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon

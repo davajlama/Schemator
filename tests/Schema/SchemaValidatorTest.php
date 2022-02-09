@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 final class SchemaValidatorTest extends TestCase
 {
-    public function testSuccessValidation()
+    public function testSuccessValidation(): void
     {
         $schema = SimpleSchemaFactory::create();
 
@@ -31,7 +31,7 @@ final class SchemaValidatorTest extends TestCase
 
         $validator = new SchemaValidator();
         self::assertFalse($validator->validate($schema, SchemaValidator::VALID_TITLES));
-        self::assertTrue($validator->validate($schema, SchemaValidator::VALID_EXAMPLES));;
+        self::assertTrue($validator->validate($schema, SchemaValidator::VALID_EXAMPLES));
     }
 
     public function testFailedExamplesValidation(): void
@@ -44,6 +44,6 @@ final class SchemaValidatorTest extends TestCase
 
         $validator = new SchemaValidator();
         self::assertTrue($validator->validate($schema, SchemaValidator::VALID_TITLES));
-        self::assertFalse($validator->validate($schema, SchemaValidator::VALID_EXAMPLES));;
+        self::assertFalse($validator->validate($schema, SchemaValidator::VALID_EXAMPLES));
     }
 }
