@@ -12,7 +12,7 @@ abstract class BaseFilter implements Filter, ExtractorAwareInterface
 {
     private ?Extractor $extractor = null;
 
-    public function filter($data, string $property, $value)
+    public function filter(mixed $data, string $property, mixed $value): mixed
     {
         return $this->filterValue($value);
     }

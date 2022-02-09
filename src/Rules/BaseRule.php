@@ -21,7 +21,7 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
         $this->message = $message;
     }
 
-    public function validate($data, string $property): void
+    public function validate(mixed $data, string $property): void
     {
         try {
             $value = $this->getExtractor()->extract($data, $property);

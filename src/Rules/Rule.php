@@ -6,5 +6,5 @@ namespace Davajlama\Schemator\Rules;
 
 interface Rule
 {
-    public function validate($data, string $property): void;
+    public function validate(mixed $data, string $property): void;
 }

@@ -50,7 +50,7 @@ class SchemaProperty
     /**
      * @param mixed[] ...$examples
      */
-    public function examples(array ...$examples): self
+    public function examples(...$examples): self
     {
         $this->examples = $examples;
 

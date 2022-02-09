@@ -13,7 +13,7 @@ class DefaultValue extends BaseFilter
         $this->defaultValue = $defaultValue;
     }
 
-    public function filterValue($value): void
+    public function filterValue(mixed $value): mixed
     {
     }
 }

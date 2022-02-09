@@ -9,7 +9,7 @@ use function mb_strtoupper;
 
 class Upper extends BaseFilter
 {
-    public function filterValue($value)
+    public function filterValue(mixed $value): mixed
     {
         if (is_string($value)) {
             return mb_strtoupper((string) $value);

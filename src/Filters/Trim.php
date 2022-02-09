@@ -9,7 +9,7 @@ use function trim;
 
 class Trim extends BaseFilter
 {
-    public function filterValue($value)
+    public function filterValue(mixed $value): mixed
     {
         if (is_string($value)) {
             return trim($value);

@@ -6,5 +6,5 @@ namespace Davajlama\Schemator\Extractor;
 
 interface Extractor
 {
-    public function extract($data, string $property): void;
+    public function extract(mixed $data, string $property): mixed;
 }
