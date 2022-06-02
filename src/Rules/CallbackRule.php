@@ -18,10 +18,12 @@ class CallbackRule extends BaseRule
         $this->callback = $callback;
     }
 
-    public function validateValue(mixed $value): void
+    public function validateValue(mixed $value): bool
     {
         if (($this->callback)($value) === false) {
-            $this->fail('Callback fail!');
+            throw $this->fail('Callback fail!');
         }
+
+        return true;
     }
 }

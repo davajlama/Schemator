@@ -23,11 +23,10 @@ class ArrayOf extends BaseRule
         $this->definition = $definition;
     }
 
-    public function validateValue(mixed $value): void
+    public function validateValue(mixed $value): bool
     {
         if (!is_array($value)) {
-            // prdelat na fail, ktery vraci exception
-            throw new ValidationFailedException('Value must be an array.');
+            throw $this->fail('Value must be an array.');
         }
 
         $errors = [];
@@ -41,8 +40,10 @@ class ArrayOf extends BaseRule
         }
 
         if (count($errors) > 0) {
-            $this->fail('Array of not valid!', $errors);
+            throw $this->fail('Array of not valid!', $errors);
         }
+
+        return true;
     }
 
     public function getDefinition(): Definition

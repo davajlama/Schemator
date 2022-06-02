@@ -21,11 +21,11 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
         $this->message = $message;
     }
 
-    public function validate(mixed $data, string $property): void
+    public function validate(mixed $data, string $property): bool
     {
         try {
             $value = $this->getExtractor()->extract($data, $property);
-            $this->validateValue($value);
+            return $this->validateValue($value);
         } catch (ValidationFailedException $e) {
             $this->fail($this->getMessage($e->getMessage()), $e->getErrors());
         }
@@ -53,10 +53,10 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
     /**
      * @param ErrorMessage[] $errors
      */
-    protected function fail(string $message, array $errors = []): void
+    protected function fail(string $message, array $errors = []): ValidationFailedException
     {
-        throw new ValidationFailedException($message, $errors);
+        return new ValidationFailedException($message, $errors);
     }
 
-    abstract public function validateValue(mixed $value): void;
+    abstract public function validateValue(mixed $value): bool;
 }
