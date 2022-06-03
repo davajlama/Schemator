@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Davajlama\Schemator;
 
 use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Extractor\ArrayExtractorInterface;
+use Davajlama\Schemator\Extractor\ArrayExtractor;
 use Davajlama\Schemator\Extractor\ExtractorAwareInterface;
 use Davajlama\Schemator\Extractor\ExtractorInterface;
 use InvalidArgumentException;
@@ -27,7 +27,7 @@ class ArrayValidator implements ValidatorInterface
 
     public function __construct()
     {
-        $this->extractor = new ArrayExtractorInterface();
+        $this->extractor = new ArrayExtractor();
     }
 
     /**

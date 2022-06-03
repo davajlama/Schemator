@@ -9,7 +9,7 @@ use InvalidArgumentException;
 use function array_key_exists;
 use function is_array;
 
-class ArrayExtractorInterface implements ExtractorInterface
+class ArrayExtractor implements ExtractorInterface
 {
     public function extract(mixed $data, string $property): mixed
     {
