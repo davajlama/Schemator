@@ -10,7 +10,7 @@ use function array_key_exists;
 
 class Schema
 {
-    private RulesFactoryInterface $rulesFactory;
+    private ?RulesFactoryInterface $rulesFactory = null;
 
     private bool $additionalProperties = true;
 
@@ -18,11 +18,6 @@ class Schema
      * @var Property[]
      */
     private array $properties = [];
-
-    public function __construct(?RulesFactoryInterface $rulesFactory = null)
-    {
-        $this->rulesFactory = $rulesFactory ?? new RulesFactory();
-    }
 
     public function additionalProperties(bool $additionalProperties): self
     {
@@ -34,7 +29,7 @@ class Schema
     public function prop(string $name): Property
     {
         if (!array_key_exists($name, $this->properties)) {
-            $this->properties[$name] = new Property($this->rulesFactory);
+            $this->properties[$name] = new Property($this->getRulesFactory());
         }
 
         return $this->properties[$name];
@@ -51,5 +46,19 @@ class Schema
     public function getProperties(): array
     {
         return $this->properties;
+    }
+
+    protected function getRulesFactory(): RulesFactoryInterface
+    {
+        if ($this->rulesFactory === null) {
+            $this->rulesFactory = new RulesFactory();
+        }
+
+        return $this->rulesFactory;
+    }
+
+    protected function setRulesFactory(RulesFactoryInterface $rulesFactory): void
+    {
+        $this->rulesFactory = $rulesFactory;
     }
 }
