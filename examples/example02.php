@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-use Davajlama\Schemator\Validator\ArrayValidator;
 use Davajlama\Schemator\Examples\Schema\LetterSchema;
 use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Validator\MessagesFormatter;
+use Davajlama\Schemator\Validator\ArrayValidator;
+use Davajlama\Schemator\Validator\MessageFormatter;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-
-$validator = new ArrayValidator();
 
 $payload = [
     'from' => [
@@ -30,8 +28,8 @@ $payload = [
 ];
 
 try {
-    $validator->validate(LetterSchema::class, $payload);
+    (new ArrayValidator())->validate(LetterSchema::class, $payload);
     var_dump('Payload is valid.');
 } catch (ValidationFailedException $e) {
-    var_dump(MessagesFormatter::formatErrors($e->getErrors()));
+    var_dump(MessageFormatter::formatErrors($e->getErrors()));
 }

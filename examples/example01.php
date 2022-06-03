@@ -2,14 +2,17 @@
 
 declare(strict_types=1);
 
-use Davajlama\Schemator\Validator\ArrayValidator;
-use Davajlama\Schemator\Examples\Schema\ContactSchema;
 use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Validator\MessagesFormatter;
+use Davajlama\Schemator\Schema;
+use Davajlama\Schemator\Validator\ArrayValidator;
+use Davajlama\Schemator\Validator\MessageFormatter;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$validator = new ArrayValidator();
+$schema = new Schema();
+$schema->prop('firstname')->string()->required();
+$schema->prop('surname')->string()->required();
+$schema->prop('age')->integer()->required();
 
 $payload = [
     'firstname' => 'Dave',
@@ -18,8 +21,8 @@ $payload = [
 ];
 
 try {
-    $validator->validate(new ContactSchema(), $payload);
+    (new ArrayValidator())->validate($schema, $payload);
     var_dump('Payload is valid.');
 } catch (ValidationFailedException $e) {
-    var_dump(MessagesFormatter::formatErrors($e->getErrors()));
+    var_dump(MessageFormatter::formatErrors($e->getErrors()));
 }

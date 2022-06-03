@@ -8,7 +8,7 @@ use function array_unshift;
 use function count;
 use function implode;
 
-final class MessagesFormatter
+final class MessageFormatter
 {
     /**
      * @param ErrorMessage[] $errors
