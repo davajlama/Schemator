@@ -20,6 +20,7 @@ $payload = [
         'surname' => 'Lister',
         'age' => 30,
     ],
+    'subject' => null,
     'message' => 'Hi, Dave',
     'photos' => [
         ['url' => 'http://img1', 'description' => 'desc'],

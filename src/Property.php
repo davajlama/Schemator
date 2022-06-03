@@ -25,6 +25,8 @@ class Property
 
     private bool $required = false;
 
+    private bool $nullable = false;
+
     /**
      * @var RuleInterface[]
      */
@@ -53,6 +55,13 @@ class Property
         return $this;
     }
 
+    public function nullable(bool $nullable = true): self
+    {
+        $this->nullable = $nullable;
+
+        return $this;
+    }
+
     public function ref(Schema|string|null $schema): self
     {
         if (count($this->rules) > 0) {
@@ -71,6 +80,11 @@ class Property
     public function isRequired(): bool
     {
         return $this->required;
+    }
+
+    public function isNullable(): bool
+    {
+        return $this->nullable;
     }
 
     /**

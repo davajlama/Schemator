@@ -65,16 +65,17 @@ class ArrayValidator implements ValidatorInterface
                     if ($property->getReference() !== null) {
                         array_push($path, $unresolvedProperty);
 
-                        $subErrors = [];
-                        if (is_array($payload[$unresolvedProperty])) {
-                            $subErrors = $this->doValidate($property->getReference(), $payload[$unresolvedProperty], $path);
-                        } else {
-                            $subErrors[] = new ErrorMessage('Must be an array.', $unresolvedProperty, $path);
-                        }
+                        if (!$property->isNullable() || $payload[$unresolvedProperty] !== null) {
+                            $subErrors = [];
+                            if (is_array($payload[$unresolvedProperty])) {
+                                $subErrors = $this->doValidate($property->getReference(), $payload[$unresolvedProperty], $path);
+                            } else {
+                                $subErrors[] = new ErrorMessage('Must be an array.', $unresolvedProperty, $path);
+                            }
 
-
-                        foreach ($subErrors as $subError) {
-                            $errors[] = $subError;
+                            foreach ($subErrors as $subError) {
+                                $errors[] = $subError;
+                            }
                         }
 
                         unset($unresolvedProperties[array_search($unresolvedProperty, $unresolvedProperties, true)]);
@@ -82,19 +83,21 @@ class ArrayValidator implements ValidatorInterface
 
                         array_pop($path);
                     } else {
-                        foreach ($property->getRules() as $rule) {
-                            if ($rule instanceof ExtractorAwareInterface) {
-                                $rule->setExtractor($this->extractor);
-                            }
+                        if (!$property->isNullable() || $payload[$unresolvedProperty] !== null) {
+                            foreach ($property->getRules() as $rule) {
+                                if ($rule instanceof ExtractorAwareInterface) {
+                                    $rule->setExtractor($this->extractor);
+                                }
 
-                            if ($rule instanceof ValidatorAwareInterface) {
-                                $rule->setValidator($this);
-                            }
+                                if ($rule instanceof ValidatorAwareInterface) {
+                                    $rule->setValidator($this);
+                                }
 
-                            try {
-                                $rule->validate($payload, $unresolvedProperty);
-                            } catch (ValidationFailedException $e) {
-                                $errors[] = new ErrorMessage($e->getMessage(), $unresolvedProperty, $path, null, $e->getErrors());
+                                try {
+                                    $rule->validate($payload, $unresolvedProperty);
+                                } catch (ValidationFailedException $e) {
+                                    $errors[] = new ErrorMessage($e->getMessage(), $unresolvedProperty, $path, null, $e->getErrors());
+                                }
                             }
                         }
 
