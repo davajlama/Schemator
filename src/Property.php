@@ -11,6 +11,7 @@ use function count;
 /**
  * @method self string(?string $message = null)
  * @method self integer(?string $message = null)
+ * @method self callback(callable $callback)
  */
 class Property
 {

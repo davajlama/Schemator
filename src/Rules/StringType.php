@@ -6,7 +6,7 @@ namespace Davajlama\Schemator\Rules;
 
 use function is_string;
 
-class StringType extends BaseRuleInterface
+class StringType extends BaseRule
 {
     public function validateValue(mixed $value): void
     {
