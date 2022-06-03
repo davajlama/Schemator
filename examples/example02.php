@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Davajlama\Schemator\ArrayValidator;
+use Davajlama\Schemator\Validator\ArrayValidator;
 use Davajlama\Schemator\Examples\Schema\LetterSchema;
 use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\MessagesFormatter;
+use Davajlama\Schemator\Validator\MessagesFormatter;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

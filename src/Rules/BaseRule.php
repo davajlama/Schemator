@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Rules;
 
-use Davajlama\Schemator\ErrorMessage;
 use Davajlama\Schemator\Exception\ValidationFailedException;
 use Davajlama\Schemator\Extractor\ExtractorAware;
 use Davajlama\Schemator\Extractor\ExtractorAwareInterface;
 use Davajlama\Schemator\RuleInterface;
+use Davajlama\Schemator\Validator\ErrorMessage;
 
 abstract class BaseRule implements RuleInterface, ExtractorAwareInterface
 {

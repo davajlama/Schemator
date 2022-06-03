@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Rules;
 
-use Davajlama\Schemator\ErrorMessage;
 use Davajlama\Schemator\Exception\ValidationFailedException;
 use Davajlama\Schemator\Schema;
 use Davajlama\Schemator\SchemaFactoryHelper;
-use Davajlama\Schemator\ValidatorAware;
-use Davajlama\Schemator\ValidatorAwareInterface;
+use Davajlama\Schemator\Validator\ErrorMessage;
+use Davajlama\Schemator\Validator\ValidatorAware;
+use Davajlama\Schemator\Validator\ValidatorAwareInterface;
 
 use function count;
 use function is_array;
