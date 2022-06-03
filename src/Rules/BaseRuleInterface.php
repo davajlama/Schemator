@@ -6,32 +6,33 @@ namespace Davajlama\Schemator\Rules;
 
 use Davajlama\Schemator\ErrorMessage;
 use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Extractor\Extractor;
 use Davajlama\Schemator\Extractor\ExtractorAwareInterface;
+use Davajlama\Schemator\Extractor\ExtractorInterface;
+use Davajlama\Schemator\RuleInterface;
 use RuntimeException;
 
-abstract class BaseRule implements Rule, ExtractorAwareInterface
+abstract class BaseRuleInterface implements RuleInterface, ExtractorAwareInterface
 {
     private ?string $message;
 
-    private ?Extractor $extractor = null;
+    private ?ExtractorInterface $extractor = null;
 
     public function __construct(?string $message = null)
     {
         $this->message = $message;
     }
 
-    public function validate(mixed $data, string $property): bool
+    public function validate(mixed $data, string $property): void
     {
         try {
             $value = $this->getExtractor()->extract($data, $property);
-            return $this->validateValue($value);
+            $this->validateValue($value);
         } catch (ValidationFailedException $e) {
             $this->fail($this->getMessage($e->getMessage()), $e->getErrors());
         }
     }
 
-    public function getExtractor(): Extractor
+    public function getExtractor(): ExtractorInterface
     {
         if ($this->extractor === null) {
             throw new RuntimeException('None extractor');
@@ -40,7 +41,7 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
         return $this->extractor;
     }
 
-    public function setExtractor(Extractor $extractor): void
+    public function setExtractor(ExtractorInterface $extractor): void
     {
         $this->extractor = $extractor;
     }
@@ -55,8 +56,8 @@ abstract class BaseRule implements Rule, ExtractorAwareInterface
      */
     protected function fail(string $message, array $errors = []): ValidationFailedException
     {
-        return new ValidationFailedException($message, $errors);
+        throw new ValidationFailedException($message, $errors);
     }
 
-    abstract public function validateValue(mixed $value): bool;
+    abstract public function validateValue(mixed $value): void;
 }

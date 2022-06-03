@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Rules;
 
-class NullableInteger extends IntegerType
+use function is_string;
+
+class StringType extends BaseRuleInterface
 {
     public function validateValue(mixed $value): void
     {
-        if ($value !== null) {
-            parent::validateValue($value);
+        if (!is_string($value)) {
+            $this->fail('not a String');
         }
     }
 }

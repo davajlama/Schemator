@@ -6,7 +6,7 @@ namespace Davajlama\Schemator\Rules;
 
 use function is_int;
 
-class IntegerType extends BaseRule
+class IntegerType extends BaseRuleInterface
 {
     public function validateValue(mixed $value): void
     {

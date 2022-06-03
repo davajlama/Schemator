@@ -6,5 +6,5 @@ namespace Davajlama\Schemator\Extractor;
 
 interface ExtractorAwareInterface
 {
-    public function setExtractor(Extractor $extractor): void;
+    public function setExtractor(ExtractorInterface $extractor): void;
 }

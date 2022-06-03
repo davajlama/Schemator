@@ -1,8 +1,9 @@
 parameters:
     level: 9
-    excludes_analyse:
-        #- src/Kernel.php
-        #- tests/bootstrap.php
+    paths:
+        - src
+        - tests
+        - examples
 
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon

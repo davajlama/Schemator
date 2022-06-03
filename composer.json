@@ -7,7 +7,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Davajlama\\Schemator\\Tests\\": "tests/"
+            "Davajlama\\Schemator\\Tests\\": "tests/",
+            "Davajlama\\Schemator\\Examples\\": "examples/"
         }
     },
     "authors": [
