@@ -40,7 +40,7 @@ class Property
     public function rule(RuleInterface $rule): self
     {
         if ($this->reference !== null) {
-            throw new LogicException('Cannot assignee reference when rules not empty.');
+            throw new LogicException('Cannot add rule when reference was assigned.');
         }
 
         $this->rules[] = $rule;
@@ -65,7 +65,7 @@ class Property
     public function ref(Schema|string|null $schema): self
     {
         if (count($this->rules) > 0) {
-            throw new LogicException('Cannot add rule when reference was assigned.');
+            throw new LogicException('Cannot assignee reference when rules not empty.');
         }
 
         if ($schema !== null) {
