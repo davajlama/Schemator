@@ -30,7 +30,7 @@ $payload = [
 ];
 
 try {
-    $validator->validate(new LetterSchema(), $payload);
+    $validator->validate(LetterSchema::class, $payload);
     var_dump('Payload is valid.');
 } catch (ValidationFailedException $e) {
     var_dump(MessagesFormatter::formatErrors($e->getErrors()));

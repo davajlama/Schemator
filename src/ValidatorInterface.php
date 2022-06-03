@@ -9,5 +9,5 @@ interface ValidatorInterface
     /**
      * @param mixed[] $payload
      */
-    public function validate(Schema $schema, array $payload): void;
+    public function validate(Schema|string $schema, array $payload): void;
 }

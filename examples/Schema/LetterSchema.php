@@ -12,11 +12,10 @@ final class LetterSchema extends Schema
     {
         parent::__construct();
 
-        $contactSchema = new ContactSchema();
         $this->additionalProperties(false);
-        $this->prop('from')->ref($contactSchema)->required();
-        $this->prop('to')->ref($contactSchema)->required();
+        $this->prop('from')->ref(ContactSchema::class)->required();
+        $this->prop('to')->ref(ContactSchema::class)->required();
         $this->prop('message')->string()->required();
-        $this->prop('photos')->oneOf(new PhotoSchema());
+        $this->prop('photos')->oneOf(PhotoSchema::class);
     }
 }

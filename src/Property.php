@@ -12,10 +12,12 @@ use function count;
  * @method self string(?string $message = null)
  * @method self integer(?string $message = null)
  * @method self callback(callable $callback)
- * @method self oneOf(Schema $schema, ?string $message = null)
+ * @method self oneOf(Schema|string $schema, ?string $message = null)
  */
 class Property
 {
+    use SchemaFactoryHelper;
+
     private RulesFactoryInterface $rulesFactory;
 
     private ?Schema $reference = null;
@@ -50,10 +52,14 @@ class Property
         return $this;
     }
 
-    public function ref(?Schema $schema): self
+    public function ref(Schema|string|null $schema): self
     {
         if (count($this->rules) > 0) {
             throw new LogicException('Cannot add rule when reference was assigned.');
+        }
+
+        if ($schema !== null) {
+            $schema = $this->createSchema($schema);
         }
 
         $this->reference = $schema;

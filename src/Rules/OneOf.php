@@ -7,6 +7,7 @@ namespace Davajlama\Schemator\Rules;
 use Davajlama\Schemator\ErrorMessage;
 use Davajlama\Schemator\Exception\ValidationFailedException;
 use Davajlama\Schemator\Schema;
+use Davajlama\Schemator\SchemaFactoryHelper;
 use Davajlama\Schemator\ValidatorAware;
 use Davajlama\Schemator\ValidatorAwareInterface;
 
@@ -16,14 +17,15 @@ use function is_array;
 class OneOf extends BaseRule implements ValidatorAwareInterface
 {
     use ValidatorAware;
+    use SchemaFactoryHelper;
 
     private Schema $schema;
 
-    public function __construct(Schema $schema, ?string $message = null)
+    public function __construct(Schema|string $schema, ?string $message = null)
     {
         parent::__construct($message);
 
-        $this->schema = $schema;
+        $this->schema = $this->createSchema($schema);
     }
 
     public function validateValue(mixed $list): void

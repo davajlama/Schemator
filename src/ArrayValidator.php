@@ -21,6 +21,8 @@ use function sprintf;
 
 class ArrayValidator implements ValidatorInterface
 {
+    use SchemaFactoryHelper;
+
     private ExtractorInterface $extractor;
 
     public function __construct()
@@ -31,8 +33,9 @@ class ArrayValidator implements ValidatorInterface
     /**
      * @param mixed[] $payload
      */
-    public function validate(Schema $schema, array $payload): void
+    public function validate(Schema|string $schema, array $payload): void
     {
+        $schema = $this->createSchema($schema);
         $errors = $this->doValidate($schema, $payload, []);
 
         if (count($errors) > 0) {
