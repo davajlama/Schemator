@@ -9,5 +9,5 @@ interface RulesFactoryInterface
     /**
      * @param mixed[] $arguments
      */
-    public function create(string $name, array $arguments): RuleInterface;
+    public function create(string $name, array $arguments): ?RuleInterface;
 }

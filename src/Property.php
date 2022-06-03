@@ -7,6 +7,7 @@ namespace Davajlama\Schemator;
 use LogicException;
 
 use function count;
+use function sprintf;
 
 /**
  * @method self string(?string $message = null)
@@ -90,7 +91,12 @@ class Property
      */
     public function __call(string $name, array $arguments): self
     {
-        $this->rules[] = $this->rulesFactory->create($name, $arguments);
+        $rule = $this->rulesFactory->create($name, $arguments);
+        if ($rule === null) {
+            throw new LogicException(sprintf('Rule %s not exists.', $name));
+        }
+
+        $this->rules[] = $rule;
 
         return $this;
     }
