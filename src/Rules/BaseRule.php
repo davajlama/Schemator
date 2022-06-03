@@ -44,5 +44,5 @@ abstract class BaseRule implements RuleInterface, ExtractorAwareInterface
         throw new ValidationFailedException($message, $errors);
     }
 
-    abstract public function validateValue(mixed $value): void;
+    abstract public function validateValue(mixed $list): void;
 }

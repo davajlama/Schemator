@@ -12,6 +12,7 @@ use function count;
  * @method self string(?string $message = null)
  * @method self integer(?string $message = null)
  * @method self callback(callable $callback)
+ * @method self oneOf(Schema $schema, ?string $message = null)
  */
 class Property
 {
@@ -75,7 +76,7 @@ class Property
 
     public function getReference(): ?Schema
     {
-        return null;
+        return $this->reference;
     }
 
     /**

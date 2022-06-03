@@ -34,5 +34,13 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
+    },
+    "scripts": {
+        "check": [
+            "./vendor/bin/phpunit",
+            "./vendor/bin/phpcbf",
+            "./vendor/bin/phpcs",
+            "./vendor/bin/phpstan"
+        ]
     }
 }

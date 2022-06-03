@@ -6,13 +6,8 @@ namespace Davajlama\Schemator\Tests;
 
 use Davajlama\Schemator\ArrayValidator;
 use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Extractor\ExtractorInterface;
-use Davajlama\Schemator\MessagesFormatter;
 use Davajlama\Schemator\Schema;
 use PHPUnit\Framework\TestCase;
-
-use function is_integer;
-use function var_dump;
 
 final class ValidatorTest extends TestCase
 {
@@ -22,12 +17,7 @@ final class ValidatorTest extends TestCase
         $schema->additionalProperties(false);
         $schema->prop('firstname')->string();
         $schema->prop('lastname')->string();
-        $schema->prop('age')->callback(static function (mixed $paylod, string $property, ExtractorInterface $extractor): void {
-            $value = $extractor->extract($paylod, $property);
-            if (!is_integer($value)) {
-                throw new ValidationFailedException('Must be an integer.');
-            }
-        });
+        $schema->prop('age')->integer();
 
         $payload = [
             'firstname' => 'Dave',
@@ -44,12 +34,6 @@ final class ValidatorTest extends TestCase
         $schema->additionalProperties(false);
         $schema->prop('firstname')->string();
         $schema->prop('lastname')->string();
-        $schema->prop('age')->callback(static function (mixed $payload, string $property, ExtractorInterface $extractor): void {
-            $value = $extractor->extract($payload, $property);
-            if (!is_integer($value)) {
-                throw new ValidationFailedException('Must be an integer.');
-            }
-        });
 
         $payload = [
             'unknownProperty' => false,
@@ -61,7 +45,6 @@ final class ValidatorTest extends TestCase
         $exception = $this->validate($schema, $payload);
 
         self::assertInstanceOf(ValidationFailedException::class, $exception);
-        var_dump(MessagesFormatter::formatErrors($exception->getErrors()));
     }
 
     /**

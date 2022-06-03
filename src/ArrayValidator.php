@@ -19,7 +19,7 @@ use function count;
 use function is_array;
 use function sprintf;
 
-class ArrayValidator
+class ArrayValidator implements ValidatorInterface
 {
     private ExtractorInterface $extractor;
 
@@ -82,6 +82,10 @@ class ArrayValidator
                                 $rule->setExtractor($this->extractor);
                             }
 
+                            if ($rule instanceof ValidatorAwareInterface) {
+                                $rule->setValidator($this);
+                            }
+
                             try {
                                 $rule->validate($payload, $unresolvedProperty);
                             } catch (ValidationFailedException $e) {
@@ -103,7 +107,7 @@ class ArrayValidator
 
         foreach ($properties as $name => $property) {
             if ($property->isRequired()) {
-                $message = sprintf('Property [%s] is required.', $name);
+                $message = sprintf('Property is required.');
                 $errors[] = new ErrorMessage($message, $name, $path);
             }
         }
