@@ -12,6 +12,10 @@ use function sprintf;
 /**
  * @method self string(?string $message = null)
  * @method self integer(?string $message = null)
+ * @method self float(?string $message = null)
+ * @method self bool(?string $message = null)
+ * @method self array(?string $message = null)
+ *
  * @method self callback(callable $callback)
  * @method self oneOf(Schema|string $schema, ?string $message = null)
  */

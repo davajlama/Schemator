@@ -25,7 +25,7 @@ class RulesFactory implements RulesFactoryInterface
             return $rule;
         }
 
-        $class = 'Davajlama\Schemator\Rules\\' . ucfirst($name) . 'Type';
+        $class = 'Davajlama\Schemator\Rules\Type\\' . ucfirst($name) . 'Type';
         if (class_exists($class)) {
             /** @var RuleInterface $rule */
             $rule = new $class(...$arguments);

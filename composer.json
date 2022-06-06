@@ -36,8 +36,8 @@
     },
     "scripts": {
         "check": [
-            "./vendor/bin/phpunit",
             "./vendor/bin/phpcbf",
+            "./vendor/bin/phpunit",
             "./vendor/bin/phpcs",
             "./vendor/bin/phpstan"
         ],
