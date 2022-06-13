@@ -16,6 +16,15 @@ use function sprintf;
  * @method self bool(?string $message = null)
  * @method self array(?string $message = null)
  *
+ * @method self enum(array $values, ?string $message = null)
+ * @method self email(?string $message = null)
+ * @method self minLength(int $min, ?string $message = null)
+ * @method self maxLength(int $max, ?string $message = null)
+ * @method self length(int $min, int $max, ?string $message = null)
+ * @method self min(float $min, ?string $message = null)
+ * @method self max(float $max, ?string $message = null)
+ * @method self range(float $min, float $max, ?string $message = null)
+ *
  * @method self callback(callable $callback)
  * @method self arrayOf(Schema|string $schema, ?string $message = null)
  */
