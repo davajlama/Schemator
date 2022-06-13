@@ -98,7 +98,7 @@ final class RulesTest extends TestCase
             'array' => [new ArrayType(), 'Must be an array.', [1, true, '[]']],
             'boolean' => [new BoolType(), 'Must be a boolean.', [1, 0, null]],
             'enum' => [new Enum(['CZ', 'EN']), 'Must be one of [CZ, EN]', ['DE', 'PL', null, 1]],
-            'min' => [new Min(10), 'Must be greather than 10', [9, 9.9, 0]],
+            'min' => [new Min(10), 'Must be greater than 10', [9, 9.9, 0]],
             'max' => [new Max(10), 'Must be lower than 10', [10.1, 11, 100]],
             'range' => [new Range(10, 20), 'Must be between 10 - 20.', [5, 25]],
             'minLength' => [new MinLength(3), 'Must be min 3 chars length.', ['ab', '']],

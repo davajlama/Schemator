@@ -28,7 +28,7 @@ class Min extends BaseRule
         }
 
         if ($value < $this->min) {
-            throw new ValidationFailedException(sprintf($this->getMessage('Must be greather than %d'), $this->min));
+            throw new ValidationFailedException(sprintf($this->getMessage('Must be greater than %d'), $this->min));
         }
     }
 }
