@@ -17,7 +17,7 @@ class ArrayExtractor implements ExtractorInterface
     public function extract(mixed $data, string $property): mixed
     {
         if (!is_array($data)) {
-            throw new InvalidArgumentException(sprintf('Data must ba an array, %s given.', gettype($data)));
+            throw new InvalidArgumentException(sprintf('Data must be an array, %s given.', gettype($data)));
         }
 
         if (!array_key_exists($property, $data)) {

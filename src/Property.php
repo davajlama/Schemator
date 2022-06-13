@@ -17,7 +17,7 @@ use function sprintf;
  * @method self array(?string $message = null)
  *
  * @method self callback(callable $callback)
- * @method self oneOf(Schema|string $schema, ?string $message = null)
+ * @method self arrayOf(Schema|string $schema, ?string $message = null)
  */
 class Property
 {
@@ -27,7 +27,7 @@ class Property
 
     private ?Schema $reference = null;
 
-    private bool $required = false;
+    private bool $required = true;
 
     private bool $nullable = false;
 

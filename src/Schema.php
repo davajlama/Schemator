@@ -12,7 +12,7 @@ class Schema
 {
     private ?RulesFactoryInterface $rulesFactory = null;
 
-    private bool $additionalProperties = true;
+    private bool $additionalProperties = false;
 
     /**
      * @var Property[]

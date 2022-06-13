@@ -1,5 +1,5 @@
 {
-    "name": "david/validator",
+    "name": "davajlama/schemator",
     "autoload": {
         "psr-4": {
             "Davajlama\\Schemator\\": "src/"
@@ -14,11 +14,11 @@
     "authors": [
         {
             "name": "David Bittner",
-            "email": "bittner@zaslat.cz"
+            "email": "bittner@seznam.cz"
         }
     ],
     "require": {
-        "php": "~8.1.0",
+        "php": "~8.0.0",
         "ext-json": "*",
         "ext-mbstring": "*"
     },

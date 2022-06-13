@@ -14,7 +14,7 @@ use Davajlama\Schemator\Validator\ValidatorAwareInterface;
 use function count;
 use function is_array;
 
-class OneOf extends BaseRule implements ValidatorAwareInterface
+class ArrayOf extends BaseRule implements ValidatorAwareInterface
 {
     use ValidatorAware;
     use SchemaFactoryHelper;

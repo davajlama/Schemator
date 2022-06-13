@@ -54,10 +54,13 @@ final class RulesTest extends TestCase
      * @param mixed[] $data
      * @dataProvider invalidDataRulesProvider
      */
-    public function testInvalidSimpleRules(RuleInterface&ExtractorAwareInterface $rule, string $message, array $data): void
+    public function testInvalidSimpleRules(RuleInterface $rule, string $message, array $data): void
     {
         $arrayExtractor = new ArrayExtractor();
-        $rule->setExtractor($arrayExtractor);
+
+        if ($rule instanceof ExtractorAwareInterface) {
+            $rule->setExtractor($arrayExtractor);
+        }
 
         foreach ($data as $value) {
             $payload = ['property' => $value];

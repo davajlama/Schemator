@@ -15,6 +15,6 @@ final class LetterSchema extends Schema
         $this->prop('to')->ref(ContactSchema::class)->required();
         $this->prop('subject')->string()->required()->nullable();
         $this->prop('message')->string()->required();
-        $this->prop('photos')->oneOf(PhotoSchema::class);
+        $this->prop('photos')->arrayOf(PhotoSchema::class);
     }
 }
