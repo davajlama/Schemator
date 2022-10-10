@@ -28,11 +28,7 @@ class Schema
 
     public function prop(string $name): Property
     {
-        if (!array_key_exists($name, $this->properties)) {
-            $this->properties[$name] = new Property($this->getRulesFactory());
-        }
-
-        return $this->properties[$name];
+        return $this->registerProperty($name);
     }
 
     public function isAdditionalPropertiesAllowed(): bool
@@ -46,6 +42,18 @@ class Schema
     public function getProperties(): array
     {
         return $this->properties;
+    }
+
+    protected function registerProperty(string $name, string $class = Property::class): Property
+    {
+        if (!array_key_exists($name, $this->properties)) {
+            /** @var Property $property */
+            $property = new $class($this->getRulesFactory());
+
+            $this->properties[$name] = $property;
+        }
+
+        return $this->properties[$name];
     }
 
     protected function getRulesFactory(): RulesFactoryInterface
