@@ -12,6 +12,7 @@
   <coverage processUncoveredFiles="true">
     <include>
       <directory suffix=".php">src</directory>
+      <directory suffix=".php">generator</directory>
     </include>
   </coverage>
   <testsuite name="all">

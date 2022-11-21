@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Rules;
 
+use Davajlama\Schemator\Exception\PropertyIsNotArrayException;
 use Davajlama\Schemator\Exception\ValidationFailedException;
 use Davajlama\Schemator\Schema;
 use Davajlama\Schemator\SchemaFactoryHelper;
@@ -31,7 +32,7 @@ class ArrayOf extends BaseRule implements ValidatorAwareInterface
     public function validateValue(mixed $list): void
     {
         if (!is_array($list)) {
-            throw new ValidationFailedException('Must be an array.');
+            throw new PropertyIsNotArrayException();
         }
 
         $errors = [];

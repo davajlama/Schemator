@@ -2,7 +2,8 @@
     "name": "davajlama/schemator",
     "autoload": {
         "psr-4": {
-            "Davajlama\\Schemator\\": "src/"
+            "Davajlama\\Schemator\\": "src/",
+            "Davajlama\\JsonSchemaGenerator\\": "generator/src/"
         }
     },
     "autoload-dev": {

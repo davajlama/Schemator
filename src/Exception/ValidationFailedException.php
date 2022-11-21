@@ -7,7 +7,7 @@ namespace Davajlama\Schemator\Exception;
 use Davajlama\Schemator\Validator\ErrorMessage;
 use InvalidArgumentException;
 
-final class ValidationFailedException extends InvalidArgumentException
+class ValidationFailedException extends InvalidArgumentException
 {
     /**
      * @var ErrorMessage[]

@@ -10,6 +10,7 @@
 
     <file>src/</file>
     <file>tests/</file>
+    <file>generator/</file>
 
     <description>Custom project coding standard.</description>
 

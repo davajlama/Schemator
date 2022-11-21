@@ -15,18 +15,24 @@ use function sprintf;
  * @method self float(?string $message = null)
  * @method self bool(?string $message = null)
  * @method self array(?string $message = null)
+ * @method self arrayOfString(?string $message = null)
  *
  * @method self enum(array $values, ?string $message = null)
  * @method self email(?string $message = null)
  * @method self minLength(int $min, ?string $message = null)
  * @method self maxLength(int $max, ?string $message = null)
- * @method self length(int $min, int $max, ?string $message = null)
+ * @method self length(int $length, ?string $message = null)
  * @method self min(float $min, ?string $message = null)
  * @method self max(float $max, ?string $message = null)
  * @method self range(float $min, float $max, ?string $message = null)
  *
- * @method self callback(callable $callback)
  * @method self arrayOf(Schema|string $schema, ?string $message = null)
+ * @method self maxItems(int $maxItems, ?string $message = null)
+ * @method self minItems(int $minItems, ?string $message = null)
+ * @method self unique(?string $message = null)
+ *
+ * @method self callback(callable $callback)
+ * @method self dateTime(string $format, ?string $message)
  */
 class Property
 {
@@ -39,6 +45,15 @@ class Property
     private bool $required = true;
 
     private bool $nullable = false;
+
+    private ?string $title = null;
+
+    private ?string $description = null;
+
+    /**
+     * @var mixed[]|null
+     */
+    private ?array $examples = null;
 
     /**
      * @var RuleInterface[]
@@ -90,6 +105,27 @@ class Property
         return $this;
     }
 
+    public function title(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function description(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function examples(mixed ...$examples): self
+    {
+        $this->examples = $examples;
+
+        return $this;
+    }
+
     public function isRequired(): bool
     {
         return $this->required;
@@ -111,6 +147,24 @@ class Property
     public function getReference(): ?Schema
     {
         return $this->reference;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return mixed[]|null
+     */
+    public function getExamples(): ?array
+    {
+        return $this->examples;
     }
 
     /**
