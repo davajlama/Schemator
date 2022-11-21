@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace Davajlama\JsonSchemaGenerator;
 
 use Davajlama\JsonSchemaGenerator\Resolver\ResolverInterface;
-use Davajlama\JsonSchemaGenerator\Resolver\StringResolver;
+use Davajlama\JsonSchemaGenerator\Resolver\TypeResolver;
 use Davajlama\Schemator\Schema;
+use LogicException;
 
 use function json_encode;
+use function sprintf;
 
 final class SchemaGenerator
 {
+    private bool $throwOnUnresolvedRule = true;
+
     /**
      * @var ResolverInterface[]
      */
@@ -19,7 +23,7 @@ final class SchemaGenerator
 
     public function __construct()
     {
-        $this->ruleResolvers[] = new StringResolver();
+        $this->ruleResolvers[] = new TypeResolver();
     }
 
     public function generate(Schema $schema): string
@@ -42,10 +46,16 @@ final class SchemaGenerator
 
             if ($property->getReference() === null) {
                 foreach ($property->getRules() as $rule) {
+                    $resolved = false;
                     foreach ($this->ruleResolvers as $resolver) {
                         if ($resolver->support($rule)) {
+                            $resolved = true;
                             $resolver->resolve($definition, $rule);
                         }
+                    }
+
+                    if ($this->throwOnUnresolvedRule && $resolved === false) {
+                        throw new LogicException(sprintf('No resolver for %s.', $rule::class));
                     }
                 }
 
@@ -70,5 +80,12 @@ final class SchemaGenerator
 
             $def->addProperty($name, $definition, $property->isRequired());
         }
+    }
+
+    public function setThrowOnUnresolvedRule(bool $throwOnUnresolvedRule): SchemaGenerator
+    {
+        $this->throwOnUnresolvedRule = $throwOnUnresolvedRule;
+
+        return $this;
     }
 }

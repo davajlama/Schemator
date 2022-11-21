@@ -23,6 +23,8 @@ $author->prop('surname')
 $book = new Schema();
 $book->prop('id')->integer();
 $book->prop('name')->string();
+$book->prop('price')->float();
+$book->prop('store')->bool();
 $book->prop('author')->ref($author);
 
 $generator = new SchemaGenerator();
