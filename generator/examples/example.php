@@ -28,4 +28,4 @@ $book->prop('store')->bool();
 $book->prop('author')->ref($author);
 
 $generator = new SchemaGenerator();
-echo $generator->generate($book);
+echo $generator->buildToJson($book);

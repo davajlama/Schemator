@@ -3,7 +3,8 @@
     "autoload": {
         "psr-4": {
             "Davajlama\\Schemator\\": "src/",
-            "Davajlama\\JsonSchemaGenerator\\": "generator/src/"
+            "Davajlama\\JsonSchemaGenerator\\": "generator/src/",
+            "Davajlama\\Schemator\\OpenApi\\": "api/src/"
         }
     },
     "autoload-dev": {
@@ -21,7 +22,8 @@
     "require": {
         "php": "~8.0.0",
         "ext-json": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "symfony/yaml": "^6.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

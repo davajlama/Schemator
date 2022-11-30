@@ -26,15 +26,21 @@ final class SchemaGenerator
         $this->ruleResolvers[] = new TypeResolver();
     }
 
-    public function generate(Schema $schema): string
+    public function buildToJson(Schema $schema): string
+    {
+        return json_encode($this->build($schema), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function build(Schema $schema): array
     {
         $sch = new \Davajlama\JsonSchemaGenerator\Schema();
 
         $this->generateFromSchema($schema, $sch);
 
-        $data = $sch->build();
-
-        return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+        return $sch->build();
     }
 
     protected function generateFromSchema(Schema $schema, Definition $def): void
