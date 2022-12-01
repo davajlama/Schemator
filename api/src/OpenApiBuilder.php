@@ -81,6 +81,7 @@ final class OpenApiBuilder
 
         $data['components'] = $this->createComponent();
 
+        //var_dump($data);exit;
         return $data;
     }
 
@@ -104,10 +105,37 @@ final class OpenApiBuilder
             $generator = new SchemaGenerator();
             $data = $generator->build($schema);
             unset($data['$schema']);
+
+            $this->arrayWalkRecursive($data, function(&$value, $key, &$parent){
+                if ($key === 'type' && is_array($value)) {
+
+                    if (in_array('null', $value, true)) {
+                        $parent['nullable'] = true;
+                        unset($value[array_search('null', $value, true)]);
+                    }
+
+                    if (count($value) > 1) {
+                        throw new \Exception('Openpi not supported.');
+                    }
+
+                    $value = reset($value);
+                }
+            });
+
             $list[$schemaClass] = $data;
         }
 
         return $list;
+    }
+
+    private function arrayWalkRecursive(array &$array, callable $callback): void
+    {
+        foreach ($array as $key => &$value) {
+            $callback($value, $key, $array);
+            if (is_array($value)) {
+                $this->arrayWalkRecursive($value, $callback);
+            }
+        }
     }
 
     private function loadSchema(string $class): Schema

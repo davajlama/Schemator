@@ -29,9 +29,9 @@ class Definition
 
     private ?array $enum = null;
 
-    private float|int|null $minimum;
+    private float|int|null $minimum = null;
 
-    private float|int|null $maximum;
+    private float|int|null $maximum = null;
 
     /**
      * @var string[]
@@ -57,6 +57,8 @@ class Definition
             $this->prop('properties', $this->buildProperties()),
             $this->prop('items', $this->items),
             $this->prop('enum', $this->enum),
+            $this->prop('minimum', $this->minimum),
+            $this->prop('maximum', $this->maximum),
             $this->prop('examples', $this->examples),
         );
     }
