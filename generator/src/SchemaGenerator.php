@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Davajlama\JsonSchemaGenerator;
 
+use Davajlama\JsonSchemaGenerator\Resolver\ArrayOfResolver;
+use Davajlama\JsonSchemaGenerator\Resolver\EnumResolver;
+use Davajlama\JsonSchemaGenerator\Resolver\RangeResolver;
 use Davajlama\JsonSchemaGenerator\Resolver\ResolverInterface;
+use Davajlama\JsonSchemaGenerator\Resolver\SchemaGeneratorAwareInterface;
 use Davajlama\JsonSchemaGenerator\Resolver\TypeResolver;
 use Davajlama\Schemator\Schema;
 use LogicException;
@@ -24,6 +28,9 @@ final class SchemaGenerator
     public function __construct()
     {
         $this->ruleResolvers[] = new TypeResolver();
+        $this->ruleResolvers[] = new ArrayOfResolver();
+        $this->ruleResolvers[] = new EnumResolver();
+        $this->ruleResolvers[] = new RangeResolver();
     }
 
     public function buildToJson(Schema $schema): string
@@ -43,7 +50,7 @@ final class SchemaGenerator
         return $sch->build();
     }
 
-    protected function generateFromSchema(Schema $schema, Definition $def): void
+    public function generateFromSchema(Schema $schema, Definition $def): void
     {
         $def->setAdditionalProperties($schema->isAdditionalPropertiesAllowed());
 
@@ -54,6 +61,10 @@ final class SchemaGenerator
                 foreach ($property->getRules() as $rule) {
                     $resolved = false;
                     foreach ($this->ruleResolvers as $resolver) {
+                        if ($resolver instanceof SchemaGeneratorAwareInterface) {
+                            $resolver->setSchemaGenerator($this);
+                        }
+
                         if ($resolver->support($rule)) {
                             $resolved = true;
                             $resolver->resolve($definition, $rule);

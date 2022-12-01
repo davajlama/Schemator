@@ -24,7 +24,41 @@ final class OpenApiBuilder
 
     private array $schemas = [];
 
-    public function parse(string $content): string
+    /**
+     * @var SchemaLoaderInterface[]
+     */
+    private array $schemaLoaders = [];
+
+    public function __construct()
+    {
+        $this->schemaLoaders[] = new BaseSchemaLoader();
+    }
+
+    public function addSchemaLoader(SchemaLoaderInterface $loader): self
+    {
+        $this->schemaLoaders[] = $loader;
+
+        return $this;
+    }
+
+    public function build(string $content): string
+    {
+        $data = $this->buildArray($content);
+
+        return Yaml::dump($data, 512, 2);
+    }
+
+    public function buildFromFile(string $file): string
+    {
+        return $this->build(file_get_contents($file));
+    }
+
+    public function buildArrayFromFile(string $file): array
+    {
+        return $this->buildArray(file_get_contents($file));
+    }
+
+    public function buildArray(string $content): array
     {
         $data = Yaml::parse($content, Yaml::PARSE_CUSTOM_TAGS);
 
@@ -47,7 +81,7 @@ final class OpenApiBuilder
 
         $data['components'] = $this->createComponent();
 
-        return Yaml::dump($data, 512, 2);
+        return $data;
     }
 
     private function createComponent(): array
@@ -65,24 +99,27 @@ final class OpenApiBuilder
                 throw new LogicException(sprintf('Schema class name must be a string, %s given.', gettype($schemaClass)));
             }
 
-            if (!class_exists($schemaClass)) {
-                throw new LogicException(sprintf('Schema class %s not exists.', $schemaClass));
-            }
-
-            $schema = new $schemaClass();
-            if ($schema instanceof Schema === false) {
-                throw new LogicException(sprintf('Schema object must be instance of %s.', Schema::class));
-            }
+            $schema = $this->loadSchema($schemaClass);
 
             $generator = new SchemaGenerator();
             $data = $generator->build($schema);
             unset($data['$schema']);
             $list[$schemaClass] = $data;
-
-            //var_dump($foo);
         }
 
         return $list;
+    }
+
+    private function loadSchema(string $class): Schema
+    {
+        foreach ($this->schemaLoaders as $loader){
+            $schema = $loader->resolve($class);
+            if ($schema !== null) {
+                return $schema;
+            }
+        }
+
+        throw new LogicException(sprintf('Schema %s could not be loaded.', $class));
     }
 
     private function generateSchemaReference(string $class): string

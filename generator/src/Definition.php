@@ -25,6 +25,14 @@ class Definition
      */
     private ?array $properties = null;
 
+    private ?array $items = null;
+
+    private ?array $enum = null;
+
+    private float|int|null $minimum;
+
+    private float|int|null $maximum;
+
     /**
      * @var string[]
      */
@@ -47,6 +55,8 @@ class Definition
             $this->prop('additionalProperties', $this->additionalProperties),
             $this->prop('required', $this->required),
             $this->prop('properties', $this->buildProperties()),
+            $this->prop('items', $this->items),
+            $this->prop('enum', $this->enum),
             $this->prop('examples', $this->examples),
         );
     }
@@ -138,6 +148,35 @@ class Definition
     public function setAdditionalProperties(bool $additionalProperties): Definition
     {
         $this->additionalProperties = $additionalProperties;
+
+        return $this;
+    }
+
+    public function setItems(array $definition): Definition
+    {
+        $this->items = $definition;
+
+        return $this;
+    }
+
+    public function setEnum(array $values): Definition
+    {
+        $this->enum = $values;
+
+        return $this;
+    }
+
+    public function setMinimum(float|int $minimum): Definition
+    {
+        $this->minimum = $minimum;
+
+        return $this;
+    }
+
+    public function setMaximum(float|int $maximum): Definition
+    {
+        $this->maximum = $maximum;
+
         return $this;
     }
 
