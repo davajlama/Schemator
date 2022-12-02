@@ -9,6 +9,9 @@ use Davajlama\JsonSchemaGenerator\ReflectionExtractor;
 use Davajlama\Schemator\RuleInterface;
 use Davajlama\Schemator\Rules\Enum;
 
+use function array_unique;
+use function gettype;
+
 final class EnumResolver implements ResolverInterface
 {
     public function support(RuleInterface $rule): bool

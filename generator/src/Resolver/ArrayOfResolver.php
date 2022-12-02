@@ -9,7 +9,6 @@ use Davajlama\JsonSchemaGenerator\ReflectionExtractor;
 use Davajlama\JsonSchemaGenerator\SchemaGenerator;
 use Davajlama\Schemator\RuleInterface;
 use Davajlama\Schemator\Rules\ArrayOf;
-use Davajlama\Schemator\Schema;
 
 final class ArrayOfResolver implements ResolverInterface, SchemaGeneratorAwareInterface
 {
@@ -33,6 +32,6 @@ final class ArrayOfResolver implements ResolverInterface, SchemaGeneratorAwareIn
         $this->schemaGenerator->generateFromSchema($schema, $itemDefinition);
 
         $definition->addType('array');
-        $definition->setItems($itemDefinition->build());
+        $definition->setItems($itemDefinition);
     }
 }

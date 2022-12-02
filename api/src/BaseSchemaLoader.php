@@ -6,6 +6,10 @@ namespace Davajlama\Schemator\OpenApi;
 
 use Davajlama\Schemator\Schema;
 
+use function class_exists;
+use function class_parents;
+use function in_array;
+
 final class BaseSchemaLoader implements SchemaLoaderInterface
 {
     public function resolve(string $class): ?Schema

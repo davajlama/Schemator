@@ -1,0 +1,32 @@
+openapi: '3.0.2'
+info:
+  title: 'Demo v1.0.0'
+  version: '1.0.0'
+  description: '@todo'
+paths:
+  /article:
+    get:
+      parameters:
+        - name: id
+          in: query
+          required: true
+      summary: Get article by id
+      tags: [ Public ]
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: !schema Schema\Article
+  /articles:
+    get:
+      summary: Get all articles
+      tags: [ Public ]
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: !schema Schema\Articles

@@ -5,6 +5,7 @@ parameters:
         - tests
         - examples
         - generator
+        - api
 
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon

@@ -25,7 +25,7 @@ class Definition
      */
     private ?array $properties = null;
 
-    private ?array $items = null;
+    private ?Definition $items = null;
 
     private ?array $enum = null;
 
@@ -55,13 +55,19 @@ class Definition
             $this->prop('additionalProperties', $this->additionalProperties),
             $this->prop('required', $this->required),
             $this->prop('properties', $this->buildProperties()),
-            $this->prop('items', $this->items),
+            $this->prop('items', $this->buildItems()),
             $this->prop('enum', $this->enum),
             $this->prop('minimum', $this->minimum),
             $this->prop('maximum', $this->maximum),
             $this->prop('examples', $this->examples),
         );
     }
+
+    protected function buildItems(): ?array
+    {
+        return $this->items?->build();
+    }
+
 
     /**
      * @return array<string, mixed>
@@ -154,7 +160,7 @@ class Definition
         return $this;
     }
 
-    public function setItems(array $definition): Definition
+    public function setItems(Definition $definition): Definition
     {
         $this->items = $definition;
 

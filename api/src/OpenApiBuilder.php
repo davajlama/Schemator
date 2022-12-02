@@ -6,16 +6,21 @@ namespace Davajlama\Schemator\OpenApi;
 
 use Davajlama\JsonSchemaGenerator\SchemaGenerator;
 use Davajlama\Schemator\Schema;
+use Exception;
 use LogicException;
 use Symfony\Component\Yaml\Tag\TaggedValue;
 use Symfony\Component\Yaml\Yaml;
 
+use function array_search;
 use function array_unique;
 use function array_walk_recursive;
-use function class_exists;
+use function count;
+use function file_get_contents;
 use function gettype;
+use function in_array;
 use function is_array;
 use function is_string;
+use function reset;
 use function sprintf;
 
 final class OpenApiBuilder
@@ -106,16 +111,15 @@ final class OpenApiBuilder
             $data = $generator->build($schema);
             unset($data['$schema']);
 
-            $this->arrayWalkRecursive($data, function(&$value, $key, &$parent){
+            $this->arrayWalkRecursive($data, static function (&$value, $key, &$parent): void {
                 if ($key === 'type' && is_array($value)) {
-
                     if (in_array('null', $value, true)) {
                         $parent['nullable'] = true;
                         unset($value[array_search('null', $value, true)]);
                     }
 
                     if (count($value) > 1) {
-                        throw new \Exception('Openpi not supported.');
+                        throw new Exception('Openpi not supported.');
                     }
 
                     $value = reset($value);
@@ -140,7 +144,7 @@ final class OpenApiBuilder
 
     private function loadSchema(string $class): Schema
     {
-        foreach ($this->schemaLoaders as $loader){
+        foreach ($this->schemaLoaders as $loader) {
             $schema = $loader->resolve($class);
             if ($schema !== null) {
                 return $schema;
