@@ -1,11 +1,10 @@
 parameters:
     level: 9
     paths:
-        - src
-        - tests
-        - examples
-        - generator
-        - api
+        - Demo
+        - JsonSchema
+        - OpenApi
+        - Schema
 
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
