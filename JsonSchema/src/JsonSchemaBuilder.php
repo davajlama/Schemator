@@ -20,7 +20,7 @@ use LogicException;
 use function json_encode;
 use function sprintf;
 
-final class SchemaGenerator
+final class JsonSchemaBuilder
 {
     private bool $throwOnUnresolvedRule = true;
 
@@ -51,7 +51,7 @@ final class SchemaGenerator
      */
     public function build(Schema $schema): array
     {
-        $sch = new \Davajlama\Schemator\JsonSchema\Schema();
+        $sch = new \Davajlama\Schemator\JsonSchema\SchemaDefinition();
 
         $this->generateFromSchema($schema, $sch);
 
@@ -107,7 +107,7 @@ final class SchemaGenerator
         }
     }
 
-    public function setThrowOnUnresolvedRule(bool $throwOnUnresolvedRule): SchemaGenerator
+    public function setThrowOnUnresolvedRule(bool $throwOnUnresolvedRule): JsonSchemaBuilder
     {
         $this->throwOnUnresolvedRule = $throwOnUnresolvedRule;
 

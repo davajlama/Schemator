@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\JsonSchema\Resolver;
 
 use Davajlama\Schemator\JsonSchema\Definition;
-use Davajlama\Schemator\JsonSchema\SchemaGenerator;
+use Davajlama\Schemator\JsonSchema\JsonSchemaBuilder;
 use Davajlama\Schemator\Schema\RuleInterface;
 use Davajlama\Schemator\Schema\Rules\Type\ArrayOfStringType;
 use Davajlama\Schemator\Schema\Rules\Type\ArrayType;

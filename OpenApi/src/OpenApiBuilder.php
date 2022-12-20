@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\OpenApi;
 
-use Davajlama\Schemator\JsonSchema\SchemaGenerator;
+use Davajlama\Schemator\JsonSchema\JsonSchemaBuilder;
 use Davajlama\Schemator\Schema\Schema;
 use LogicException;
 use Symfony\Component\Yaml\Tag\TaggedValue;
@@ -123,7 +123,7 @@ final class OpenApiBuilder
 
             $schema = $this->loadSchema($schemaClass);
 
-            $generator = new SchemaGenerator();
+            $generator = new JsonSchemaBuilder();
             $data = $generator->build($schema);
             unset($data['$schema']);
 

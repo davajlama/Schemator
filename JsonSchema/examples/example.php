@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Davajlama\Schemator\JsonSchema\SchemaGenerator;
+use Davajlama\Schemator\JsonSchema\JsonSchemaBuilder;
 use Davajlama\Schemator\Schema\Schema;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
@@ -27,5 +27,5 @@ $book->prop('price')->float();
 $book->prop('store')->bool();
 $book->prop('author')->ref($author);
 
-$generator = new SchemaGenerator();
+$generator = new JsonSchemaBuilder();
 echo $generator->buildToJson($book);

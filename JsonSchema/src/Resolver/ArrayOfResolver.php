@@ -6,15 +6,15 @@ namespace Davajlama\Schemator\JsonSchema\Resolver;
 
 use Davajlama\Schemator\JsonSchema\Definition;
 use Davajlama\Schemator\JsonSchema\ReflectionExtractor;
-use Davajlama\Schemator\JsonSchema\SchemaGenerator;
+use Davajlama\Schemator\JsonSchema\JsonSchemaBuilder;
 use Davajlama\Schemator\Schema\RuleInterface;
 use Davajlama\Schemator\Schema\Rules\ArrayOf;
 
 final class ArrayOfResolver implements ResolverInterface, SchemaGeneratorAwareInterface
 {
-    private SchemaGenerator $schemaGenerator;
+    private JsonSchemaBuilder $schemaGenerator;
 
-    public function setSchemaGenerator(SchemaGenerator $schemaGenerator): void
+    public function setSchemaGenerator(JsonSchemaBuilder $schemaGenerator): void
     {
         $this->schemaGenerator = $schemaGenerator;
     }
