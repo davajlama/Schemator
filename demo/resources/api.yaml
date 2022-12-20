@@ -2,36 +2,7 @@ openapi: '3.0.2'
 info:
   title: 'Demo v1.0.0'
   version: '1.0.0'
-  description: '@todo'
+  description: !import_string ./description.md
 paths:
-  /article:
-    get:
-      parameters:
-        - name: id
-          in: query
-          required: true
-      summary: Get article by id
-      tags: [ Public ]
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: !schema Schema\Article
-  /articles:
-    post:
-      summary: Get all articles
-      tags: [ Public ]
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: !schema Schema\ArticlesFilter
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: !schema Schema\Articles
+  /article: !include ./article.yaml
+  /articles: !include ./articles.yaml

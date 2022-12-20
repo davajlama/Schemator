@@ -1,0 +1,15 @@
+post:
+  summary: Get all articles
+  tags: [ Public ]
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: !schema Schema\ArticlesFilter
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: !schema Schema\Articles

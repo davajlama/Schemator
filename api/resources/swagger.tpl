@@ -11,6 +11,10 @@
     body {
         margin: 0px;
     }
+
+    .download-url-wrapper {
+        display: none !important;
+    }
 </style>
 <div id="swagger-ui"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.24.2/swagger-ui-bundle.js"> </script>

@@ -31,11 +31,10 @@ trait SchemaFactoryHelper
             throw new LogicException(sprintf('Schema %s not exists.', $schema));
         }
 
-        $object = new $schema();
-        if ($object instanceof Schema === false) {
-            throw new LogicException(sprintf('Schema %s must be instance of %s, %s given.', $schema, Schema::class, $object::class));
+        if (in_array(Schema::class, class_parents($schema), true) === false) {
+            throw new LogicException(sprintf('Schema must be instance of %s, %s given.', Schema::class, $schema));
         }
 
-        return $this->schemaCollection[$schema] = $object;
+        return $this->schemaCollection[$schema] = new $schema();
     }
 }

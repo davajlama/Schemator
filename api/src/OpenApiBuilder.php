@@ -6,7 +6,6 @@ namespace Davajlama\Schemator\OpenApi;
 
 use Davajlama\JsonSchemaGenerator\SchemaGenerator;
 use Davajlama\Schemator\Schema;
-use Exception;
 use LogicException;
 use Symfony\Component\Yaml\Tag\TaggedValue;
 use Symfony\Component\Yaml\Yaml;
@@ -26,6 +25,8 @@ use function sprintf;
 final class OpenApiBuilder
 {
     private const TAG_SCHEMA = 'schema';
+    private const TAG_INCLUDE = 'include';
+    private const TAG_IMPORT_STRING = 'import_string';
 
     private array $schemas = [];
 
@@ -46,7 +47,7 @@ final class OpenApiBuilder
         return $this;
     }
 
-    public function build(string $content): string
+    public function build(string $content, ?string $path = null): string
     {
         $data = $this->buildArray($content);
 
@@ -55,15 +56,15 @@ final class OpenApiBuilder
 
     public function buildFromFile(string $file): string
     {
-        return $this->build(file_get_contents($file));
+        return $this->build(file_get_contents($file), dirname($file));
     }
 
     public function buildArrayFromFile(string $file): array
     {
-        return $this->buildArray(file_get_contents($file));
+        return $this->buildArray(file_get_contents($file), dirname($file));
     }
 
-    public function buildArray(string $content): array
+    public function buildArray(string $content, ?string $path = null): array
     {
         $data = Yaml::parse($content, Yaml::PARSE_CUSTOM_TAGS);
 
@@ -71,12 +72,27 @@ final class OpenApiBuilder
             throw new LogicException(sprintf('Parsed result must be an array, %s given.', gettype($data)));
         }
 
-        array_walk_recursive($data, function (&$value): void {
+        array_walk_recursive($data, function (&$value) use($path): void {
             if ($value instanceof TaggedValue) {
                 switch ($value->getTag()) {
                     case self::TAG_SCHEMA:
                         $this->schemas[] = $value->getValue();
                         $value = $this->generateSchemaReference($value->getValue());
+                        break;
+
+                    case self::TAG_INCLUDE:
+                        if ($path === null) {
+                            throw new LogicException('Cannot use include tag without base path.');
+                        }
+
+                        $value = $this->buildArrayFromFile($path . DIRECTORY_SEPARATOR . $value->getValue());
+                        break;
+                    case self::TAG_IMPORT_STRING:
+                        if ($path === null) {
+                            throw new LogicException('Cannot use include tag without base path.');
+                        }
+
+                        $value = file_get_contents($path . DIRECTORY_SEPARATOR . $value->getValue());
                         break;
                     default:
                         throw new LogicException(sprintf('Unsupported tag %s.', $value->getTag()));
