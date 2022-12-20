@@ -6,10 +6,10 @@ namespace Davajlama\JsonSchemaGenerator\Resolver;
 
 use Davajlama\JsonSchemaGenerator\Definition;
 use Davajlama\JsonSchemaGenerator\ReflectionExtractor;
-use Davajlama\Schemator\RuleInterface;
-use Davajlama\Schemator\Rules\Max;
-use Davajlama\Schemator\Rules\Min;
-use Davajlama\Schemator\Rules\Range;
+use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\Rules\Max;
+use Davajlama\Schemator\Schema\Rules\Min;
+use Davajlama\Schemator\Schema\Rules\Range;
 
 final class RangeResolver implements ResolverInterface
 {

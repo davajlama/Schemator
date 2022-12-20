@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Examples\Schema;
+namespace Davajlama\Schemator\Schema\Examples\Schema;
 
-use Davajlama\Schemator\Schema;
+use Davajlama\Schemator\Schema\Schema;
 
 final class ContactSchema extends Schema
 {

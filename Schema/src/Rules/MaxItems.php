@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Rules;
+namespace Davajlama\Schemator\Schema\Rules;
 
-use Davajlama\Schemator\Exception\PropertyIsNotArrayException;
+use Davajlama\Schemator\Schema\Exception\PropertyIsNotArrayException;
 
 use function count;
 use function is_array;

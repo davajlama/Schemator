@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator;
+namespace Davajlama\Schemator\Schema;
 
-use Davajlama\Schemator\Rules\RulesFactory;
+use Davajlama\Schemator\Schema\Rules\RulesFactory;
 
 use function array_key_exists;
 

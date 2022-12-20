@@ -6,10 +6,10 @@ namespace Davajlama\JsonSchemaGenerator\Resolver;
 
 use Davajlama\JsonSchemaGenerator\Definition;
 use Davajlama\JsonSchemaGenerator\ReflectionExtractor;
-use Davajlama\Schemator\RuleInterface;
-use Davajlama\Schemator\Rules\MaxItems;
-use Davajlama\Schemator\Rules\MinItems;
-use Davajlama\Schemator\Rules\Unique;
+use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\Rules\MaxItems;
+use Davajlama\Schemator\Schema\Rules\MinItems;
+use Davajlama\Schemator\Schema\Rules\Unique;
 
 final class ItemsResolver implements ResolverInterface
 {

@@ -6,8 +6,8 @@ namespace Davajlama\JsonSchemaGenerator\Resolver;
 
 use Davajlama\JsonSchemaGenerator\Definition;
 use Davajlama\JsonSchemaGenerator\ReflectionExtractor;
-use Davajlama\Schemator\RuleInterface;
-use Davajlama\Schemator\Rules\Enum;
+use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\Rules\Enum;
 
 use function array_unique;
 use function gettype;

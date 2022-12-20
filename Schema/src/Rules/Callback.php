@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Rules;
+namespace Davajlama\Schemator\Schema\Rules;
 
-use Davajlama\Schemator\Extractor\ExtractorAware;
-use Davajlama\Schemator\Extractor\ExtractorAwareInterface;
-use Davajlama\Schemator\RuleInterface;
+use Davajlama\Schemator\Schema\Extractor\ExtractorAware;
+use Davajlama\Schemator\Schema\Extractor\ExtractorAwareInterface;
+use Davajlama\Schemator\Schema\RuleInterface;
 
 class Callback implements RuleInterface, ExtractorAwareInterface
 {

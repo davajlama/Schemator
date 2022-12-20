@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Exception;
+namespace Davajlama\Schemator\Schema\Exception;
 
 use RuntimeException;
 

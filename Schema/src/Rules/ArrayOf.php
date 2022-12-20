@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Rules;
+namespace Davajlama\Schemator\Schema\Rules;
 
-use Davajlama\Schemator\Exception\PropertyIsNotArrayException;
-use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Schema;
-use Davajlama\Schemator\SchemaFactoryHelper;
-use Davajlama\Schemator\Validator\ErrorMessage;
-use Davajlama\Schemator\Validator\ValidatorAware;
-use Davajlama\Schemator\Validator\ValidatorAwareInterface;
+use Davajlama\Schemator\Schema\Exception\PropertyIsNotArrayException;
+use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Schema;
+use Davajlama\Schemator\Schema\SchemaFactoryHelper;
+use Davajlama\Schemator\Schema\Validator\ErrorMessage;
+use Davajlama\Schemator\Schema\Validator\ValidatorAware;
+use Davajlama\Schemator\Schema\Validator\ValidatorAwareInterface;
 
 use function count;
 use function is_array;

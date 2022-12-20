@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Davajlama\JsonSchemaGenerator\Resolver;
 
 use Davajlama\JsonSchemaGenerator\Definition;
-use Davajlama\Schemator\RuleInterface;
-use Davajlama\Schemator\Rules\Email;
+use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\Rules\Email;
 
 final class FormatResolver implements ResolverInterface
 {

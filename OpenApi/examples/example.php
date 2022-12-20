@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Davajlama\Schemator\OpenApi\OpenApiBuilder;
+use Davajlama\Schemator\Schema\OpenApi\OpenApiBuilder;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/HomepageSchema.php';

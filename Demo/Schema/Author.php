@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Schema;
 
-use Davajlama\Schemator\Schema;
+use Davajlama\Schemator\Schema\Schema;
 
 final class Author extends Schema
 {

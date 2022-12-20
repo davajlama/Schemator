@@ -2,30 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Tests;
+namespace Davajlama\Schemator\Schema\Tests;
 
-use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Extractor\ArrayExtractor;
-use Davajlama\Schemator\Extractor\ExtractorAwareInterface;
-use Davajlama\Schemator\RuleInterface;
-use Davajlama\Schemator\Rules\DateTime;
-use Davajlama\Schemator\Rules\Email;
-use Davajlama\Schemator\Rules\Enum;
-use Davajlama\Schemator\Rules\Length;
-use Davajlama\Schemator\Rules\Max;
-use Davajlama\Schemator\Rules\MaxItems;
-use Davajlama\Schemator\Rules\MaxLength;
-use Davajlama\Schemator\Rules\Min;
-use Davajlama\Schemator\Rules\MinItems;
-use Davajlama\Schemator\Rules\MinLength;
-use Davajlama\Schemator\Rules\Range;
-use Davajlama\Schemator\Rules\Type\ArrayOfStringType;
-use Davajlama\Schemator\Rules\Type\ArrayType;
-use Davajlama\Schemator\Rules\Type\BoolType;
-use Davajlama\Schemator\Rules\Type\FloatType;
-use Davajlama\Schemator\Rules\Type\IntegerType;
-use Davajlama\Schemator\Rules\Type\StringType;
-use Davajlama\Schemator\Rules\Unique;
+use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Extractor\ArrayExtractor;
+use Davajlama\Schemator\Schema\Extractor\ExtractorAwareInterface;
+use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\Rules\DateTime;
+use Davajlama\Schemator\Schema\Rules\Email;
+use Davajlama\Schemator\Schema\Rules\Enum;
+use Davajlama\Schemator\Schema\Rules\Length;
+use Davajlama\Schemator\Schema\Rules\Max;
+use Davajlama\Schemator\Schema\Rules\MaxItems;
+use Davajlama\Schemator\Schema\Rules\MaxLength;
+use Davajlama\Schemator\Schema\Rules\Min;
+use Davajlama\Schemator\Schema\Rules\MinItems;
+use Davajlama\Schemator\Schema\Rules\MinLength;
+use Davajlama\Schemator\Schema\Rules\Range;
+use Davajlama\Schemator\Schema\Rules\Type\ArrayOfStringType;
+use Davajlama\Schemator\Schema\Rules\Type\ArrayType;
+use Davajlama\Schemator\Schema\Rules\Type\BoolType;
+use Davajlama\Schemator\Schema\Rules\Type\FloatType;
+use Davajlama\Schemator\Schema\Rules\Type\IntegerType;
+use Davajlama\Schemator\Schema\Rules\Type\StringType;
+use Davajlama\Schemator\Schema\Rules\Unique;
 use PHPUnit\Framework\TestCase;
 
 final class RulesTest extends TestCase

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Validator;
+namespace Davajlama\Schemator\Schema\Validator;
 
 use function array_unshift;
 use function count;

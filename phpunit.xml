@@ -11,11 +11,14 @@
 >
   <coverage processUncoveredFiles="true">
     <include>
-      <directory suffix=".php">src</directory>
-      <directory suffix=".php">generator</directory>
+      <directory suffix=".php">JsonSchema/src</directory>
+      <directory suffix=".php">OpenApi/src</directory>
+      <directory suffix=".php">Schema/src</directory>
     </include>
   </coverage>
   <testsuite name="all">
-    <directory suffix="Test.php">tests</directory>
+    <directory suffix="Test.php">JsonSchema/tests</directory>
+    <directory suffix="Test.php">OpenApi/tests</directory>
+    <directory suffix="Test.php">Schema/tests</directory>
   </testsuite>
 </phpunit>

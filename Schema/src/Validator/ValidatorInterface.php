@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Validator;
+namespace Davajlama\Schemator\Schema\Validator;
 
-use Davajlama\Schemator\Schema;
+use Davajlama\Schemator\Schema\Schema;
 
 interface ValidatorInterface
 {

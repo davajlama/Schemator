@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\OpenApi;
+namespace Davajlama\Schemator\Schema\OpenApi;
 
-use Davajlama\Schemator\Schema;
+use Davajlama\Schemator\Schema\Schema;
 
 interface SchemaLoaderInterface
 {

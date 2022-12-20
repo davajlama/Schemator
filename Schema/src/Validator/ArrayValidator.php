@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Validator;
+namespace Davajlama\Schemator\Schema\Validator;
 
-use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Extractor\ArrayExtractor;
-use Davajlama\Schemator\Extractor\ExtractorAwareInterface;
-use Davajlama\Schemator\Extractor\ExtractorInterface;
-use Davajlama\Schemator\Schema;
-use Davajlama\Schemator\SchemaFactoryHelper;
+use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Extractor\ArrayExtractor;
+use Davajlama\Schemator\Schema\Extractor\ExtractorAwareInterface;
+use Davajlama\Schemator\Schema\Extractor\ExtractorInterface;
+use Davajlama\Schemator\Schema\Schema;
+use Davajlama\Schemator\Schema\SchemaFactoryHelper;
 use InvalidArgumentException;
 
 use function array_key_exists;

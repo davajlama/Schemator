@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Tests;
+namespace Davajlama\Schemator\Schema\Tests;
 
-use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Schema;
-use Davajlama\Schemator\Validator\ArrayValidator;
+use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Schema;
+use Davajlama\Schemator\Schema\Validator\ArrayValidator;
 use PHPUnit\Framework\TestCase;
 
 final class ValidatorTest extends TestCase

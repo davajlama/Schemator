@@ -14,7 +14,7 @@ use Davajlama\JsonSchemaGenerator\Resolver\RangeResolver;
 use Davajlama\JsonSchemaGenerator\Resolver\ResolverInterface;
 use Davajlama\JsonSchemaGenerator\Resolver\SchemaGeneratorAwareInterface;
 use Davajlama\JsonSchemaGenerator\Resolver\TypeResolver;
-use Davajlama\Schemator\Schema;
+use Davajlama\Schemator\Schema\Schema;
 use LogicException;
 
 use function json_encode;

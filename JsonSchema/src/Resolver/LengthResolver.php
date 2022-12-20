@@ -6,10 +6,10 @@ namespace Davajlama\JsonSchemaGenerator\Resolver;
 
 use Davajlama\JsonSchemaGenerator\Definition;
 use Davajlama\JsonSchemaGenerator\ReflectionExtractor;
-use Davajlama\Schemator\RuleInterface;
-use Davajlama\Schemator\Rules\Length;
-use Davajlama\Schemator\Rules\MaxLength;
-use Davajlama\Schemator\Rules\MinLength;
+use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\Rules\Length;
+use Davajlama\Schemator\Schema\Rules\MaxLength;
+use Davajlama\Schemator\Schema\Rules\MinLength;
 
 final class LengthResolver implements ResolverInterface
 {

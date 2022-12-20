@@ -6,13 +6,13 @@ namespace Davajlama\JsonSchemaGenerator\Resolver;
 
 use Davajlama\JsonSchemaGenerator\Definition;
 use Davajlama\JsonSchemaGenerator\SchemaGenerator;
-use Davajlama\Schemator\RuleInterface;
-use Davajlama\Schemator\Rules\Type\ArrayOfStringType;
-use Davajlama\Schemator\Rules\Type\ArrayType;
-use Davajlama\Schemator\Rules\Type\BoolType;
-use Davajlama\Schemator\Rules\Type\FloatType;
-use Davajlama\Schemator\Rules\Type\IntegerType;
-use Davajlama\Schemator\Rules\Type\StringType;
+use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\Rules\Type\ArrayOfStringType;
+use Davajlama\Schemator\Schema\Rules\Type\ArrayType;
+use Davajlama\Schemator\Schema\Rules\Type\BoolType;
+use Davajlama\Schemator\Schema\Rules\Type\FloatType;
+use Davajlama\Schemator\Schema\Rules\Type\IntegerType;
+use Davajlama\Schemator\Schema\Rules\Type\StringType;
 use Exception;
 
 final class TypeResolver implements ResolverInterface

@@ -7,8 +7,8 @@ namespace Davajlama\JsonSchemaGenerator\Resolver;
 use Davajlama\JsonSchemaGenerator\Definition;
 use Davajlama\JsonSchemaGenerator\ReflectionExtractor;
 use Davajlama\JsonSchemaGenerator\SchemaGenerator;
-use Davajlama\Schemator\RuleInterface;
-use Davajlama\Schemator\Rules\ArrayOf;
+use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\Rules\ArrayOf;
 
 final class ArrayOfResolver implements ResolverInterface, SchemaGeneratorAwareInterface
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Exception;
+namespace Davajlama\Schemator\Schema\Exception;
 
-use Davajlama\Schemator\Validator\ErrorMessage;
+use Davajlama\Schemator\Schema\Validator\ErrorMessage;
 use InvalidArgumentException;
 
 class ValidationFailedException extends InvalidArgumentException

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Rules;
+namespace Davajlama\Schemator\Schema\Rules;
 
-use Davajlama\Schemator\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
 
 use function filter_var;
 use function is_string;

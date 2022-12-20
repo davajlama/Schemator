@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Extractor;
+namespace Davajlama\Schemator\Schema\Extractor;
 
 use LogicException;
 

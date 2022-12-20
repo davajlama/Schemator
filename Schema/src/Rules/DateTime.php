@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Rules;
+namespace Davajlama\Schemator\Schema\Rules;
 
-use Davajlama\Schemator\Exception\PropertyIsNotStringException;
+use Davajlama\Schemator\Schema\Exception\PropertyIsNotStringException;
 
 use function is_string;
 use function sprintf;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Rules;
+namespace Davajlama\Schemator\Schema\Rules;
 
-use Davajlama\Schemator\RuleInterface;
-use Davajlama\Schemator\RulesFactoryInterface;
+use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\RulesFactoryInterface;
 
 use function class_exists;
 use function ucfirst;
@@ -17,7 +17,7 @@ class RulesFactory implements RulesFactoryInterface
      */
     public function create(string $name, array $arguments): ?RuleInterface
     {
-        $class = 'Davajlama\Schemator\Rules\\' . ucfirst($name);
+        $class = 'Davajlama\Schemator\Schema\Rules\\' . ucfirst($name);
         if (class_exists($class)) {
             /** @var RuleInterface $rule */
             $rule = new $class(...$arguments);
@@ -25,7 +25,7 @@ class RulesFactory implements RulesFactoryInterface
             return $rule;
         }
 
-        $class = 'Davajlama\Schemator\Rules\Type\\' . ucfirst($name) . 'Type';
+        $class = 'Davajlama\Schemator\Schema\Rules\Type\\' . ucfirst($name) . 'Type';
         if (class_exists($class)) {
             /** @var RuleInterface $rule */
             $rule = new $class(...$arguments);

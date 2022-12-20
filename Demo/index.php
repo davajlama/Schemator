@@ -1,7 +1,7 @@
 <?php
 
-use Davajlama\Schemator\OpenApi\OpenApiBuilder;
-use Davajlama\Schemator\OpenApi\SwaggerBuilder;
+use Davajlama\Schemator\Schema\OpenApi\OpenApiBuilder;
+use Davajlama\Schemator\Schema\OpenApi\SwaggerBuilder;
 
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');

@@ -6,8 +6,8 @@ namespace Davajlama\JsonSchemaGenerator\Resolver;
 
 use Davajlama\JsonSchemaGenerator\Definition;
 use Davajlama\JsonSchemaGenerator\ReflectionExtractor;
-use Davajlama\Schemator\RuleInterface;
-use Davajlama\Schemator\Rules\DateTime;
+use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\Rules\DateTime;
 
 
 final class DateTimeResolver implements ResolverInterface

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Rules;
+namespace Davajlama\Schemator\Schema\Rules;
 
-use Davajlama\Schemator\Exception\ValidationFailedException;
-use Davajlama\Schemator\Extractor\ExtractorAware;
-use Davajlama\Schemator\Extractor\ExtractorAwareInterface;
-use Davajlama\Schemator\RuleInterface;
-use Davajlama\Schemator\Validator\ErrorMessage;
+use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Extractor\ExtractorAware;
+use Davajlama\Schemator\Schema\Extractor\ExtractorAwareInterface;
+use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\Validator\ErrorMessage;
 
 abstract class BaseRule implements RuleInterface, ExtractorAwareInterface
 {
