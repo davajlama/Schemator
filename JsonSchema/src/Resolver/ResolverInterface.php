@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\JsonSchemaGenerator\Resolver;
+namespace Davajlama\Schemator\JsonSchema\Resolver;
 
-use Davajlama\JsonSchemaGenerator\Definition;
+use Davajlama\Schemator\JsonSchema\Definition;
 use Davajlama\Schemator\Schema\RuleInterface;
 
 interface ResolverInterface

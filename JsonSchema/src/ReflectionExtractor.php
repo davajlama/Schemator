@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\JsonSchemaGenerator;
+namespace Davajlama\Schemator\JsonSchema;
 
 use ReflectionClass;
 

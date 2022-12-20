@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Schema\OpenApi;
+namespace Davajlama\Schemator\OpenApi;
 
 use function file_get_contents;
 use function json_encode;

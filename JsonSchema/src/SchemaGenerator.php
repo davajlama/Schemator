@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\JsonSchemaGenerator;
+namespace Davajlama\Schemator\JsonSchema;
 
-use Davajlama\JsonSchemaGenerator\Resolver\ArrayOfResolver;
-use Davajlama\JsonSchemaGenerator\Resolver\DateTimeResolver;
-use Davajlama\JsonSchemaGenerator\Resolver\EnumResolver;
-use Davajlama\JsonSchemaGenerator\Resolver\FormatResolver;
-use Davajlama\JsonSchemaGenerator\Resolver\ItemsResolver;
-use Davajlama\JsonSchemaGenerator\Resolver\LengthResolver;
-use Davajlama\JsonSchemaGenerator\Resolver\RangeResolver;
-use Davajlama\JsonSchemaGenerator\Resolver\ResolverInterface;
-use Davajlama\JsonSchemaGenerator\Resolver\SchemaGeneratorAwareInterface;
-use Davajlama\JsonSchemaGenerator\Resolver\TypeResolver;
+use Davajlama\Schemator\JsonSchema\Resolver\ArrayOfResolver;
+use Davajlama\Schemator\JsonSchema\Resolver\DateTimeResolver;
+use Davajlama\Schemator\JsonSchema\Resolver\EnumResolver;
+use Davajlama\Schemator\JsonSchema\Resolver\FormatResolver;
+use Davajlama\Schemator\JsonSchema\Resolver\ItemsResolver;
+use Davajlama\Schemator\JsonSchema\Resolver\LengthResolver;
+use Davajlama\Schemator\JsonSchema\Resolver\RangeResolver;
+use Davajlama\Schemator\JsonSchema\Resolver\ResolverInterface;
+use Davajlama\Schemator\JsonSchema\Resolver\SchemaGeneratorAwareInterface;
+use Davajlama\Schemator\JsonSchema\Resolver\TypeResolver;
 use Davajlama\Schemator\Schema\Schema;
 use LogicException;
 
@@ -51,7 +51,7 @@ final class SchemaGenerator
      */
     public function build(Schema $schema): array
     {
-        $sch = new \Davajlama\JsonSchemaGenerator\Schema();
+        $sch = new \Davajlama\Schemator\JsonSchema\Schema();
 
         $this->generateFromSchema($schema, $sch);
 

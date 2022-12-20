@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\Schema\OpenApi;
+namespace Davajlama\Schemator\OpenApi;
 
-use Davajlama\JsonSchemaGenerator\SchemaGenerator;
+use Davajlama\Schemator\JsonSchema\SchemaGenerator;
 use Davajlama\Schemator\Schema\Schema;
 use LogicException;
 use Symfony\Component\Yaml\Tag\TaggedValue;

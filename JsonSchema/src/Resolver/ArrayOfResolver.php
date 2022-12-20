@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\JsonSchemaGenerator\Resolver;
+namespace Davajlama\Schemator\JsonSchema\Resolver;
 
-use Davajlama\JsonSchemaGenerator\Definition;
-use Davajlama\JsonSchemaGenerator\ReflectionExtractor;
-use Davajlama\JsonSchemaGenerator\SchemaGenerator;
+use Davajlama\Schemator\JsonSchema\Definition;
+use Davajlama\Schemator\JsonSchema\ReflectionExtractor;
+use Davajlama\Schemator\JsonSchema\SchemaGenerator;
 use Davajlama\Schemator\Schema\RuleInterface;
 use Davajlama\Schemator\Schema\Rules\ArrayOf;
 
