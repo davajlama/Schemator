@@ -28,12 +28,12 @@ final class LengthResolver implements ResolverInterface
 
             $definition->setMinLength($length);
             $definition->setMaxLength($length);
-        } else if ($rule instanceof MinLength) {
+        } elseif ($rule instanceof MinLength) {
             /** @var int $minLength */
             $minLength = ReflectionExtractor::getProperty($rule, 'minLength');
 
             $definition->setMinLength($minLength);
-        } else if ($rule instanceof MaxLength) {
+        } elseif ($rule instanceof MaxLength) {
             /** @var int $maxLength */
             $maxLength = ReflectionExtractor::getProperty($rule, 'maxLength');
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Davajlama\Schemator\OpenApi\OpenApiBuilder;
 use Davajlama\Schemator\OpenApi\SwaggerBuilder;
 
@@ -13,4 +15,3 @@ $openApi = $openApiBuilder->buildArrayFromFile(__DIR__ . '/resources/api.yaml');
 
 $swaggerBuilder = new SwaggerBuilder();
 echo $swaggerBuilder->buildFromArray($openApi, 'Demo documentation');
-

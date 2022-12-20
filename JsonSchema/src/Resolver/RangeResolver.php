@@ -31,12 +31,12 @@ final class RangeResolver implements ResolverInterface
 
             $definition->setMinimum($min);
             $definition->setMaximum($max);
-        } else if ($rule instanceof Min) {
+        } elseif ($rule instanceof Min) {
             /** @var float $min */
             $min = ReflectionExtractor::getProperty($rule, 'min');
 
             $definition->setMinimum($min);
-        } else if ($rule instanceof Max) {
+        } elseif ($rule instanceof Max) {
             /** @var float $max */
             $max = ReflectionExtractor::getProperty($rule, 'max');
 

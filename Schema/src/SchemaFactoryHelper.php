@@ -8,6 +8,8 @@ use LogicException;
 
 use function array_key_exists;
 use function class_exists;
+use function class_parents;
+use function in_array;
 use function sprintf;
 
 trait SchemaFactoryHelper

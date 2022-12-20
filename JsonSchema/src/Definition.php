@@ -86,7 +86,6 @@ class Definition
         return $this->items?->build();
     }
 
-
     /**
      * @return array<string, mixed>
      */

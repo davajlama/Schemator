@@ -13,7 +13,7 @@ final class DateTime extends BaseRule
 {
     private ?string $format;
 
-    public function __construct(string $format = null, ?string $message = null)
+    public function __construct(?string $format = null, ?string $message = null)
     {
         parent::__construct($message);
 

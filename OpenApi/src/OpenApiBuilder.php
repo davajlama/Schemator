@@ -14,6 +14,7 @@ use function array_search;
 use function array_unique;
 use function array_walk_recursive;
 use function count;
+use function dirname;
 use function file_get_contents;
 use function gettype;
 use function in_array;
@@ -72,7 +73,7 @@ final class OpenApiBuilder
             throw new LogicException(sprintf('Parsed result must be an array, %s given.', gettype($data)));
         }
 
-        array_walk_recursive($data, function (&$value) use($path): void {
+        array_walk_recursive($data, function (&$value) use ($path): void {
             if ($value instanceof TaggedValue) {
                 switch ($value->getTag()) {
                     case self::TAG_SCHEMA:

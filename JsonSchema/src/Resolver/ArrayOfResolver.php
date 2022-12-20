@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\JsonSchema\Resolver;
 
 use Davajlama\Schemator\JsonSchema\Definition;
-use Davajlama\Schemator\JsonSchema\ReflectionExtractor;
 use Davajlama\Schemator\JsonSchema\JsonSchemaBuilder;
+use Davajlama\Schemator\JsonSchema\ReflectionExtractor;
 use Davajlama\Schemator\Schema\RuleInterface;
 use Davajlama\Schemator\Schema\Rules\ArrayOf;
 

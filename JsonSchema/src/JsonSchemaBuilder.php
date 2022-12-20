@@ -51,7 +51,7 @@ final class JsonSchemaBuilder
      */
     public function build(Schema $schema): array
     {
-        $sch = new \Davajlama\Schemator\JsonSchema\SchemaDefinition();
+        $sch = new SchemaDefinition();
 
         $this->generateFromSchema($schema, $sch);
 

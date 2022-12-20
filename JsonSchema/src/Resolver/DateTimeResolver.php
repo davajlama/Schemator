@@ -9,7 +9,6 @@ use Davajlama\Schemator\JsonSchema\ReflectionExtractor;
 use Davajlama\Schemator\Schema\RuleInterface;
 use Davajlama\Schemator\Schema\Rules\DateTime;
 
-
 final class DateTimeResolver implements ResolverInterface
 {
     public function support(RuleInterface $rule): bool

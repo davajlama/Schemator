@@ -20,6 +20,5 @@ final class Article extends Schema
         $this->prop('weight')->float();
         $this->prop('flag')->enum(['NEW', 'ACTION']);
         $this->prop('ean')->string()->length(16);
-
     }
 }

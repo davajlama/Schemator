@@ -24,12 +24,12 @@ final class ItemsResolver implements ResolverInterface
     {
         if ($rule instanceof Unique) {
             $definition->setUniqueItems(true);
-        } else if ($rule instanceof MinItems) {
+        } elseif ($rule instanceof MinItems) {
             /** @var int $minItems */
             $minItems = ReflectionExtractor::getProperty($rule, 'minItems');
 
             $definition->setMinItems($minItems);
-        } else if ($rule instanceof MaxItems) {
+        } elseif ($rule instanceof MaxItems) {
             /** @var int $maxItems */
             $maxItems = ReflectionExtractor::getProperty($rule, 'maxItems');
 
