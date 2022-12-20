@@ -11,4 +11,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: !schema Schema\Article
+            $ref: !schema Davajlama\Schemator\Demo\Schema\Response\Article

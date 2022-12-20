@@ -4,5 +4,5 @@ info:
   version: '1.0.0'
   description: !import_string ./description.md
 paths:
-  /article: !include ./article.yaml
-  /articles: !include ./articles.yaml
+  /article: !include ./api/article.yaml
+  /articles: !include ./api/articles.yaml

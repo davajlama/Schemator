@@ -30,7 +30,8 @@
         "psr-4": {
             "Davajlama\\Schemator\\Schema\\Tests\\": "Schema/tests/",
             "Davajlama\\Schemator\\JsonSchema\\Tests\\": "JsonSchema/tests/",
-            "Davajlama\\Schemator\\OpenApi\\Tests\\": "OpenApi/tests/"
+            "Davajlama\\Schemator\\OpenApi\\Tests\\": "OpenApi/tests/",
+            "Davajlama\\Schemator\\Demo\\": "Demo/src/"
         }
     },
     "config": {

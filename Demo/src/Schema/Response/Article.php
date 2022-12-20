@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Schema;
+namespace Davajlama\Schemator\Demo\Schema\Response;
 
 use Davajlama\Schemator\Schema\Schema;
 

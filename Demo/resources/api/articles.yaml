@@ -5,11 +5,11 @@ post:
     content:
       application/json:
         schema:
-          $ref: !schema Schema\ArticlesFilter
+          $ref: !schema Davajlama\Schemator\Demo\Schema\Request\ArticlesFilter
   responses:
     200:
       description: OK
       content:
         application/json:
           schema:
-            $ref: !schema Schema\Articles
+            $ref: !schema Davajlama\Schemator\Demo\Schema\Response\Articles

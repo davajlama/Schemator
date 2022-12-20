@@ -41,10 +41,11 @@ Davajlama\\Schemator\\Demo
 ./Demo/resources
     - api.yaml
     - description.md
-    - endpoints
+    - api
         - article.yaml
         - articles.yaml
 ./Demo/src
-    - Request
-        - Articles
-            - Filter.php [Davajlama\\Schemator\\Demo\\Request\\Articles\\Filter]
+    - Schema
+        - Request
+            - Articles
+                - Filter.php [Davajlama\\Schemator\\Demo\\Schema\\Request\\Articles\\Filter]
