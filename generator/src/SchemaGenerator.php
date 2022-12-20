@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Davajlama\JsonSchemaGenerator;
 
 use Davajlama\JsonSchemaGenerator\Resolver\ArrayOfResolver;
+use Davajlama\JsonSchemaGenerator\Resolver\DateTimeResolver;
 use Davajlama\JsonSchemaGenerator\Resolver\EnumResolver;
+use Davajlama\JsonSchemaGenerator\Resolver\FormatResolver;
+use Davajlama\JsonSchemaGenerator\Resolver\ItemsResolver;
+use Davajlama\JsonSchemaGenerator\Resolver\LengthResolver;
 use Davajlama\JsonSchemaGenerator\Resolver\RangeResolver;
 use Davajlama\JsonSchemaGenerator\Resolver\ResolverInterface;
 use Davajlama\JsonSchemaGenerator\Resolver\SchemaGeneratorAwareInterface;
@@ -31,6 +35,10 @@ final class SchemaGenerator
         $this->ruleResolvers[] = new ArrayOfResolver();
         $this->ruleResolvers[] = new EnumResolver();
         $this->ruleResolvers[] = new RangeResolver();
+        $this->ruleResolvers[] = new DateTimeResolver();
+        $this->ruleResolvers[] = new LengthResolver();
+        $this->ruleResolvers[] = new ItemsResolver();
+        $this->ruleResolvers[] = new FormatResolver();
     }
 
     public function buildToJson(Schema $schema): string

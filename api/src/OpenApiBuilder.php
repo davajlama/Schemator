@@ -119,7 +119,7 @@ final class OpenApiBuilder
                     }
 
                     if (count($value) > 1) {
-                        throw new Exception('Openpi not supported.');
+                        throw new LogicException('Multiple types not supported.');
                     }
 
                     $value = reset($value);

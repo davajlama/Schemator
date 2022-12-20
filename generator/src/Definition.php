@@ -27,11 +27,23 @@ class Definition
 
     private ?Definition $items = null;
 
+    private ?bool $uniqueItems = null;
+
+    private ?int $minItems = null;
+
+    private ?int $maxItems = null;
+
+    private ?int $minLength = null;
+
+    private ?int $maxLength = null;
+
     private ?array $enum = null;
 
     private float|int|null $minimum = null;
 
     private float|int|null $maximum = null;
+
+    private ?string $format = null;
 
     /**
      * @var string[]
@@ -56,9 +68,15 @@ class Definition
             $this->prop('required', $this->required),
             $this->prop('properties', $this->buildProperties()),
             $this->prop('items', $this->buildItems()),
+            $this->prop('uniqueItems', $this->uniqueItems),
+            $this->prop('minItems', $this->minItems),
+            $this->prop('maxItems', $this->maxItems),
+            $this->prop('minLength', $this->minLength),
+            $this->prop('maxLength', $this->maxLength),
             $this->prop('enum', $this->enum),
             $this->prop('minimum', $this->minimum),
             $this->prop('maximum', $this->maximum),
+            $this->prop('format', $this->format),
             $this->prop('examples', $this->examples),
         );
     }
@@ -167,6 +185,41 @@ class Definition
         return $this;
     }
 
+    public function setUniqueItems(bool $uniqueItems): Definition
+    {
+        $this->uniqueItems = $uniqueItems;
+
+        return $this;
+    }
+
+    public function setMinItems(int $minItems): Definition
+    {
+        $this->minItems = $minItems;
+
+        return $this;
+    }
+
+    public function setMaxItems(int $maxItems): Definition
+    {
+        $this->maxItems = $maxItems;
+
+        return $this;
+    }
+
+    public function setMinLength(int $minLength): Definition
+    {
+        $this->minLength = $minLength;
+
+        return $this;
+    }
+
+    public function setMaxLength(int $maxLength): Definition
+    {
+        $this->maxLength = $maxLength;
+
+        return $this;
+    }
+
     public function setEnum(array $values): Definition
     {
         $this->enum = $values;
@@ -184,6 +237,13 @@ class Definition
     public function setMaximum(float|int $maximum): Definition
     {
         $this->maximum = $maximum;
+
+        return $this;
+    }
+
+    public function setFormat(string $format): Definition
+    {
+        $this->format = $format;
 
         return $this;
     }

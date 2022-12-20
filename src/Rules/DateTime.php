@@ -11,9 +11,9 @@ use function sprintf;
 
 final class DateTime extends BaseRule
 {
-    private string $format;
+    private ?string $format;
 
-    public function __construct(string $format, ?string $message = null)
+    public function __construct(string $format = null, ?string $message = null)
     {
         parent::__construct($message);
 
@@ -26,7 +26,12 @@ final class DateTime extends BaseRule
             throw new PropertyIsNotStringException();
         }
 
-        $dt = \DateTime::createFromFormat($this->format, $value);
+        $format = $this->format;
+        if ($this->format === null) {
+            $format = \DateTime::RFC3339;
+        }
+
+        $dt = \DateTime::createFromFormat($format, $value);
         if ($dt === false) {
             $this->fail($this->getMessage(sprintf('Invalid format %s.', $this->format)));
         }

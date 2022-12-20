@@ -20,9 +20,14 @@ paths:
               schema:
                 $ref: !schema Schema\Article
   /articles:
-    get:
+    post:
       summary: Get all articles
       tags: [ Public ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: !schema Schema\ArticlesFilter
       responses:
         200:
           description: OK

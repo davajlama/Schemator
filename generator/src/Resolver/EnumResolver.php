@@ -23,15 +23,7 @@ final class EnumResolver implements ResolverInterface
     {
         $values = ReflectionExtractor::getProperty($rule, 'values');
 
-        $enumDefinition = new Definition();
-        $enumDefinition->setEnum($values);
-
-        foreach ($this->getTypes($values) as $type) {
-            $enumDefinition->addType($type);
-        }
-
-        $definition->addType('array');
-        $definition->setItems($enumDefinition->build());
+        $definition->setEnum($values);
     }
 
     private function getTypes(array $values): array
