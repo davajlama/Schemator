@@ -15,4 +15,4 @@ paths:
           content:
             application/json:
               schema:
-                $ref: !schema HomepageSchema
+                $ref: !schema Davajlama\Schemator\OpenApi\Examples\HomepageSchema

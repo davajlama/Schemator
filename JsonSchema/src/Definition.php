@@ -37,6 +37,9 @@ class Definition
 
     private ?int $maxLength = null;
 
+    /**
+     * @var mixed[]
+     */
     private ?array $enum = null;
 
     private float|int|null $minimum = null;
@@ -81,6 +84,9 @@ class Definition
         );
     }
 
+    /**
+     * @return mixed[]|null
+     */
     protected function buildItems(): ?array
     {
         return $this->items?->build();
@@ -219,6 +225,9 @@ class Definition
         return $this;
     }
 
+    /**
+     * @param mixed[] $values
+     */
     public function setEnum(array $values): Definition
     {
         $this->enum = $values;

@@ -29,6 +29,9 @@ final class OpenApiBuilder
     private const TAG_INCLUDE = 'include';
     private const TAG_IMPORT_STRING = 'import_string';
 
+    /**
+     * @var string[]
+     */
     private array $schemas = [];
 
     /**
@@ -50,21 +53,27 @@ final class OpenApiBuilder
 
     public function build(string $content, ?string $path = null): string
     {
-        $data = $this->buildArray($content);
+        $data = $this->buildArray($content, $path);
 
         return Yaml::dump($data, 512, 2);
     }
 
     public function buildFromFile(string $file): string
     {
-        return $this->build(file_get_contents($file), dirname($file));
+        return $this->build((string) file_get_contents($file), dirname($file));
     }
 
+    /**
+     * @return mixed[]
+     */
     public function buildArrayFromFile(string $file): array
     {
-        return $this->buildArray(file_get_contents($file), dirname($file));
+        return $this->buildArray((string) file_get_contents($file), dirname($file));
     }
 
+    /**
+     * @return mixed[]
+     */
     public function buildArray(string $content, ?string $path = null): array
     {
         $data = Yaml::parse($content, Yaml::PARSE_CUSTOM_TAGS);
@@ -77,7 +86,12 @@ final class OpenApiBuilder
             if ($value instanceof TaggedValue) {
                 switch ($value->getTag()) {
                     case self::TAG_SCHEMA:
-                        $this->schemas[] = $value->getValue();
+                        $val = $value->getValue();
+                        if (!is_string($val)) {
+                            throw new LogicException(sprintf('Schema class name must be a string, %s given.', gettype($val)));
+                        }
+
+                        $this->schemas[] = $val;
                         $value = $this->generateSchemaReference($value->getValue());
                         break;
 
@@ -103,10 +117,12 @@ final class OpenApiBuilder
 
         $data['components'] = $this->createComponent();
 
-        //var_dump($data);exit;
         return $data;
     }
 
+    /**
+     * @return mixed[]
+     */
     private function createComponent(): array
     {
         return [
@@ -114,14 +130,13 @@ final class OpenApiBuilder
         ];
     }
 
+    /**
+     * @return mixed[]
+     */
     private function createComponentSchema(): array
     {
         $list = [];
         foreach (array_unique($this->schemas) as $schemaClass) {
-            if (!is_string($schemaClass)) {
-                throw new LogicException(sprintf('Schema class name must be a string, %s given.', gettype($schemaClass)));
-            }
-
             $schema = $this->loadSchema($schemaClass);
 
             $generator = new JsonSchemaBuilder();
@@ -149,6 +164,9 @@ final class OpenApiBuilder
         return $list;
     }
 
+    /**
+     * @param mixed[] $array
+     */
     private function arrayWalkRecursive(array &$array, callable $callback): void
     {
         foreach ($array as $key => &$value) {

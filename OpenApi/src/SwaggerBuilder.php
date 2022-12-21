@@ -10,11 +10,14 @@ use function strtr;
 
 final class SwaggerBuilder
 {
+    /**
+     * @param mixed[] $spec
+     */
     public function buildFromArray(array $spec, string $title = 'Project documentation'): string
     {
         $json = json_encode($spec, JSON_THROW_ON_ERROR);
 
-        $content = file_get_contents(__DIR__ . '/../resources/swagger.tpl');
+        $content = (string) file_get_contents(__DIR__ . '/../resources/swagger.tpl');
 
         return strtr($content, [
             '::title' => $title,

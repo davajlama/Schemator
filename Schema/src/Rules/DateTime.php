@@ -27,13 +27,13 @@ final class DateTime extends BaseRule
         }
 
         $format = $this->format;
-        if ($this->format === null) {
+        if ($format === null) {
             $format = \DateTime::RFC3339;
         }
 
         $dt = \DateTime::createFromFormat($format, $value);
         if ($dt === false) {
-            $this->fail($this->getMessage(sprintf('Invalid format %s.', $this->format)));
+            $this->fail($this->getMessage(sprintf('Invalid format %s.', $format)));
         }
     }
 }

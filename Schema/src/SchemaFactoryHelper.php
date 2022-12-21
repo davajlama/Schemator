@@ -33,10 +33,14 @@ trait SchemaFactoryHelper
             throw new LogicException(sprintf('Schema %s not exists.', $schema));
         }
 
-        if (in_array(Schema::class, class_parents($schema), true) === false) {
+        $parents = class_parents($schema);
+        if ($parents === false || in_array(Schema::class, $parents, true) === false) {
             throw new LogicException(sprintf('Schema must be instance of %s, %s given.', Schema::class, $schema));
         }
 
-        return $this->schemaCollection[$schema] = new $schema();
+        /** @var Schema $object */
+        $object = new $schema();
+
+        return $this->schemaCollection[$schema] = $object;
     }
 }

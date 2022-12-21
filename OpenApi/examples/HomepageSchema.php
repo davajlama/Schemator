@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-final class HomepageSchema extends Davajlama\Schemator\Schema\Schema
+namespace Davajlama\Schemator\OpenApi\Examples;
+
+use Davajlama\Schemator\Schema\Schema;
+
+final class HomepageSchema extends Schema
 {
     public function __construct()
     {

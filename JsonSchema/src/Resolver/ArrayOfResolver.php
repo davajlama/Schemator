@@ -9,6 +9,7 @@ use Davajlama\Schemator\JsonSchema\JsonSchemaBuilder;
 use Davajlama\Schemator\JsonSchema\ReflectionExtractor;
 use Davajlama\Schemator\Schema\RuleInterface;
 use Davajlama\Schemator\Schema\Rules\ArrayOf;
+use Davajlama\Schemator\Schema\Schema;
 
 final class ArrayOfResolver implements ResolverInterface, SchemaGeneratorAwareInterface
 {
@@ -28,6 +29,7 @@ final class ArrayOfResolver implements ResolverInterface, SchemaGeneratorAwareIn
     {
         $itemDefinition = new Definition();
 
+        /** @var Schema $schema */
         $schema = ReflectionExtractor::getProperty($rule, 'schema');
         $this->schemaGenerator->generateFromSchema($schema, $itemDefinition);
 

@@ -18,10 +18,14 @@ final class BaseSchemaLoader implements SchemaLoaderInterface
             return null;
         }
 
-        if (!in_array(Schema::class, class_parents($class), true)) {
+        $parents = class_parents($class);
+        if ($parents === false || !in_array(Schema::class, $parents, true)) {
             return null;
         }
 
-        return new $class();
+        /** @var Schema $object */
+        $object = new $class();
+
+        return $object;
     }
 }

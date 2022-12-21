@@ -20,6 +20,7 @@ final class DateTimeResolver implements ResolverInterface
     {
         $schemaFormat = 'date-time';
 
+        /** @var ?string $format */
         $format = ReflectionExtractor::getProperty($rule, 'format');
         if ($format !== null) {
             $schemaFormat = $format;
