@@ -15,5 +15,9 @@ class Content
         $this->type = $type;
     }
 
+    public function getType(): string
+    {
+        return $this->type;
+    }
 
 }

@@ -23,7 +23,12 @@ class Method implements DefinitionInterface
     /**
      * @var string[]
      */
-    private ?array $tags;
+    private ?array $tags = null;
+
+    /**
+     * @var Response[]|null
+     */
+    private ?array $responses = null;
 
     public function __construct(string $name)
     {
@@ -33,6 +38,16 @@ class Method implements DefinitionInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function build(): array
+    {
+        return [
+            $this->name => $this->join(
+                $this->prop('summary', $this->summary),
+                $this->prop('tags', $this->tags),
+            ),
+        ];
     }
 
     public function summary(string $summary): self
@@ -49,13 +64,42 @@ class Method implements DefinitionInterface
         return $this;
     }
 
-    public function build(): array
+    public function response(int $status): Response
     {
-        return [
-            $this->name => $this->join(
-                $this->prop('summary', $this->summary),
-                $this->prop('tags', $this->tags),
-            ),
-        ];
+        $response = $this->findResponse($status);
+        if ($response === null) {
+            $response = new Response($status);
+            $this->addResponse($response);
+        }
+
+        return $response;
+    }
+
+    public function addResponse(Response $response): self
+    {
+        if ($this->responses === null) {
+            $this->responses = [];
+        }
+
+        if ($this->findResponse($response->getStatus()) !== null) {
+            throw new \LogicException(sprintf('Response with status %d already exists.', $response->getStatus()));
+        }
+
+        $this->responses[] = $response;
+
+        return $this;
+    }
+
+    protected function findResponse(int $status): ?Response
+    {
+        if ($this->responses !== null) {
+            foreach ($this->responses as $response) {
+                if ($response->getStatus() === $status) {
+                    return $response;
+                }
+            }
+        }
+
+        return null;
     }
 }
