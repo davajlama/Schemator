@@ -12,7 +12,9 @@ $api->info()->description('Demo API description');
 $orders = $api->path('/orders/list');
 $orders->method('get')
     ->tags('Public')
-    ->summary('Get all orders');
+    ->summary('Get all orders')
+    ->response(200)
+        ->addContent((new Api\JsonContent()));
 
 
 

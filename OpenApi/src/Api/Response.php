@@ -92,7 +92,7 @@ class Response implements DefinitionInterface
         if ($this->contents !== null) {
             $result = [];
             foreach ($this->contents as $content) {
-                $result = $this->join($result, $content);
+                $result = $this->join($result, $content->build());
             }
         }
 

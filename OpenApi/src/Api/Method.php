@@ -46,6 +46,7 @@ class Method implements DefinitionInterface
             $this->name => $this->join(
                 $this->prop('summary', $this->summary),
                 $this->prop('tags', $this->tags),
+                $this->prop('responses', $this->buildResponses()),
             ),
         ];
     }
@@ -101,5 +102,18 @@ class Method implements DefinitionInterface
         }
 
         return null;
+    }
+
+    protected function buildResponses(): ?array
+    {
+        $result = null;
+        if ($this->responses !== null) {
+            $result = [];
+            foreach ($this->responses as $response) {
+                $result = $this->join($result, $response->build());
+            }
+        }
+
+        return $result;
     }
 }
