@@ -12,7 +12,9 @@ class Info implements DefinitionInterface
     use PropertyHelper;
 
     private ?string $version = null;
+
     private ?string $title = null;
+
     private ?string $description = null;
 
     public function version(string $version): self
@@ -36,6 +38,9 @@ class Info implements DefinitionInterface
         return $this;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function build(): array
     {
         return $this->join(

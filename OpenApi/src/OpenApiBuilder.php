@@ -7,19 +7,13 @@ namespace Davajlama\Schemator\OpenApi;
 use Davajlama\Schemator\JsonSchema\JsonSchemaBuilder;
 use Davajlama\Schemator\Schema\Schema;
 use LogicException;
-use Symfony\Component\Yaml\Tag\TaggedValue;
-use Symfony\Component\Yaml\Yaml;
 
 use function array_search;
 use function array_unique;
 use function array_walk_recursive;
 use function count;
-use function dirname;
-use function file_get_contents;
-use function gettype;
 use function in_array;
 use function is_array;
-use function is_string;
 use function reset;
 use function sprintf;
 
@@ -51,14 +45,17 @@ final class OpenApiBuilder
         return $this;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function build(Api $api): array
     {
         $data = $api->build();
 
         array_walk_recursive($data, function (&$value): void {
             if ($value instanceof Schema) {
-                $this->schemas[] = get_class($value);
-                $value = $this->generateSchemaReference(get_class($value));
+                $this->schemas[] = $value::class;
+                $value = $this->generateSchemaReference($value::class);
             }
         });
 

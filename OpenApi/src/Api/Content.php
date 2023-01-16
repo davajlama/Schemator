@@ -26,6 +26,9 @@ class Content implements DefinitionInterface
         return $this->type;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function build(): array
     {
         return [

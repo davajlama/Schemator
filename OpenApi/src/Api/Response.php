@@ -6,6 +6,9 @@ namespace Davajlama\Schemator\OpenApi\Api;
 
 use Davajlama\Schemator\OpenApi\DefinitionInterface;
 use Davajlama\Schemator\OpenApi\PropertyHelper;
+use LogicException;
+
+use function sprintf;
 
 class Response implements DefinitionInterface
 {
@@ -30,6 +33,9 @@ class Response implements DefinitionInterface
         return $this->status;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function build(): array
     {
         return [
@@ -65,7 +71,7 @@ class Response implements DefinitionInterface
         }
 
         if ($this->findContent($content->getType()) !== null) {
-            throw new \LogicException(sprintf('Content with type %s already exists.', $content->getType()));
+            throw new LogicException(sprintf('Content with type %s already exists.', $content->getType()));
         }
 
         $this->contents[] = $content;
@@ -86,6 +92,9 @@ class Response implements DefinitionInterface
         return null;
     }
 
+    /**
+     * @return mixed[]|null
+     */
     protected function buildContents(): ?array
     {
         $result = null;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Davajlama\Schemator\OpenApi\Api;
 use Davajlama\Schemator\OpenApi\Examples\HomepageSchema;
 use Davajlama\Schemator\OpenApi\OpenApiBuilder;

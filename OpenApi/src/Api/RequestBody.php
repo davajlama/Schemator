@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\OpenApi\Api;
 
+use Davajlama\Schemator\OpenApi\DefinitionInterface;
 use Davajlama\Schemator\OpenApi\PropertyHelper;
+use LogicException;
 
-class RequestBody
+use function sprintf;
+
+class RequestBody implements DefinitionInterface
 {
     use PropertyHelper;
 
@@ -15,6 +19,9 @@ class RequestBody
      */
     private ?array $contents = null;
 
+    /**
+     * @return mixed[]
+     */
     public function build(): array
     {
         return [
@@ -40,7 +47,7 @@ class RequestBody
         }
 
         if ($this->findContent($content->getType()) !== null) {
-            throw new \LogicException(sprintf('Content with type %s already exists.', $content->getType()));
+            throw new LogicException(sprintf('Content with type %s already exists.', $content->getType()));
         }
 
         $this->contents[] = $content;
@@ -61,6 +68,9 @@ class RequestBody
         return null;
     }
 
+    /**
+     * @return mixed[]|null
+     */
     protected function buildContents(): ?array
     {
         $result = null;

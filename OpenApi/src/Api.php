@@ -25,6 +25,9 @@ class Api implements DefinitionInterface
         $this->version = $version;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function build(): array
     {
         return $this->join(
@@ -78,6 +81,9 @@ class Api implements DefinitionInterface
         return null;
     }
 
+    /**
+     * @return mixed[]|null
+     */
     protected function buildPaths(): ?array
     {
         $result = null;

@@ -6,6 +6,9 @@ namespace Davajlama\Schemator\OpenApi\Api;
 
 use Davajlama\Schemator\OpenApi\DefinitionInterface;
 use Davajlama\Schemator\OpenApi\PropertyHelper;
+use LogicException;
+
+use function sprintf;
 
 final class Path implements DefinitionInterface
 {
@@ -23,6 +26,9 @@ final class Path implements DefinitionInterface
         $this->name = $name;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function build(): array
     {
         return [
@@ -53,7 +59,7 @@ final class Path implements DefinitionInterface
         }
 
         if ($this->findMethod($method->getName()) !== null) {
-            throw new \LogicException(sprintf('Method %s already exists.', $method->getName()));
+            throw new LogicException(sprintf('Method %s already exists.', $method->getName()));
         }
 
         $this->methods[] = $method;
@@ -61,6 +67,9 @@ final class Path implements DefinitionInterface
         return $this;
     }
 
+    /**
+     * @return mixed[]|null
+     */
     protected function buildMethods(): ?array
     {
         $result = null;

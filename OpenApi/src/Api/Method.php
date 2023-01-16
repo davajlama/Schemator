@@ -6,15 +6,18 @@ namespace Davajlama\Schemator\OpenApi\Api;
 
 use Davajlama\Schemator\OpenApi\DefinitionInterface;
 use Davajlama\Schemator\OpenApi\PropertyHelper;
+use LogicException;
+
+use function sprintf;
 
 class Method implements DefinitionInterface
 {
     use PropertyHelper;
 
-    const GET = 'get';
-    const POST = 'post';
-    const PUT = 'put';
-    const PATCH = 'patch';
+    public const GET = 'get';
+    public const POST = 'post';
+    public const PUT = 'put';
+    public const PATCH = 'patch';
 
     private string $name;
 
@@ -42,6 +45,9 @@ class Method implements DefinitionInterface
         return $this->name;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function build(): array
     {
         return [
@@ -95,7 +101,7 @@ class Method implements DefinitionInterface
         }
 
         if ($this->findResponse($response->getStatus()) !== null) {
-            throw new \LogicException(sprintf('Response with status %d already exists.', $response->getStatus()));
+            throw new LogicException(sprintf('Response with status %d already exists.', $response->getStatus()));
         }
 
         $this->responses[] = $response;
@@ -116,6 +122,9 @@ class Method implements DefinitionInterface
         return null;
     }
 
+    /**
+     * @return mixed[]|null
+     */
     protected function buildResponses(): ?array
     {
         $result = null;
