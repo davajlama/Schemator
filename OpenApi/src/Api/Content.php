@@ -34,4 +34,11 @@ class Content implements DefinitionInterface
             ),
         ];
     }
+
+    public function schema(Schema $schema): self
+    {
+        $this->schema = $schema;
+
+        return $this;
+    }
 }

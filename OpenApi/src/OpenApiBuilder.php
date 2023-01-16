@@ -51,67 +51,14 @@ final class OpenApiBuilder
         return $this;
     }
 
-    public function build(string $content, ?string $path = null): string
+    public function build(Api $api): array
     {
-        $data = $this->buildArray($content, $path);
+        $data = $api->build();
 
-        return Yaml::dump($data, 512, 2);
-    }
-
-    public function buildFromFile(string $file): string
-    {
-        return $this->build((string) file_get_contents($file), dirname($file));
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public function buildArrayFromFile(string $file): array
-    {
-        return $this->buildArray((string) file_get_contents($file), dirname($file));
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public function buildArray(string $content, ?string $path = null): array
-    {
-        $data = Yaml::parse($content, Yaml::PARSE_CUSTOM_TAGS);
-
-        if (!is_array($data)) {
-            throw new LogicException(sprintf('Parsed result must be an array, %s given.', gettype($data)));
-        }
-
-        array_walk_recursive($data, function (&$value) use ($path): void {
-            if ($value instanceof TaggedValue) {
-                switch ($value->getTag()) {
-                    case self::TAG_SCHEMA:
-                        $val = $value->getValue();
-                        if (!is_string($val)) {
-                            throw new LogicException(sprintf('Schema class name must be a string, %s given.', gettype($val)));
-                        }
-
-                        $this->schemas[] = $val;
-                        $value = $this->generateSchemaReference($value->getValue());
-                        break;
-
-                    case self::TAG_INCLUDE:
-                        if ($path === null) {
-                            throw new LogicException('Cannot use include tag without base path.');
-                        }
-
-                        $value = $this->buildArrayFromFile($path . DIRECTORY_SEPARATOR . $value->getValue());
-                        break;
-                    case self::TAG_IMPORT_STRING:
-                        if ($path === null) {
-                            throw new LogicException('Cannot use include tag without base path.');
-                        }
-
-                        $value = file_get_contents($path . DIRECTORY_SEPARATOR . $value->getValue());
-                        break;
-                    default:
-                        throw new LogicException(sprintf('Unsupported tag %s.', $value->getTag()));
-                }
+        array_walk_recursive($data, function (&$value): void {
+            if ($value instanceof Schema) {
+                $this->schemas[] = get_class($value);
+                $value = $this->generateSchemaReference(get_class($value));
             }
         });
 

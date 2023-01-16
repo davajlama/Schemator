@@ -18,7 +18,9 @@ class Method implements DefinitionInterface
 
     private string $name;
 
-    private ?string $summary;
+    private ?string $summary = null;
+
+    private ?RequestBody $requestBody = null;
 
     /**
      * @var string[]
@@ -46,6 +48,7 @@ class Method implements DefinitionInterface
             $this->name => $this->join(
                 $this->prop('summary', $this->summary),
                 $this->prop('tags', $this->tags),
+                $this->prop('requestBody', $this->requestBody?->build()),
                 $this->prop('responses', $this->buildResponses()),
             ),
         ];
@@ -63,6 +66,15 @@ class Method implements DefinitionInterface
         $this->tags = $tags;
 
         return $this;
+    }
+
+    public function requestBody(): RequestBody
+    {
+        if ($this->requestBody === null) {
+            $this->requestBody = new RequestBody();
+        }
+
+        return $this->requestBody;
     }
 
     public function response(int $status): Response
