@@ -32,7 +32,7 @@ use function sprintf;
  * @method self unique(?string $message = null)
  *
  * @method self callback(callable $callback)
- * @method self dateTime(string $format, ?string $message)
+ * @method self dateTime(string $format, ?string $message = null)
  */
 class Property
 {
@@ -42,7 +42,7 @@ class Property
 
     private ?Schema $reference = null;
 
-    private bool $required = true;
+    private bool $required = false;
 
     private bool $nullable = false;
 
