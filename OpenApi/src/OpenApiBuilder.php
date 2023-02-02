@@ -19,10 +19,6 @@ use function sprintf;
 
 final class OpenApiBuilder
 {
-    private const TAG_SCHEMA = 'schema';
-    private const TAG_INCLUDE = 'include';
-    private const TAG_IMPORT_STRING = 'import_string';
-
     /**
      * @var string[]
      */

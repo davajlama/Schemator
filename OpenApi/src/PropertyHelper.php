@@ -8,7 +8,7 @@ trait PropertyHelper
 {
     /**
      * @param string|int|float|bool|mixed[]|null $value
-     * @return array<string, string|int|float|bool|mixed[]>
+     * @return array<string, string|int|float|bool|mixed[]|object>
      */
     protected function prop(string $key, string|int|float|bool|array|null|object $value): array
     {

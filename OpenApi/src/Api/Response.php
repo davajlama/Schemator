@@ -39,10 +39,10 @@ class Response implements DefinitionInterface
     public function build(): array
     {
         return [
-            $this->status => $this->join([
+            $this->status => $this->join(
                 $this->prop('description', $this->description),
                 $this->prop('content', $this->buildContents()),
-            ]),
+            ),
         ];
     }
 
