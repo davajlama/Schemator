@@ -8,11 +8,12 @@
     <arg name="colors"/>
     <arg name="extensions" value="php"/>
 
-    <file>src/</file>
-    <file>tests/</file>
-    <file>generator/</file>
+    <file>Demo/</file>
+    <file>JsonSchema/</file>
+    <file>OpenApi/</file>
+    <file>Schema/</file>
 
-    <description>Custom project coding standard.</description>
+    <description>Davajlama project coding standard.</description>
 
     <rule ref="PSR1"/>
     <rule ref="PSR12">

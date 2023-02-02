@@ -1,0 +1,18 @@
+openapi: '3.0.2'
+info:
+  title: 'Homepage service'
+  version: '1.0.0'
+  description: 'Homepage content'
+paths:
+  /homepage:
+    get:
+      operationId: get-homepage
+      summary: Returns homepage content
+      tags: [ homepage, frontend ]
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: !schema Davajlama\Schemator\OpenApi\Examples\HomepageSchema

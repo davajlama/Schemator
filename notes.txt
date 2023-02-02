@@ -1,0 +1,51 @@
+Coding standards                                => davajlama/coding-standard
+
+Davajlama\\Schemator                            => davajlama/schemator
+    - Davajlama\\Schemator\\Schema              => davajlama/schema
+    - Davajlama\\Schemator\\JsonSchemaBuilder   => davajlama/json-schema
+    - Davajlama\\Schemator\\OpenApiBuilder      => davajlama/open-api
+    - Davajlama\\Schemator\\CsvSchemaBuilder    => davajlama/csv-schema [future]
+
+
+Davajlama\\Schemator\\Schema
+----------------------------
+./Schema/examples
+./Schema/tests
+./Schema/src
+    - Schema.php [Davajlama\\Schemator\\Schema]
+    - Property.php [Davajlama\\Schemator\\Schema]
+
+
+Davajlama\\Schemator\\JsonSchema
+--------------------------------
+./JsonSchema/examples
+./JsonSchema/tests
+./JsonSchema/src
+    - JsonSchemaBuilder.php [Davajlama\\Schemator\\JsonSchema]
+    - Schema.php [Davajlama\\Schemator\\JsonSchema]
+
+
+Davajlama\\Schemator\\OpenApi
+-----------------------------
+./OpenApi/examples
+./OpenApi/tests
+./OpenApi/src
+    - OpenApiBuilder.php [Davajlama\\Schemator\\OpenApi]
+    - SwaggerBuilder.php [Davajlama\\Schemator\\OpenApi]
+
+
+Davajlama\\Schemator\\Demo
+--------------------------
+./Demo/index.php
+./Demo/readme.md
+./Demo/resources
+    - api.yaml
+    - description.md
+    - api
+        - article.yaml
+        - articles.yaml
+./Demo/src
+    - Schema
+        - Request
+            - Articles
+                - Filter.php [Davajlama\\Schemator\\Demo\\Schema\\Request\\Articles\\Filter]

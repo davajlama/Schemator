@@ -1,18 +1,5 @@
 {
     "name": "davajlama/schemator",
-    "autoload": {
-        "psr-4": {
-            "Davajlama\\Schemator\\": "src/",
-            "Davajlama\\JsonSchemaGenerator\\": "generator/src/",
-            "Davajlama\\Schemator\\OpenApi\\": "api/src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Davajlama\\Schemator\\Tests\\": "tests/",
-            "Davajlama\\Schemator\\Examples\\": "examples/"
-        }
-    },
     "authors": [
         {
             "name": "David Bittner",
@@ -31,6 +18,21 @@
         "phpstan/phpstan-strict-rules": "^1.1",
         "phpstan/phpstan-phpunit": "^1.0",
         "slevomat/coding-standard": "^7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Davajlama\\Schemator\\Schema\\": "Schema/src/",
+            "Davajlama\\Schemator\\JsonSchema\\": "JsonSchema/src/",
+            "Davajlama\\Schemator\\OpenApi\\": "OpenApi/src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Davajlama\\Schemator\\Schema\\Tests\\": "Schema/tests/",
+            "Davajlama\\Schemator\\JsonSchema\\Tests\\": "JsonSchema/tests/",
+            "Davajlama\\Schemator\\OpenApi\\Tests\\": "OpenApi/tests/",
+            "Davajlama\\Schemator\\Demo\\": "Demo/src/"
+        }
     },
     "config": {
         "allow-plugins": {
