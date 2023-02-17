@@ -68,7 +68,10 @@ class ArrayValidator implements ValidatorInterface
                         if (!$property->isNullable() || $payload[$unresolvedProperty] !== null) {
                             $subErrors = [];
                             if (is_array($payload[$unresolvedProperty])) {
-                                $subErrors = $this->doValidate($property->getReference(), $payload[$unresolvedProperty], $path);
+                                $subSubErrors = $this->doValidate($property->getReference(), $payload[$unresolvedProperty], $path);
+                                if (count($subSubErrors) > 0) {
+                                    $subErrors[] = new ErrorMessage('Object not valid.', $unresolvedProperty, $path, null, $subSubErrors);
+                                }
                             } else {
                                 $subErrors[] = new ErrorMessage('Must be an array.', $unresolvedProperty, $path);
                             }

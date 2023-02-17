@@ -41,7 +41,7 @@ class ArrayOf extends BaseRule implements ValidatorAwareInterface
                 $this->getValidator()->validate($this->schema, $item);
             } catch (ValidationFailedException $e) {
                 foreach ($e->getErrors() as $error) {
-                    $errors[] = new ErrorMessage($error->getMessage(), $error->getProperty(), $error->getPath(), $index);
+                    $errors[] = new ErrorMessage($error->getMessage(), $error->getProperty(), $error->getPath(), $index, $error->getErrors());
                 }
             }
         }
