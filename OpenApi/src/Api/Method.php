@@ -154,6 +154,26 @@ class Method implements DefinitionInterface
         return $this->response400BadRequest()->json($schema);
     }
 
+    public function jsonResponse401AuthorizationRequired(Schema $schema): Response
+    {
+        return $this->response401AuthorizationRequired()->json($schema);
+    }
+
+    public function jsonResponse403PermissionDenied(Schema $schema): Response
+    {
+        return $this->response403PermissionDenied()->json($schema);
+    }
+
+    public function jsonResponse404ResourceNotFound(Schema $schema): Response
+    {
+        return $this->response404ResourceNotFound()->json($schema);
+    }
+
+    public function jsonResponse500InternalServerError(Schema $schema): Response
+    {
+        return $this->response500InternalServerError()->json($schema);
+    }
+
     public function response400BadRequest(): Response
     {
         $response = $this->findResponse(400);
