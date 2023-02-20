@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Davajlama\Schemator\Demo\Entity\Integration;
 use Davajlama\Schemator\Demo\Schema\Response\Article;
 use Davajlama\Schemator\Demo\Schema\Response\Articles;
 use Davajlama\Schemator\Demo\Schema\Response\Author;
@@ -32,7 +33,7 @@ return Partition::create(static function (Api $api): void {
     $integrationCreate = $api->post('api/v2/user/integration/create');
     $integrationCreate->tags('User');
     $integrationCreate->jsonRequestBody(new Article());
-    $integrationCreate->jsonResponse200Ok(new Article());
+    $integrationCreate->jsonResponse200Ok(Integration::createSchema());
     $integrationCreate->jsonResponse400BadRequest(new Author());
     $integrationCreate->response401AuthorizationRequired();
     $integrationCreate->response500InternalServerError();
@@ -41,7 +42,7 @@ return Partition::create(static function (Api $api): void {
     $integrationUpdate->tags('User');
     $integrationUpdate->queryParam('id', true);
     $integrationUpdate->jsonRequestBody(new Article());
-    $integrationUpdate->jsonResponse200Ok(new Article());
+    $integrationUpdate->jsonResponse200Ok(Integration::createSchema());
     $integrationUpdate->response400BadRequest()->json(new Author());
     $integrationUpdate->response401AuthorizationRequired();
     $integrationUpdate->response404ResourceNotFound();

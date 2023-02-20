@@ -10,6 +10,8 @@ final class Author extends Schema
 {
     public function __construct()
     {
+        parent::__construct();
+
         $this->prop('firstname')->string();
         $this->prop('lastname')->string();
         $this->prop('email')->email();

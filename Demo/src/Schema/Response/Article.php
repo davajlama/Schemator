@@ -10,6 +10,8 @@ final class Article extends Schema
 {
     public function __construct()
     {
+        parent::__construct();
+
         $this->prop('title')->string()->minLength(1)->maxLength(255);
         $this->prop('description')->string()->maxLength(2048)->nullable();
         $this->prop('bestseller')->bool();

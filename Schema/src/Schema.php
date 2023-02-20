@@ -10,6 +10,8 @@ use function array_key_exists;
 
 class Schema
 {
+    private ?string $name = null;
+
     private ?RulesFactoryInterface $rulesFactory = null;
 
     private bool $additionalProperties = false;
@@ -18,6 +20,16 @@ class Schema
      * @var Property[]
      */
     private array $properties = [];
+
+    public function __construct(?string $name = null)
+    {
+        $this->name = $name;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 
     public function additionalProperties(bool $additionalProperties): self
     {

@@ -10,6 +10,8 @@ final class HomepageSchema extends Schema
 {
     public function __construct()
     {
+        parent::__construct();
+
         $this->prop('version')->integer()->title('Only for information.')->nullable();
         $this->prop('title')->string();
         $this->prop('content')->string();

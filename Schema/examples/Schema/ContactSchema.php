@@ -10,6 +10,8 @@ final class ContactSchema extends Schema
 {
     public function __construct()
     {
+        parent::__construct();
+
         $this->additionalProperties(false);
         $this->prop('firstname')->string()->required();
         $this->prop('surname')->string()->required();

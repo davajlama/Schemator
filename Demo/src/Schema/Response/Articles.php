@@ -10,6 +10,8 @@ final class Articles extends Schema
 {
     public function __construct()
     {
+        parent::__construct();
+
         $this->prop('list')->arrayOf(Article::class)->maxItems(100);
     }
 }

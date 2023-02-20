@@ -1,3 +1,7 @@
+Todos:
+response500InternalServerError => in JSON
+
+
 Coding standards                                => davajlama/coding-standard
 
 Davajlama\\Schemator                            => davajlama/schemator

@@ -9,37 +9,18 @@ use Davajlama\Schemator\Schema\Schema;
 use LogicException;
 
 use function array_search;
-use function array_unique;
 use function array_walk_recursive;
 use function count;
 use function in_array;
 use function is_array;
 use function reset;
-use function sprintf;
 
 final class OpenApiBuilder
 {
     /**
-     * @var string[]
+     * @var Schema[]
      */
     private array $schemas = [];
-
-    /**
-     * @var SchemaLoaderInterface[]
-     */
-    private array $schemaLoaders = [];
-
-    public function __construct()
-    {
-        $this->schemaLoaders[] = new BaseSchemaLoader();
-    }
-
-    public function addSchemaLoader(SchemaLoaderInterface $loader): self
-    {
-        $this->schemaLoaders[] = $loader;
-
-        return $this;
-    }
 
     /**
      * @return mixed[]
@@ -50,14 +31,20 @@ final class OpenApiBuilder
 
         array_walk_recursive($data, function (&$value): void {
             if ($value instanceof Schema) {
-                $this->schemas[] = $value::class;
-                $value = $this->generateSchemaReference($value::class);
+                $ref = $this->resolveSchemaName($value);
+                $this->schemas[$ref] = $value;
+                $value = $this->generateSchemaReference($ref);
             }
         });
 
         $data['components'] = $this->createComponent();
 
         return $data;
+    }
+
+    private function resolveSchemaName(Schema $schema): string
+    {
+        return $schema->getName() ?? $schema::class;
     }
 
     /**
@@ -76,9 +63,7 @@ final class OpenApiBuilder
     private function createComponentSchema(): array
     {
         $list = [];
-        foreach (array_unique($this->schemas) as $schemaClass) {
-            $schema = $this->loadSchema($schemaClass);
-
+        foreach ($this->schemas as $schemaClass => $schema) {
             $generator = new JsonSchemaBuilder();
             $data = $generator->build($schema);
             unset($data['$schema']);
@@ -115,18 +100,6 @@ final class OpenApiBuilder
                 $this->arrayWalkRecursive($value, $callback);
             }
         }
-    }
-
-    private function loadSchema(string $class): Schema
-    {
-        foreach ($this->schemaLoaders as $loader) {
-            $schema = $loader->resolve($class);
-            if ($schema !== null) {
-                return $schema;
-            }
-        }
-
-        throw new LogicException(sprintf('Schema %s could not be loaded.', $class));
     }
 
     private function generateSchemaReference(string $class): string
