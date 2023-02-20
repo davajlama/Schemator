@@ -149,6 +149,11 @@ class Method implements DefinitionInterface
         return $response;
     }
 
+    public function jsonResponse400BadRequest(Schema $schema): Response
+    {
+        return $this->response400BadRequest()->json($schema);
+    }
+
     public function response400BadRequest(): Response
     {
         $response = $this->findResponse(400);

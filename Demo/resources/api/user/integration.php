@@ -33,7 +33,7 @@ return Partition::create(static function (Api $api): void {
     $integrationCreate->tags('User');
     $integrationCreate->jsonRequestBody(new Article());
     $integrationCreate->jsonResponse200Ok(new Article());
-    $integrationCreate->response400BadRequest()->json(new Author());
+    $integrationCreate->jsonResponse400BadRequest(new Author());
     $integrationCreate->response401AuthorizationRequired();
     $integrationCreate->response500InternalServerError();
 
