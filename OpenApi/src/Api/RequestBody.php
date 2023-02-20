@@ -25,7 +25,7 @@ class RequestBody implements DefinitionInterface
     public function build(): array
     {
         return [
-            $this->prop('content', $this->buildContents()),
+            'content' => $this->buildContents(),
         ];
     }
 

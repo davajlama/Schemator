@@ -13,9 +13,11 @@ final class Parameter implements DefinitionInterface
 
     private string $name;
 
+    private ?string $description = null;
+
     private ?string $in = null;
 
-    private bool $required = true;
+    private bool $required = false;
 
     public function __construct(string $name)
     {
@@ -29,9 +31,29 @@ final class Parameter implements DefinitionInterface
     {
         return $this->join(
             $this->prop('name', $this->name),
+            $this->prop('description', $this->description),
             $this->prop('in', $this->in),
             $this->prop('required', $this->required),
         );
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function description(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function required(bool $required = true): self
+    {
+        $this->required = $required;
+
+        return $this;
     }
 
     public function in(string $where): self

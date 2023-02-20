@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\OpenApi;
 
 use Davajlama\Schemator\OpenApi\Api\Info;
+use Davajlama\Schemator\OpenApi\Api\Method;
 use Davajlama\Schemator\OpenApi\Api\Path;
 
 class Api implements DefinitionInterface
@@ -31,7 +32,7 @@ class Api implements DefinitionInterface
     public function build(): array
     {
         return $this->join(
-            $this->prop('version', $this->version),
+            $this->prop('openapi', $this->version),
             $this->prop('info', $this->info?->build()),
             $this->prop('paths', $this->buildPaths()),
         );
@@ -44,6 +45,26 @@ class Api implements DefinitionInterface
         }
 
         return $this->info;
+    }
+
+    public function get(string $path): Method
+    {
+        return $this->path($path)->get();
+    }
+
+    public function post(string $path): Method
+    {
+        return $this->path($path)->post();
+    }
+
+    public function put(string $path): Method
+    {
+        return $this->path($path)->put();
+    }
+
+    public function delete(string $path): Method
+    {
+        return $this->path($path)->delete();
     }
 
     public function path(string $name): Path

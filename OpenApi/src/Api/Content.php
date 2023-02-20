@@ -33,7 +33,9 @@ class Content implements DefinitionInterface
     {
         return [
             $this->type => $this->join(
-                $this->prop('$ref', $this->schema),
+                $this->prop('schema', $this->join(
+                    $this->prop('$ref', $this->schema),
+                )),
             ),
         ];
     }

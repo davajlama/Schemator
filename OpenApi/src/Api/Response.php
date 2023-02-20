@@ -6,6 +6,7 @@ namespace Davajlama\Schemator\OpenApi\Api;
 
 use Davajlama\Schemator\OpenApi\DefinitionInterface;
 use Davajlama\Schemator\OpenApi\PropertyHelper;
+use Davajlama\Schemator\Schema\Schema;
 use LogicException;
 
 use function sprintf;
@@ -49,6 +50,16 @@ class Response implements DefinitionInterface
     public function description(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function json(?Schema $schema = null): self
+    {
+        $content = $this->content('application/json');
+        if ($schema !== null) {
+            $content->schema($schema);
+        }
 
         return $this;
     }

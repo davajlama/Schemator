@@ -32,13 +32,38 @@ final class Path implements DefinitionInterface
     public function build(): array
     {
         return [
-            $this->prop($this->name, $this->buildMethods()),
+            $this->name => $this->buildMethods(),
         ];
     }
 
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function get(): Method
+    {
+        return $this->method(Method::GET);
+    }
+
+    public function post(): Method
+    {
+        return $this->method(Method::POST);
+    }
+
+    public function put(): Method
+    {
+        return $this->method(Method::PUT);
+    }
+
+    public function patch(): Method
+    {
+        return $this->method(Method::PATCH);
+    }
+
+    public function delete(): Method
+    {
+        return $this->method(Method::DELETE);
     }
 
     public function method(string $name): Method
