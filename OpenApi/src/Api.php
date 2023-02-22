@@ -67,6 +67,11 @@ class Api implements DefinitionInterface
         return $this->path($path)->delete();
     }
 
+    public function patch(string $path): Method
+    {
+        return $this->path($path)->patch();
+    }
+
     public function path(string $name): Path
     {
         $path = $this->findPath($name);

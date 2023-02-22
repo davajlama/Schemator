@@ -41,6 +41,13 @@ final class JsonSchemaBuilder
         $this->ruleResolvers[] = new FormatResolver();
     }
 
+    public function addResolver(ResolverInterface $resolver): self
+    {
+        $this->ruleResolvers[] = $resolver;
+
+        return $this;
+    }
+
     public function buildToJson(Schema $schema): string
     {
         return json_encode($this->build($schema), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);

@@ -17,10 +17,17 @@ use function reset;
 
 final class OpenApiBuilder
 {
+    private JsonSchemaBuilder $jsonSchemaBuilder;
+
     /**
      * @var Schema[]
      */
     private array $schemas = [];
+
+    public function __construct(JsonSchemaBuilder $jsonSchemaBuilder)
+    {
+        $this->jsonSchemaBuilder = $jsonSchemaBuilder;
+    }
 
     /**
      * @return mixed[]
@@ -64,12 +71,11 @@ final class OpenApiBuilder
     {
         $list = [];
         foreach ($this->schemas as $schemaClass => $schema) {
-            $generator = new JsonSchemaBuilder();
-            $data = $generator->build($schema);
+            $data = $this->jsonSchemaBuilder->build($schema);
             unset($data['$schema']);
 
-            $this->arrayWalkRecursive($data, static function (&$value, $key, &$parent): void {
-                if ($key === 'type' && is_array($value)) {
+            $this->arrayWalkRecursive($data, '', static function (&$value, $key, &$parent, $context): void {
+                if ($context !== 'properties' && $key === 'type' && is_array($value)) {
                     if (in_array('null', $value, true)) {
                         $parent['nullable'] = true;
                         unset($value[array_search('null', $value, true)]);
@@ -92,12 +98,12 @@ final class OpenApiBuilder
     /**
      * @param mixed[] $array
      */
-    private function arrayWalkRecursive(array &$array, callable $callback): void
+    private function arrayWalkRecursive(array &$array, string $context, callable $callback): void
     {
         foreach ($array as $key => &$value) {
-            $callback($value, $key, $array);
+            $callback($value, $key, $array, $context);
             if (is_array($value)) {
-                $this->arrayWalkRecursive($value, $callback);
+                $this->arrayWalkRecursive($value, $key, $callback);
             }
         }
     }

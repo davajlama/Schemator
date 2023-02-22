@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Davajlama\Schemator\JsonSchema\JsonSchemaBuilder;
 use Davajlama\Schemator\OpenApi\Api;
 use Davajlama\Schemator\OpenApi\Examples\HomepageSchema;
 use Davajlama\Schemator\OpenApi\OpenApiBuilder;
@@ -25,5 +26,5 @@ $ordersGET->requestBody()
 $ordersGET->response(200)
         ->addContent(new Api\JsonContent(new HomepageSchema()));
 
-$builder = new OpenApiBuilder();
+$builder = new OpenApiBuilder(new JsonSchemaBuilder());
 var_dump($builder->build($api));

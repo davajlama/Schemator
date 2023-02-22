@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Davajlama\Schemator\JsonSchema\JsonSchemaBuilder;
 use Davajlama\Schemator\OpenApi\OpenApiBuilder;
 use Davajlama\Schemator\OpenApi\SwaggerBuilder;
 
@@ -12,7 +13,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $api = require_once __DIR__ . '/resources/api.php';
 
-$openApi = new OpenApiBuilder();
+$openApi = new OpenApiBuilder(new JsonSchemaBuilder());
 $payload = $openApi->build($api);
 
 if (isset($_GET['dump'])) {
