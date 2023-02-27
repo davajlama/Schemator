@@ -18,5 +18,6 @@ final class Product
         public float|int $price,
         public Author $author,
         public string|int|null $image,
-    ) {}
+    ) {
+    }
 }

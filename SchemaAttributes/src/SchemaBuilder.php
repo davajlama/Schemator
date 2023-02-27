@@ -9,21 +9,23 @@ use Davajlama\Schemator\Schema\Schema;
 final class SchemaBuilder
 {
     private PropertiesLoader $propertiesLoader;
+
     private AttributesLoader $attributesLoader;
 
-    public function __construct(PropertiesLoader $propertiesLoader, AttributesLoader $attributesLoader)
+    public function __construct()
     {
-        $this->propertiesLoader = $propertiesLoader;
-        $this->attributesLoader = $attributesLoader;
+        $this->propertiesLoader = new PropertiesLoader();
+        $this->attributesLoader = new AttributesLoader($this);
     }
 
     public function build(string $class): Schema
     {
         $schema = new Schema($class);
 
-        $properties = $this->propertiesLoader->load($class);
+        $properties = $this->propertiesLoader->loadFromConstructor($class);
+
         foreach ($properties as $property) {
-            $attributes = $this->attributesLoader->load($property);
+            $attributes = $this->attributesLoader->loadFromParameter($property);
 
             $prop = $schema->prop($property->getName());
             foreach ($attributes as $attribute) {

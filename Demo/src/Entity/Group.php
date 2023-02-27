@@ -7,6 +7,7 @@ namespace Davajlama\Schemator\Demo\Entity;
 final class Group
 {
     public function __construct(
-        public ?int $id,
-    ) {}
+        public int|string|null $id,
+    ) {
+    }
 }
