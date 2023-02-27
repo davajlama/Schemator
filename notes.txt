@@ -4,10 +4,11 @@ response500InternalServerError => in JSON
 
 Coding standards                                => davajlama/coding-standard
 
-Davajlama\\Schemator                            => davajlama/schemator
+Davajlama\\Schemator                            => davajlama/schemator (with DEMO)
     - Davajlama\\Schemator\\Schema              => davajlama/schema
     - Davajlama\\Schemator\\JsonSchemaBuilder   => davajlama/json-schema
     - Davajlama\\Schemator\\OpenApiBuilder      => davajlama/open-api
+    - Davajlama\\Schemator\\SchemaAttributes    => davajlama/schema-attributes
     - Davajlama\\Schemator\\CsvSchemaBuilder    => davajlama/csv-schema [future]
 
 

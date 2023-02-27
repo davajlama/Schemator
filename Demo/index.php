@@ -13,6 +13,13 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $api = require_once __DIR__ . '/resources/api.php';
 
+echo '<pre>';
+$schemaBuilder = new \Davajlama\Schemator\SchemaAttributes\SchemaBuilder(new \Davajlama\Schemator\SchemaAttributes\PropertiesLoader(), new \Davajlama\Schemator\SchemaAttributes\AttributesLoader());
+$schema = $schemaBuilder->build(\Davajlama\Schemator\Demo\Entity\Group::class);
+
+var_dump($schema);
+exit;
+
 $openApi = new OpenApiBuilder(new JsonSchemaBuilder());
 $payload = $openApi->build($api);
 
