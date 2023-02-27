@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\SchemaAttributes\Attribute;
 
+use Attribute;
 use Davajlama\Schemator\Schema\Schema;
-use Davajlama\Schemator\SchemaAttributes\EntityAttribute;
+use Davajlama\Schemator\SchemaAttributes\SchemaAttribute;
 
-#[\Attribute(\Attribute::TARGET_CLASS)]
-final class AdditionalProperties implements EntityAttribute
+#[Attribute(Attribute::TARGET_CLASS)]
+final class AdditionalProperties implements SchemaAttribute
 {
     private bool $allowed;
 
