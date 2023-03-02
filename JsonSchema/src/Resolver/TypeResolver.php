@@ -6,6 +6,7 @@ namespace Davajlama\Schemator\JsonSchema\Resolver;
 
 use Davajlama\Schemator\JsonSchema\Definition;
 use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\Rules\Type\ArrayOfIntegerType;
 use Davajlama\Schemator\Schema\Rules\Type\ArrayOfStringType;
 use Davajlama\Schemator\Schema\Rules\Type\ArrayType;
 use Davajlama\Schemator\Schema\Rules\Type\BoolType;
@@ -22,7 +23,8 @@ final class TypeResolver implements ResolverInterface
             || $rule instanceof ArrayType
             || $rule instanceof BoolType
             || $rule instanceof IntegerType
-            || $rule instanceof ArrayOfStringType;
+            || $rule instanceof ArrayOfStringType
+            || $rule instanceof ArrayOfIntegerType;
     }
 
     public function resolve(Definition $definition, RuleInterface $rule): void
@@ -43,6 +45,12 @@ final class TypeResolver implements ResolverInterface
 
             $definition->addType('array');
             $definition->setItems($stringDefinition);
+        } elseif ($rule instanceof ArrayOfIntegerType) {
+            $integerDefinition = new Definition();
+            $integerDefinition->addType('integer');
+
+            $definition->addType('array');
+            $definition->setItems($integerDefinition);
         }
     }
 }

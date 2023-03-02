@@ -16,6 +16,7 @@ use function sprintf;
  * @method self bool(?string $message = null)
  * @method self array(?string $message = null)
  * @method self arrayOfString(?string $message = null)
+ * @method self arrayOfInteger(?string $message = null)
  *
  * @method self enum(array $values, ?string $message = null)
  * @method self email(?string $message = null)

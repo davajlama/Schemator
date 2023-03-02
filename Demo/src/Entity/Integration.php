@@ -13,6 +13,7 @@ final class Integration
         $schema = new Schema(self::class);
         $schema->prop('name')->string()->required();
         $schema->prop('description')->string()->required();
+        $schema->prop('integers')->arrayOfInteger();
 
         return $schema;
     }
