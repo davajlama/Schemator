@@ -9,7 +9,9 @@ use Davajlama\Schemator\Schema\Extractor\ArrayExtractor;
 use Davajlama\Schemator\Schema\Extractor\ExtractorAwareInterface;
 use Davajlama\Schemator\Schema\Extractor\ExtractorInterface;
 use Davajlama\Schemator\Schema\Schema;
-use Davajlama\Schemator\Schema\SchemaFactoryHelper;
+use Davajlama\Schemator\Schema\SchemaFactory;
+use Davajlama\Schemator\Schema\SchemaFactoryAwareInterface;
+use Davajlama\Schemator\Schema\SchemaFactoryInterface;
 use InvalidArgumentException;
 
 use function array_key_exists;
@@ -23,12 +25,13 @@ use function sprintf;
 
 class ArrayValidator implements ValidatorInterface
 {
-    use SchemaFactoryHelper;
-
     private ExtractorInterface $extractor;
 
-    public function __construct()
+    private SchemaFactoryInterface $schemaFactory;
+
+    public function __construct(?SchemaFactoryInterface $schemaFactory = null)
     {
+        $this->schemaFactory = $schemaFactory ?? new SchemaFactory();
         $this->extractor = new ArrayExtractor();
     }
 
@@ -37,7 +40,7 @@ class ArrayValidator implements ValidatorInterface
      */
     public function validate(Schema|string $schema, array $payload): void
     {
-        $schema = $this->createSchema($schema);
+        $schema = $this->schemaFactory->create($schema);
         $errors = $this->doValidate($schema, $payload, []);
 
         if (count($errors) > 0) {
@@ -68,7 +71,7 @@ class ArrayValidator implements ValidatorInterface
                         if (!$property->isNullable() || $payload[$unresolvedProperty] !== null) {
                             $subErrors = [];
                             if (is_array($payload[$unresolvedProperty])) {
-                                $subSubErrors = $this->doValidate($property->getReference(), $payload[$unresolvedProperty], $path);
+                                $subSubErrors = $this->doValidate($this->schemaFactory->create($property->getReference()), $payload[$unresolvedProperty], $path);
                                 if (count($subSubErrors) > 0) {
                                     $subErrors[] = new ErrorMessage('Object not valid.', $unresolvedProperty, $path, null, $subSubErrors);
                                 }
@@ -94,6 +97,10 @@ class ArrayValidator implements ValidatorInterface
 
                                 if ($rule instanceof ValidatorAwareInterface) {
                                     $rule->setValidator($this);
+                                }
+
+                                if ($rule instanceof SchemaFactoryAwareInterface) {
+                                    $rule->setSchemaFactory($this->schemaFactory);
                                 }
 
                                 try {

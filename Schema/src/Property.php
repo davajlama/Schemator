@@ -37,11 +37,9 @@ use function sprintf;
  */
 class Property
 {
-    use SchemaFactoryHelper;
-
     private RulesFactoryInterface $rulesFactory;
 
-    private ?Schema $reference = null;
+    private Schema|string|null $reference = null;
 
     private bool $required = false;
 
@@ -97,10 +95,6 @@ class Property
             throw new LogicException('Cannot assignee reference when rules not empty.');
         }
 
-        if ($schema !== null) {
-            $schema = $this->createSchema($schema);
-        }
-
         $this->reference = $schema;
 
         return $this;
@@ -145,7 +139,7 @@ class Property
         return $this->rules;
     }
 
-    public function getReference(): ?Schema
+    public function getReference(): Schema|string|null
     {
         return $this->reference;
     }

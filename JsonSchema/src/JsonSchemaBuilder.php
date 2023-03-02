@@ -15,6 +15,9 @@ use Davajlama\Schemator\JsonSchema\Resolver\ResolverInterface;
 use Davajlama\Schemator\JsonSchema\Resolver\SchemaGeneratorAwareInterface;
 use Davajlama\Schemator\JsonSchema\Resolver\TypeResolver;
 use Davajlama\Schemator\Schema\Schema;
+use Davajlama\Schemator\Schema\SchemaFactory;
+use Davajlama\Schemator\Schema\SchemaFactoryAwareInterface;
+use Davajlama\Schemator\Schema\SchemaFactoryInterface;
 use LogicException;
 
 use function json_encode;
@@ -22,6 +25,8 @@ use function sprintf;
 
 final class JsonSchemaBuilder
 {
+    private SchemaFactoryInterface $schemaFactory;
+
     private bool $throwOnUnresolvedRule = true;
 
     /**
@@ -29,8 +34,10 @@ final class JsonSchemaBuilder
      */
     private array $ruleResolvers = [];
 
-    public function __construct()
+    public function __construct(?SchemaFactoryInterface $schemaFactory = null)
     {
+        $this->schemaFactory = $schemaFactory ?? new SchemaFactory();
+
         $this->ruleResolvers[] = new TypeResolver();
         $this->ruleResolvers[] = new ArrayOfResolver();
         $this->ruleResolvers[] = new EnumResolver();
@@ -80,6 +87,10 @@ final class JsonSchemaBuilder
                             $resolver->setSchemaGenerator($this);
                         }
 
+                        if ($resolver instanceof SchemaFactoryAwareInterface) {
+                            $resolver->setSchemaFactory($this->schemaFactory);
+                        }
+
                         if ($resolver->support($rule)) {
                             $resolved = true;
                             $resolver->resolve($definition, $rule);
@@ -107,7 +118,7 @@ final class JsonSchemaBuilder
                     $definition->setExamples($property->getExamples());
                 }
             } else {
-                $this->generateFromSchema($property->getReference(), $definition);
+                $this->generateFromSchema($this->schemaFactory->create($property->getReference()), $definition);
             }
 
             $def->addProperty($name, $definition, $property->isRequired());

@@ -12,14 +12,14 @@ use function class_parents;
 use function in_array;
 use function sprintf;
 
-trait SchemaFactoryHelper
+final class SchemaFactory implements SchemaFactoryInterface
 {
     /**
      * @var array<string, Schema>
      */
     private array $schemaCollection = [];
 
-    private function createSchema(Schema|string $schema): Schema
+    public function create(Schema|string $schema): Schema
     {
         if ($schema instanceof Schema) {
             return $schema;
