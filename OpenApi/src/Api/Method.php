@@ -98,6 +98,16 @@ class Method implements DefinitionInterface
         return $this->parameters()->param($name)->required($required)->inQuery();
     }
 
+    public function headerParam(string $name, bool $required = false): Parameter
+    {
+        return $this->parameters()->param($name)->required($required)->inHeader();
+    }
+
+    public function pathParam(string $name, bool $required = false): Parameter
+    {
+        return $this->parameters()->param($name)->required($required)->inPath();
+    }
+
     public function parameters(): Parameters
     {
         if ($this->parameters === null) {

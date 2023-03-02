@@ -69,4 +69,18 @@ final class Parameter implements DefinitionInterface
 
         return $this;
     }
+
+    public function inHeader(): self
+    {
+        $this->in('header');
+
+        return $this;
+    }
+
+    public function inPath(): self
+    {
+        $this->in('path');
+
+        return $this;
+    }
 }
