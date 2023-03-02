@@ -7,6 +7,11 @@ namespace Davajlama\Schemator\Schema\Rules\Type;
 use Davajlama\Schemator\Schema\Exception\PropertyIsNotArrayException;
 use Davajlama\Schemator\Schema\Rules\BaseRule;
 
+use function array_map;
+use function array_sum;
+use function is_array;
+use function is_int;
+
 final class ArrayOfIntegerType extends BaseRule
 {
     public function validateValue(mixed $value): void

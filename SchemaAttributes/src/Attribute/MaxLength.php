@@ -6,7 +6,6 @@ namespace Davajlama\Schemator\SchemaAttributes\Attribute;
 
 use Attribute;
 use Davajlama\Schemator\Schema\Property;
-use Davajlama\Schemator\Schema\Rules\MaxLength as MaxLengthRule;
 use Davajlama\Schemator\SchemaAttributes\PropertyAttribute;
 
 #[Attribute(Attribute::TARGET_PARAMETER)]
@@ -21,6 +20,6 @@ final class MaxLength implements PropertyAttribute
 
     public function apply(Property $property): void
     {
-        $property->rule(new MaxLengthRule($this->maxLength));
+        $property->maxLength($this->maxLength);
     }
 }
