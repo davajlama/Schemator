@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Schema;
 
+use Davajlama\Schemator\SchemaAttributes\SchemaBuilder;
 use LogicException;
 
 use function array_key_exists;
@@ -33,13 +34,17 @@ final class SchemaFactory implements SchemaFactoryInterface
             throw new LogicException(sprintf('Schema %s not exists.', $schema));
         }
 
+        $object = null;
+
         $parents = class_parents($schema);
-        if ($parents === false || in_array(Schema::class, $parents, true) === false) {
-            throw new LogicException(sprintf('Schema must be instance of %s, %s given.', Schema::class, $schema));
+        if ($parents !== false && in_array(Schema::class, $parents, true) !== false) {
+            /** @var Schema $object */
+            $object = new $schema();
         }
 
-        /** @var Schema $object */
-        $object = new $schema();
+        if ($object === null) {
+            $object = (new SchemaBuilder())->build($schema);
+        }
 
         return $this->schemaCollection[$schema] = $object;
     }

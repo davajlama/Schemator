@@ -6,6 +6,7 @@ namespace Davajlama\Schemator\OpenApi;
 
 use Davajlama\Schemator\JsonSchema\JsonSchemaBuilder;
 use Davajlama\Schemator\Schema\Schema;
+use Davajlama\Schemator\Schema\SchemaFactory;
 use LogicException;
 
 use function array_search;
@@ -19,14 +20,17 @@ final class OpenApiBuilder
 {
     private JsonSchemaBuilder $jsonSchemaBuilder;
 
+    private SchemaFactory $schemaFactory;
+
     /**
-     * @var Schema[]
+     * @var SchemaReference[]
      */
     private array $schemas = [];
 
     public function __construct(JsonSchemaBuilder $jsonSchemaBuilder)
     {
         $this->jsonSchemaBuilder = $jsonSchemaBuilder;
+        $this->schemaFactory = new SchemaFactory();
     }
 
     /**
@@ -37,7 +41,7 @@ final class OpenApiBuilder
         $data = $api->build();
 
         array_walk_recursive($data, function (&$value): void {
-            if ($value instanceof Schema) {
+            if ($value instanceof SchemaReference) {
                 $ref = $this->resolveSchemaName($value);
                 $this->schemas[$ref] = $value;
                 $value = $this->generateSchemaReference($ref);
@@ -49,9 +53,13 @@ final class OpenApiBuilder
         return $data;
     }
 
-    private function resolveSchemaName(Schema $schema): string
+    private function resolveSchemaName(SchemaReference $schema): string
     {
-        return $schema->getName() ?? $schema::class;
+        if ($schema->getSchema() instanceof Schema) {
+            return $schema->getSchema()->getName() ?? $schema->getSchema()::class;
+        }
+
+        return $schema->getSchema();
     }
 
     /**
@@ -71,7 +79,7 @@ final class OpenApiBuilder
     {
         $list = [];
         foreach ($this->schemas as $schemaClass => $schema) {
-            $data = $this->jsonSchemaBuilder->build($schema);
+            $data = $this->jsonSchemaBuilder->build($this->schemaFactory->create($schema->getSchema()));
             unset($data['$schema']);
 
             $this->arrayWalkRecursive($data, '', static function (&$value, $key, &$parent, $context): void {

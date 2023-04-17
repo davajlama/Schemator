@@ -14,6 +14,7 @@ final class Integration
         $schema->prop('name')->string()->required();
         $schema->prop('description')->string()->required();
         $schema->prop('integers')->arrayOfInteger();
+        $schema->prop('context')->dynamicObject();
 
         return $schema;
     }

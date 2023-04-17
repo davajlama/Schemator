@@ -106,6 +106,10 @@ final class SchemaBuilder
             }
         }
 
+        if (count($attributes) === 0) {
+            throw new LogicException('No attributes founds.');
+        }
+
         return $attributes;
     }
 

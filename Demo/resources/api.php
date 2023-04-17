@@ -11,6 +11,7 @@ $api->info()->description((string) file_get_contents(__DIR__ . '/description.md'
 $api->info()->version('1.0.0');
 
 Partition::apply($api, require_once __DIR__ . '/api/recent-sales.php');
+Partition::apply($api, require_once __DIR__ . '/api/products.php');
 Partition::apply($api, require_once __DIR__ . '/api/user/integration.php');
 
 return $api;

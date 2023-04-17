@@ -15,9 +15,9 @@ final class Product
         public int $id,
         #[MaxLength(255)] public string $name,
         #[MaxLength(1024)] public ?string $description,
-        public float|int $price,
+        public float $price,
         public Author $author,
-        public string|int|null $image,
+        public string|null $image,
     ) {
     }
 }

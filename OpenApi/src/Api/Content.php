@@ -6,6 +6,7 @@ namespace Davajlama\Schemator\OpenApi\Api;
 
 use Davajlama\Schemator\OpenApi\DefinitionInterface;
 use Davajlama\Schemator\OpenApi\PropertyHelper;
+use Davajlama\Schemator\OpenApi\SchemaReference;
 use Davajlama\Schemator\Schema\Schema;
 
 class Content implements DefinitionInterface
@@ -14,7 +15,7 @@ class Content implements DefinitionInterface
 
     private string $type;
 
-    private ?Schema $schema = null;
+    private ?SchemaReference $schema = null;
 
     public function __construct(string $type)
     {
@@ -40,9 +41,9 @@ class Content implements DefinitionInterface
         ];
     }
 
-    public function schema(Schema $schema): self
+    public function schema(Schema|string $schema): self
     {
-        $this->schema = $schema;
+        $this->schema = new SchemaReference($schema);
 
         return $this;
     }

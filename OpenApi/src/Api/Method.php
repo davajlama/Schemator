@@ -88,7 +88,7 @@ class Method implements DefinitionInterface
         return $this->requestBody;
     }
 
-    public function jsonRequestBody(Schema $schema): Content
+    public function jsonRequestBody(Schema|string $schema): Content
     {
         return $this->requestBody()->content('application/json')->schema($schema);
     }
@@ -128,7 +128,7 @@ class Method implements DefinitionInterface
         return $response;
     }
 
-    public function jsonResponse200Ok(Schema $schema): Response
+    public function jsonResponse200Ok(Schema|string $schema): Response
     {
         return $this->response200Ok()->json($schema);
     }
@@ -159,27 +159,27 @@ class Method implements DefinitionInterface
         return $response;
     }
 
-    public function jsonResponse400BadRequest(Schema $schema): Response
+    public function jsonResponse400BadRequest(Schema|string $schema): Response
     {
         return $this->response400BadRequest()->json($schema);
     }
 
-    public function jsonResponse401AuthorizationRequired(Schema $schema): Response
+    public function jsonResponse401AuthorizationRequired(Schema|string $schema): Response
     {
         return $this->response401AuthorizationRequired()->json($schema);
     }
 
-    public function jsonResponse403PermissionDenied(Schema $schema): Response
+    public function jsonResponse403PermissionDenied(Schema|string $schema): Response
     {
         return $this->response403PermissionDenied()->json($schema);
     }
 
-    public function jsonResponse404ResourceNotFound(Schema $schema): Response
+    public function jsonResponse404ResourceNotFound(Schema|string $schema): Response
     {
         return $this->response404ResourceNotFound()->json($schema);
     }
 
-    public function jsonResponse500InternalServerError(Schema $schema): Response
+    public function jsonResponse500InternalServerError(Schema|string $schema): Response
     {
         return $this->response500InternalServerError()->json($schema);
     }
