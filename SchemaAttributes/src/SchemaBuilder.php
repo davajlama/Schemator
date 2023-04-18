@@ -12,7 +12,6 @@ use Davajlama\Schemator\Schema\Schema;
 use LogicException;
 use ReflectionClass;
 use ReflectionNamedType;
-use ReflectionParameter;
 use ReflectionUnionType;
 
 use function class_implements;
@@ -30,20 +29,15 @@ final class SchemaBuilder
     {
         $rfc = new ReflectionClass($className);
 
-        $constructor = $rfc->getConstructor();
-        if ($constructor === null) {
-            throw new LogicException('Unable to load properties from class without constructor.');
-        }
-
         $schema = new Schema($className);
         foreach ($this->loadFromClass($rfc) as $rule) {
             $rule->apply($schema);
         }
 
-        foreach ($constructor->getParameters() as $parameter) {
-            $attributes = $this->loadFromParameter($parameter);
+        foreach ($rfc->getProperties(\ReflectionProperty::IS_PUBLIC) as $reflectionProperty) {
+            $attributes = $this->loadFromProperty($reflectionProperty);
 
-            $prop = $schema->prop($parameter->getName());
+            $prop = $schema->prop($reflectionProperty->getName());
             foreach ($attributes as $attribute) {
                 $attribute->apply($prop);
             }
@@ -74,7 +68,7 @@ final class SchemaBuilder
     /**
      * @return PropertyAttribute[]
      */
-    private function loadFromParameter(ReflectionParameter $property): array
+    private function loadFromProperty(\ReflectionProperty $property): array
     {
         $originType = $property->getType();
         if ($originType === null) {
@@ -107,7 +101,7 @@ final class SchemaBuilder
         }
 
         if (count($attributes) === 0) {
-            throw new LogicException('No attributes founds.');
+            throw new LogicException(sprintf('No attributes founds for [%s].', $property->getName()));
         }
 
         return $attributes;
