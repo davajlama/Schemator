@@ -16,6 +16,8 @@ class Schema
 
     private bool $additionalProperties = false;
 
+    private bool $requiredDefaultValue = false;
+
     /**
      * @var Property[]
      */
@@ -34,6 +36,13 @@ class Schema
     public function additionalProperties(bool $additionalProperties): self
     {
         $this->additionalProperties = $additionalProperties;
+
+        return $this;
+    }
+
+    public function requiredDefaultValue(bool $required): self
+    {
+        $this->requiredDefaultValue = $required;
 
         return $this;
     }
@@ -61,6 +70,7 @@ class Schema
         if (!array_key_exists($name, $this->properties)) {
             /** @var Property $property */
             $property = new $class($this->getRulesFactory());
+            $property->required($this->requiredDefaultValue);
 
             $this->properties[$name] = $property;
         }

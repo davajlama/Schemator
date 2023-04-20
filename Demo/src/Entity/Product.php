@@ -25,8 +25,6 @@ final class Product
         public float $price,
         public Author $author,
         public string|null $image,
-        ///** @var Group[] */
-        //public array $groups,
     ) {
     }
 }
