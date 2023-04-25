@@ -5,8 +5,81 @@ BookStore
     Genre
     Book
 
+Contact
+    - email (email)
+    - phone (string)
+
 Author
     - firstname (min: 1, max: 50)
     - surname (min: 1, max: 50)
+    - contact (nullable Contact)
     - birthday (date: Y-m-d)
+    - sex (enum[MALE, FEMALE])
+
+Image:
+    - id (id)
+    - url (string)
+    - title (string)
+
+Attribute:
+    - id (id)
+    - params (dynamic object)
+    - name (string min max)
+    - created (datetime)
+
+Product
+    - id (int: kladné číslo větší než 1)
+    - name (min: 3, max: 255)
+    - description (string|null)
+    - price (float)
+    - store (int)
+    - authors (unique)
+    - attributes
+    - images
+    - type (enum[BOOK, MAGAZINE])
+    - rating (0 - 100)
+
+
+
+Public
+ - product/list?limit=10&?offset=100
+ - product/detail/{id}
+
+ - author/list?limit=10&?offset=100
+ - author/detail/{id}
+
+ - attribute/list/?limit=10&?offset=100
+ - attribute/detail/{id}
+
+Manage
+ * X-Api-Key header required
+
+ - GET manage/author/list?limit=10&?offset=100
+ - GET manage/author/detail
+ - POST manage/author/create
+ - PUT manage/author/update/{id}
+ - DELETE manage/author/delete/{id}
+
+ - GET manage/attribute/list?limit=10&?offset=100
+ - GET manage/attribute/detail/{id}
+ - POST manage/attribute/create
+ - PUT manage/attribute/update/{id}
+ - DELETE manage/attribute/delete/{id}
+
+ - GET manage/product/list?limit=10&?offset=100
+ - GET manage/product/detail/{id}
+ - POST manage/product/create
+ - PUT manage/product/update/{id}
+ - DELETE manage/product/delete/{id}
+ - PATCH manage/product/{id}/attribute/{attributeId}/assign
+ - PATCH manage/product/{id}/attribute/{attributeId}/delete
+ - PATCH manage/product/{id}/author/{authorId}/assign
+ - PATCH manage/product/{id}/author/{authorId}/delete
+
+
+
+
+
+
+
 
