@@ -179,6 +179,11 @@ class Method implements DefinitionInterface
         return $this->response404ResourceNotFound()->json($schema);
     }
 
+    public function jsonResponse409Conflict(Schema|string $schema): Response
+    {
+        return $this->response409Conflict()->json($schema);
+    }
+
     public function jsonResponse500InternalServerError(Schema|string $schema): Response
     {
         return $this->response500InternalServerError()->json($schema);
@@ -229,6 +234,19 @@ class Method implements DefinitionInterface
         if ($response === null) {
             $response = new Response(404);
             $response->description('Resource not found.');
+
+            $this->addResponse($response);
+        }
+
+        return $response;
+    }
+
+    public function response409Conflict(): Response
+    {
+        $response = $this->findResponse(409);
+        if ($response === null) {
+            $response = new Response(409);
+            $response->description('Conflict');
 
             $this->addResponse($response);
         }
