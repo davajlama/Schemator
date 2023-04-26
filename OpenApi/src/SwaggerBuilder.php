@@ -10,11 +10,16 @@ use function strtr;
 
 final class SwaggerBuilder
 {
-    /**
-     * @param mixed[] $spec
-     */
-    public function buildFromArray(array $spec, string $title = 'Project documentation'): string
+    private OpenApiBuilder $openApiBuilder;
+
+    public function __construct(?OpenApiBuilder $openApiBuilder = null)
     {
+        $this->openApiBuilder = $openApiBuilder ?? new OpenApiBuilder();
+    }
+
+    public function build(Api $api, string $title = 'Project documentation'): string
+    {
+        $spec = $this->openApiBuilder->build($api);
         $json = json_encode($spec, JSON_THROW_ON_ERROR);
 
         $content = (string) file_get_contents(__DIR__ . '/../resources/swagger.tpl');

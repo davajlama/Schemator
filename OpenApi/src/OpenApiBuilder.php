@@ -27,10 +27,10 @@ final class OpenApiBuilder
      */
     private array $schemas = [];
 
-    public function __construct(JsonSchemaBuilder $jsonSchemaBuilder)
+    public function __construct(?JsonSchemaBuilder $jsonSchemaBuilder = null, ?SchemaFactory $schemaFactory = null)
     {
-        $this->jsonSchemaBuilder = $jsonSchemaBuilder;
-        $this->schemaFactory = new SchemaFactory();
+        $this->jsonSchemaBuilder = $jsonSchemaBuilder ?? new JsonSchemaBuilder();
+        $this->schemaFactory = $schemaFactory ?? new SchemaFactory();
     }
 
     /**

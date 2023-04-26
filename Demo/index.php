@@ -13,13 +13,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $api = require_once __DIR__ . '/resources/api.php';
 
-$openApi = new OpenApiBuilder(new JsonSchemaBuilder());
-$payload = $openApi->build($api);
-
 if (isset($_GET['dump'])) {
+    $openApi = new OpenApiBuilder(new JsonSchemaBuilder());
+    $payload = $openApi->build($api);
     var_dump($payload);
     exit;
 }
 
 $swagger = new SwaggerBuilder();
-echo $swagger->buildFromArray($payload, 'Schemator example');
+echo $swagger->build($api, 'Schemator example');
