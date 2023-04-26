@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\JsonSchema;
 
 use function array_map;
+use function array_unique;
 use function count;
 
 class Definition
@@ -112,10 +113,11 @@ class Definition
     {
         $result = null;
         if ($this->type !== null) {
-            if (count($this->type) === 1) {
-                $result = $this->type[0];
+            $types = array_unique($this->type);
+            if (count($types) === 1) {
+                $result = $types[0];
             } else {
-                $result = $this->type;
+                $result = $types;
             }
         }
 
