@@ -9,7 +9,7 @@ use Davajlama\Schemator\SchemaAttributes\Attribute\MinLength;
 use Davajlama\Schemator\SchemaAttributes\Attribute\RequiredAll;
 
 #[RequiredAll]
-final class CreateProduct
+final class ProductUpdate
 {
     public function __construct(
         #[MinLength(3)] #[MaxLength(255)] public string $name,

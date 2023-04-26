@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Davajlama\Schemator\Demo\BookStore\Manage\Request\CreateAttribute;
-use Davajlama\Schemator\Demo\BookStore\Manage\Request\UpdateAttribute;
+use Davajlama\Schemator\Demo\BookStore\Manage\Request\AttributeCreate;
+use Davajlama\Schemator\Demo\BookStore\Manage\Request\AttributeUpdate;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Attribute;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Attributes;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Problem;
@@ -32,7 +32,7 @@ return Partition::create(static function (Api $api): void {
     $ep = $api->post('/book-store/manage/attribute/create');
     $ep->tags('BookStore', 'BookStore - Manage');
     $ep->headerParam('x-api-key', true)->description('User api key');
-    $ep->jsonRequestBody(CreateAttribute::class);
+    $ep->jsonRequestBody(AttributeCreate::class);
     $ep->jsonResponse200Ok(Attribute::class);
     $ep->jsonResponse400BadRequest(Problem::class);
     $ep->jsonResponse401AuthorizationRequired(Problem::class);
@@ -42,7 +42,7 @@ return Partition::create(static function (Api $api): void {
     $ep->tags('BookStore', 'BookStore - Manage');
     $ep->headerParam('x-api-key', true)->description('User api key');
     $ep->pathParam('id', true)->description('Attribute ID');
-    $ep->jsonRequestBody(UpdateAttribute::class);
+    $ep->jsonRequestBody(AttributeUpdate::class);
     $ep->jsonResponse200Ok(Attribute::class);
     $ep->jsonResponse400BadRequest(Problem::class);
     $ep->jsonResponse401AuthorizationRequired(Problem::class);

@@ -7,7 +7,7 @@ namespace Davajlama\Schemator\Demo\BookStore\Manage\Request;
 use Davajlama\Schemator\SchemaAttributes\Attribute\RequiredAll;
 
 #[RequiredAll]
-final class UpdateAttribute
+final class AttributeUpdate
 {
     public function __construct(
         public string $name,

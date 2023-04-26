@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Davajlama\Schemator\Demo\BookStore\Manage\Request\CreateAuthor;
-use Davajlama\Schemator\Demo\BookStore\Manage\Request\UpdateAuthor;
+use Davajlama\Schemator\Demo\BookStore\Manage\Request\AuthorCreate;
+use Davajlama\Schemator\Demo\BookStore\Manage\Request\AuthorUpdate;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Author;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Authors;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Problem;
@@ -32,7 +32,7 @@ return Partition::create(static function (Api $api): void {
     $ep = $api->post('/book-store/manage/author/create');
     $ep->tags('BookStore', 'BookStore - Manage');
     $ep->headerParam('x-api-key', true)->description('User api key');
-    $ep->jsonRequestBody(CreateAuthor::class);
+    $ep->jsonRequestBody(AuthorCreate::class);
     $ep->jsonResponse200Ok(Author::class);
     $ep->jsonResponse400BadRequest(Problem::class);
     $ep->jsonResponse401AuthorizationRequired(Problem::class);
@@ -42,7 +42,7 @@ return Partition::create(static function (Api $api): void {
     $ep->tags('BookStore', 'BookStore - Manage');
     $ep->headerParam('x-api-key', true)->description('User api key');
     $ep->pathParam('id', true)->description('Author ID');
-    $ep->jsonRequestBody(UpdateAuthor::class);
+    $ep->jsonRequestBody(AuthorUpdate::class);
     $ep->jsonResponse200Ok(Author::class);
     $ep->jsonResponse400BadRequest(Problem::class);
     $ep->jsonResponse401AuthorizationRequired(Problem::class);

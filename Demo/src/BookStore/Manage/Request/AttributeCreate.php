@@ -7,11 +7,10 @@ namespace Davajlama\Schemator\Demo\BookStore\Manage\Request;
 use Davajlama\Schemator\SchemaAttributes\Attribute\RequiredAll;
 
 #[RequiredAll]
-final class UpdateAuthor
+final class AttributeCreate
 {
     public function __construct(
-        public string $firstname,
-        public string $surname,
+        public string $name,
     ) {
     }
 }

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Davajlama\Schemator\Demo\BookStore\Manage\Request\CreateProduct;
-use Davajlama\Schemator\Demo\BookStore\Manage\Request\UpdateProduct;
+use Davajlama\Schemator\Demo\BookStore\Manage\Request\ProductCreate;
+use Davajlama\Schemator\Demo\BookStore\Manage\Request\ProductUpdate;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Problem;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Product;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Products;
@@ -32,7 +32,7 @@ return Partition::create(static function (Api $api): void {
     $ep = $api->post('/book-store/manage/product/create');
     $ep->tags('BookStore', 'BookStore - Manage');
     $ep->headerParam('x-api-key', true)->description('User api key');
-    $ep->jsonRequestBody(CreateProduct::class);
+    $ep->jsonRequestBody(ProductCreate::class);
     $ep->jsonResponse200Ok(Product::class);
     $ep->jsonResponse400BadRequest(Problem::class);
     $ep->jsonResponse401AuthorizationRequired(Problem::class);
@@ -42,7 +42,7 @@ return Partition::create(static function (Api $api): void {
     $ep->tags('BookStore', 'BookStore - Manage');
     $ep->headerParam('x-api-key', true)->description('User api key');
     $ep->pathParam('id', true)->description('Product ID');
-    $ep->jsonRequestBody(UpdateProduct::class);
+    $ep->jsonRequestBody(ProductUpdate::class);
     $ep->jsonResponse200Ok(Product::class);
     $ep->jsonResponse400BadRequest(Problem::class);
     $ep->jsonResponse401AuthorizationRequired(Problem::class);
