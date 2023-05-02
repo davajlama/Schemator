@@ -10,6 +10,7 @@ use Davajlama\Schemator\Demo\BookStore\Manage\Response\Product;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Products;
 use Davajlama\Schemator\OpenApi\Api;
 use Davajlama\Schemator\OpenApi\Partition;
+use Davajlama\Schemator\OpenApi\PropertySchema;
 
 return Partition::create(static function (Api $api): void {
     $ep = $api->get('/book-store/manage/product/list');
@@ -17,6 +18,7 @@ return Partition::create(static function (Api $api): void {
     $ep->headerParam('x-api-key', true)->description('User api key');
     $ep->queryParam('limit');
     $ep->queryParam('offset');
+    $ep->queryParam('sort')->schema(PropertySchema::enum(['create', 'updated']));
     $ep->jsonResponse200Ok(Products::class);
     $ep->jsonResponse401AuthorizationRequired(Problem::class);
     $ep->response500InternalServerError();

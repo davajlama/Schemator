@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\OpenApi;
 
 use Davajlama\Schemator\JsonSchema\JsonSchemaBuilder;
+use Davajlama\Schemator\Schema\Property;
 use Davajlama\Schemator\Schema\Schema;
 use Davajlama\Schemator\Schema\SchemaFactory;
 use LogicException;
@@ -42,9 +43,13 @@ final class OpenApiBuilder
 
         array_walk_recursive($data, function (&$value): void {
             if ($value instanceof SchemaReference) {
-                $ref = $this->resolveSchemaName($value);
-                $this->schemas[$ref] = $value;
-                $value = $this->generateSchemaReference($ref);
+                if ($value->getSchema() instanceof Property) {
+                    $value = $this->jsonSchemaBuilder->generateFromProperty($value->getSchema())->build();
+                } else {
+                    $ref = $this->resolveSchemaName($value);
+                    $this->schemas[$ref] = $value;
+                    $value = $this->generateSchemaReference($ref);
+                }
             }
         });
 
@@ -55,6 +60,10 @@ final class OpenApiBuilder
 
     private function resolveSchemaName(SchemaReference $schema): string
     {
+        if ($schema->getSchema() instanceof Property) {
+            throw new LogicException('Cannot create reference name for Property.');
+        }
+
         if ($schema->getSchema() instanceof Schema) {
             return $schema->getSchema()->getName() ?? $schema->getSchema()::class;
         }
@@ -79,7 +88,9 @@ final class OpenApiBuilder
     {
         $list = [];
         foreach ($this->schemas as $schemaClass => $schema) {
-            $data = $this->jsonSchemaBuilder->build($this->schemaFactory->create($schema->getSchema()));
+            /** @var Schema|string $schemaReference */
+            $schemaReference = $schema->getSchema();
+            $data = $this->jsonSchemaBuilder->build($this->schemaFactory->create($schemaReference));
             unset($data['$schema']);
 
             $this->arrayWalkRecursive($data, '', static function (&$value, $key, &$parent, $context): void {

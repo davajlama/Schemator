@@ -16,6 +16,7 @@ use Davajlama\Schemator\JsonSchema\Resolver\RangeResolver;
 use Davajlama\Schemator\JsonSchema\Resolver\ResolverInterface;
 use Davajlama\Schemator\JsonSchema\Resolver\SchemaGeneratorAwareInterface;
 use Davajlama\Schemator\JsonSchema\Resolver\TypeResolver;
+use Davajlama\Schemator\Schema\Property;
 use Davajlama\Schemator\Schema\Schema;
 use Davajlama\Schemator\Schema\SchemaFactory;
 use Davajlama\Schemator\Schema\SchemaFactoryAwareInterface;
@@ -81,52 +82,58 @@ final class JsonSchemaBuilder
         $def->setAdditionalProperties($schema->isAdditionalPropertiesAllowed());
 
         foreach ($schema->getProperties() as $name => $property) {
-            $definition = new Definition();
-
-            if ($property->getReference() === null) {
-                foreach ($property->getRules() as $rule) {
-                    $resolved = false;
-                    foreach ($this->ruleResolvers as $resolver) {
-                        if ($resolver instanceof SchemaGeneratorAwareInterface) {
-                            $resolver->setSchemaGenerator($this);
-                        }
-
-                        if ($resolver instanceof SchemaFactoryAwareInterface) {
-                            $resolver->setSchemaFactory($this->schemaFactory);
-                        }
-
-                        if ($resolver->support($rule)) {
-                            $resolved = true;
-                            $resolver->resolve($definition, $rule);
-                        }
-                    }
-
-                    if ($this->throwOnUnresolvedRule && $resolved === false) {
-                        throw new LogicException(sprintf('No resolver for %s.', $rule::class));
-                    }
-                }
-
-                if ($property->isNullable()) {
-                    $definition->addType('null');
-                }
-
-                if ($property->getTitle() !== null) {
-                    $definition->setTitle($property->getTitle());
-                }
-
-                if ($property->getDescription() !== null) {
-                    $definition->setDescription($property->getDescription());
-                }
-
-                if ($property->getExamples() !== null) {
-                    $definition->setExamples($property->getExamples());
-                }
-            } else {
-                $this->generateFromSchema($this->schemaFactory->create($property->getReference()), $definition);
-            }
-
+            $definition = $this->generateFromProperty($property);
             $def->addProperty($name, $definition, $property->isRequired());
         }
+    }
+
+    public function generateFromProperty(Property $property): Definition
+    {
+        $definition = new Definition();
+
+        if ($property->getReference() === null) {
+            foreach ($property->getRules() as $rule) {
+                $resolved = false;
+                foreach ($this->ruleResolvers as $resolver) {
+                    if ($resolver instanceof SchemaGeneratorAwareInterface) {
+                        $resolver->setSchemaGenerator($this);
+                    }
+
+                    if ($resolver instanceof SchemaFactoryAwareInterface) {
+                        $resolver->setSchemaFactory($this->schemaFactory);
+                    }
+
+                    if ($resolver->support($rule)) {
+                        $resolved = true;
+                        $resolver->resolve($definition, $rule);
+                    }
+                }
+
+                if ($this->throwOnUnresolvedRule && $resolved === false) {
+                    throw new LogicException(sprintf('No resolver for %s.', $rule::class));
+                }
+            }
+
+            if ($property->isNullable()) {
+                $definition->addType('null');
+            }
+
+            if ($property->getTitle() !== null) {
+                $definition->setTitle($property->getTitle());
+            }
+
+            if ($property->getDescription() !== null) {
+                $definition->setDescription($property->getDescription());
+            }
+
+            if ($property->getExamples() !== null) {
+                $definition->setExamples($property->getExamples());
+            }
+        } else {
+            $this->generateFromSchema($this->schemaFactory->create($property->getReference()), $definition);
+        }
+
+        return $definition;
     }
 
     public function setThrowOnUnresolvedRule(bool $throwOnUnresolvedRule): JsonSchemaBuilder
