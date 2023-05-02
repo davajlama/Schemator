@@ -117,46 +117,9 @@ class Method implements DefinitionInterface
         return $this->parameters;
     }
 
-    public function response(int $status): Response
-    {
-        $response = $this->findResponse($status);
-        if ($response === null) {
-            $response = new Response($status);
-            $this->addResponse($response);
-        }
-
-        return $response;
-    }
-
     public function jsonResponse200Ok(Schema|string $schema): Response
     {
         return $this->response200Ok()->json($schema);
-    }
-
-    public function response200Ok(): Response
-    {
-        $response = $this->findResponse(200);
-        if ($response === null) {
-            $response = new Response(200);
-            $response->description('Ok.');
-
-            $this->addResponse($response);
-        }
-
-        return $response;
-    }
-
-    public function response204NoContent(): Response
-    {
-        $response = $this->findResponse(204);
-        if ($response === null) {
-            $response = new Response(204);
-            $response->description('Ok. No content.');
-
-            $this->addResponse($response);
-        }
-
-        return $response;
     }
 
     public function jsonResponse400BadRequest(Schema|string $schema): Response
@@ -189,79 +152,56 @@ class Method implements DefinitionInterface
         return $this->response500InternalServerError()->json($schema);
     }
 
+    public function response200Ok(): Response
+    {
+        return $this->response(200, 'Ok.');
+    }
+
+    public function response204NoContent(): Response
+    {
+        return $this->response(204, 'Ok. No content.');
+    }
+
     public function response400BadRequest(): Response
     {
-        $response = $this->findResponse(400);
-        if ($response === null) {
-            $response = new Response(400);
-            $response->description('Bad request.');
-
-            $this->addResponse($response);
-        }
-
-        return $response;
+        return $this->response(400, 'Bad request.');
     }
 
     public function response401AuthorizationRequired(): Response
     {
-        $response = $this->findResponse(401);
-        if ($response === null) {
-            $response = new Response(401);
-            $response->description('Authorization required.');
-
-            $this->addResponse($response);
-        }
-
-        return $response;
+        return $this->response(401, 'Authorization required.');
     }
 
     public function response403PermissionDenied(): Response
     {
-        $response = $this->findResponse(403);
-        if ($response === null) {
-            $response = new Response(403);
-            $response->description('Permission denied.');
-
-            $this->addResponse($response);
-        }
-
-        return $response;
+        return $this->response(403, 'Permission denied.');
     }
 
     public function response404ResourceNotFound(): Response
     {
-        $response = $this->findResponse(404);
-        if ($response === null) {
-            $response = new Response(404);
-            $response->description('Resource not found.');
-
-            $this->addResponse($response);
-        }
-
-        return $response;
+        return $this->response(404, 'Resource not found.');
     }
 
     public function response409Conflict(): Response
     {
-        $response = $this->findResponse(409);
-        if ($response === null) {
-            $response = new Response(409);
-            $response->description('Conflict');
-
-            $this->addResponse($response);
-        }
-
-        return $response;
+        return $this->response(409, 'Conflict.');
     }
 
     public function response500InternalServerError(): Response
     {
-        $response = $this->findResponse(500);
-        if ($response === null) {
-            $response = new Response(500);
-            $response->description('Internal server error.');
+        return $this->response(500, 'Internal server error.');
+    }
 
+    public function response(int $status, ?string $description): Response
+    {
+        $response = $this->findResponse($status);
+        if ($response === null) {
+            $response = new Response($status);
             $this->addResponse($response);
+
+            if ($description !== null) {
+                $response->description($description);
+            }
         }
 
         return $response;

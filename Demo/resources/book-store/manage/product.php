@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Davajlama\Schemator\Demo\BookStore\Manage\Request\ProductCreate;
+use Davajlama\Schemator\Demo\BookStore\Manage\Request\ProductSearch;
 use Davajlama\Schemator\Demo\BookStore\Manage\Request\ProductUpdate;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Problem;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Product;
@@ -17,6 +18,17 @@ return Partition::create(static function (Api $api): void {
     $ep->queryParam('limit');
     $ep->queryParam('offset');
     $ep->jsonResponse200Ok(Products::class);
+    $ep->jsonResponse401AuthorizationRequired(Problem::class);
+    $ep->response500InternalServerError();
+
+    $ep = $api->post('/book-store/manage/product/search');
+    $ep->tags('BookStore', 'BookStore - Manage');
+    $ep->headerParam('x-api-key', true)->description('User api key');
+    $ep->queryParam('limit');
+    $ep->queryParam('offset');
+    $ep->jsonRequestBody(ProductSearch::class);
+    $ep->jsonResponse200Ok(Products::class);
+    $ep->jsonResponse400BadRequest(Problem::class);
     $ep->jsonResponse401AuthorizationRequired(Problem::class);
     $ep->response500InternalServerError();
 

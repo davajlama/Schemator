@@ -17,6 +17,7 @@ use function sprintf;
  * @method self array(?string $message = null)
  * @method self arrayOfString(?string $message = null)
  * @method self arrayOfInteger(?string $message = null)
+ * @method self arrayOfValues(array $values, ?string $message = null)
  * @method self dynamicObject(?string $message = null)
  *
  * @method self enum(array $values, ?string $message = null)

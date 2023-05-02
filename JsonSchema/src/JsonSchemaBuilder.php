@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\JsonSchema;
 
 use Davajlama\Schemator\JsonSchema\Resolver\ArrayOfResolver;
+use Davajlama\Schemator\JsonSchema\Resolver\ArrayOfValuesResolver;
 use Davajlama\Schemator\JsonSchema\Resolver\DateTimeResolver;
 use Davajlama\Schemator\JsonSchema\Resolver\DynamicObjectResolver;
 use Davajlama\Schemator\JsonSchema\Resolver\EnumResolver;
@@ -48,6 +49,7 @@ final class JsonSchemaBuilder
         $this->ruleResolvers[] = new ItemsResolver();
         $this->ruleResolvers[] = new FormatResolver();
         $this->ruleResolvers[] = new DynamicObjectResolver();
+        $this->ruleResolvers[] = new ArrayOfValuesResolver();
     }
 
     public function addResolver(ResolverInterface $resolver): self

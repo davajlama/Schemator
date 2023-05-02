@@ -8,6 +8,7 @@ use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
 use Davajlama\Schemator\Schema\Extractor\ArrayExtractor;
 use Davajlama\Schemator\Schema\Extractor\ExtractorAwareInterface;
 use Davajlama\Schemator\Schema\RuleInterface;
+use Davajlama\Schemator\Schema\Rules\ArrayOfValues;
 use Davajlama\Schemator\Schema\Rules\DateTime;
 use Davajlama\Schemator\Schema\Rules\Email;
 use Davajlama\Schemator\Schema\Rules\Enum;
@@ -19,6 +20,7 @@ use Davajlama\Schemator\Schema\Rules\Min;
 use Davajlama\Schemator\Schema\Rules\MinItems;
 use Davajlama\Schemator\Schema\Rules\MinLength;
 use Davajlama\Schemator\Schema\Rules\Range;
+use Davajlama\Schemator\Schema\Rules\Type\ArrayOfIntegerType;
 use Davajlama\Schemator\Schema\Rules\Type\ArrayOfStringType;
 use Davajlama\Schemator\Schema\Rules\Type\ArrayType;
 use Davajlama\Schemator\Schema\Rules\Type\BoolType;
@@ -60,6 +62,8 @@ final class RulesTest extends TestCase
             'float' => [new FloatType(), [1, 1.0]],
             'array' => [new ArrayType(), [[], ['test']]],
             'arrayOfString' => [new ArrayOfStringType(), [[], ['132', 'test', '']]],
+            'arrayOfInteger' => [new ArrayOfIntegerType(), [[], [1, 2, 3], [0]]],
+            'arrayOfValues' => [new ArrayOfValues(['CZ', 'EN', 'GB']), [[], ['CZ'], ['CZ', 'CZ'], ['CZ', 'EN', 'GB']]],
             'boolean' => [new BoolType(), [true, false]],
             'enum' => [new Enum(['CZ', 'EN', 'GB']), ['EN', 'CZ']],
             'min' => [new Min(10), [11, 10.5]],
@@ -107,6 +111,8 @@ final class RulesTest extends TestCase
             'float' => [new FloatType(), 'Must be a float.', [false, '1.0']],
             'array' => [new ArrayType(), 'Must be an array.', [1, true, '[]']],
             'arrayOfString' => [new ArrayOfStringType(), 'Array contain one or more non-string values.', [[1], [null]]],
+            'arrayOfInteger' => [new ArrayOfIntegerType(), 'Array contain one or more non-integer values.', [[null], ['1'], [1, false]]],
+            'arrayOfValues' => [new ArrayOfValues(['CZ', 'EN', 'GB']), 'Array contain one or more non-predefined values.', [[null], [1], ['IT']]],
             'boolean' => [new BoolType(), 'Must be a boolean.', [1, 0, null]],
             'enum' => [new Enum(['CZ', 'EN']), 'Must be one of [CZ, EN]', ['DE', 'PL', null, 1]],
             'min' => [new Min(10), 'Must be greater than 10', [9, 9.9, 0]],
