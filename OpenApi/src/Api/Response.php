@@ -56,12 +56,17 @@ class Response implements DefinitionInterface
 
     public function json(Schema|string|null $schema = null): self
     {
-        $content = $this->content('application/json');
+        $content = $this->jsonContent();
         if ($schema !== null) {
             $content->schema($schema);
         }
 
         return $this;
+    }
+
+    public function jsonContent(): Content
+    {
+        return $this->content('application/json');
     }
 
     public function content(string $type): Content

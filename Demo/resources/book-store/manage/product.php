@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Davajlama\Schemator\Demo\BookStore\Manage\Request\ProductCreate;
 use Davajlama\Schemator\Demo\BookStore\Manage\Request\ProductSearch;
 use Davajlama\Schemator\Demo\BookStore\Manage\Request\ProductUpdate;
+use Davajlama\Schemator\Demo\BookStore\Manage\Response\Attribute;
+use Davajlama\Schemator\Demo\BookStore\Manage\Response\Author;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Problem;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Product;
 use Davajlama\Schemator\Demo\BookStore\Manage\Response\Products;
@@ -39,6 +41,15 @@ return Partition::create(static function (Api $api): void {
     $ep->headerParam('x-api-key', true)->description('User api key');
     $ep->pathParam('id', true)->description('Product ID');
     $ep->jsonResponse200Ok(Product::class);
+    $ep->jsonResponse401AuthorizationRequired(Problem::class);
+    $ep->jsonResponse404ResourceNotFound(Problem::class);
+    $ep->response500InternalServerError();
+
+    $ep = $api->get('/book-store/manage/product/{id}/resources');
+    $ep->tags('BookStore', 'BookStore - Manage');
+    $ep->headerParam('x-api-key', true)->description('User api key');
+    $ep->pathParam('id', true)->description('Product ID');
+    $ep->response200Ok()->jsonContent()->oneOf(Attribute::class, Author::class);
     $ep->jsonResponse401AuthorizationRequired(Problem::class);
     $ep->jsonResponse404ResourceNotFound(Problem::class);
     $ep->response500InternalServerError();
