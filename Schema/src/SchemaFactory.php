@@ -13,7 +13,7 @@ use function class_parents;
 use function in_array;
 use function sprintf;
 
-final class SchemaFactory implements SchemaFactoryInterface
+class SchemaFactory implements SchemaFactoryInterface
 {
     /**
      * @var array<string, Schema>
@@ -42,8 +42,12 @@ final class SchemaFactory implements SchemaFactoryInterface
             $object = new $schema();
         }
 
-        if ($object === null) {
+        if ($object === null && class_exists(SchemaBuilder::class)) {
             $object = (new SchemaBuilder())->build($schema);
+        }
+
+        if ($object === null) {
+            throw new LogicException(sprintf('Schema %s not exists.', $schema));
         }
 
         return $this->schemaCollection[$schema] = $object;
