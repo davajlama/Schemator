@@ -20,7 +20,7 @@ use function in_array;
 /**
  * @template T of object
  */
-final class SchemaBuilder
+class SchemaBuilder
 {
     /**
      * @param class-string<T> $className
