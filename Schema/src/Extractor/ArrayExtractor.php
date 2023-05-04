@@ -14,6 +14,15 @@ use function sprintf;
 
 class ArrayExtractor implements ExtractorInterface
 {
+    public function exists(mixed $data, string $property): bool
+    {
+        if (!is_array($data)) {
+            throw new InvalidArgumentException(sprintf('Data must be an array, %s given.', gettype($data)));
+        }
+
+        return array_key_exists($property, $data);
+    }
+
     public function extract(mixed $data, string $property): mixed
     {
         if (!is_array($data)) {

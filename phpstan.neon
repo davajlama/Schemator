@@ -1,6 +1,7 @@
 parameters:
     level: 9
     paths:
+        - DataSanitizer
         - Demo
         - JsonSchema
         - OpenApi

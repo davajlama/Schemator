@@ -24,7 +24,8 @@
             "Davajlama\\Schemator\\Schema\\": "Schema/src/",
             "Davajlama\\Schemator\\JsonSchema\\": "JsonSchema/src/",
             "Davajlama\\Schemator\\OpenApi\\": "OpenApi/src/",
-            "Davajlama\\Schemator\\SchemaAttributes\\": "SchemaAttributes/src/"
+            "Davajlama\\Schemator\\SchemaAttributes\\": "SchemaAttributes/src/",
+            "Davajlama\\Schemator\\DataSanitizer\\": "DataSanitizer/src/"
         }
     },
     "autoload-dev": {
@@ -33,7 +34,7 @@
             "Davajlama\\Schemator\\JsonSchema\\Tests\\": "JsonSchema/tests/",
             "Davajlama\\Schemator\\OpenApi\\Tests\\": "OpenApi/tests/",
             "Davajlama\\Schemator\\SchemaAttributes\\Tests\\": "SchemaAttributes/tests/",
-            "Davajlama\\Schemator\\Demo\\": "Demo/src/"
+            "Davajlama\\Schemator\\DataSanitizer\\Tests\\": "DataSanitizer/tests/"
         }
     },
     "config": {
