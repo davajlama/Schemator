@@ -34,7 +34,8 @@
             "Davajlama\\Schemator\\JsonSchema\\Tests\\": "JsonSchema/tests/",
             "Davajlama\\Schemator\\OpenApi\\Tests\\": "OpenApi/tests/",
             "Davajlama\\Schemator\\SchemaAttributes\\Tests\\": "SchemaAttributes/tests/",
-            "Davajlama\\Schemator\\DataSanitizer\\Tests\\": "DataSanitizer/tests/"
+            "Davajlama\\Schemator\\DataSanitizer\\Tests\\": "DataSanitizer/tests/",
+            "Davajlama\\Schemator\\Demo\\": "Demo/src/"
         }
     },
     "config": {
