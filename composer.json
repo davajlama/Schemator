@@ -1,5 +1,7 @@
 {
     "name": "davajlama/schemator",
+    "description": "Schemator is lightweight library for data validation, sanitization and API documentation generation.",
+    "keywords": ["openapi", "swagger", "api-documetation", "validation", "sanitization"],
     "authors": [
         {
             "name": "David Bittner",

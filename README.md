@@ -1,5 +1,8 @@
 Schemator
 =========
+
+Schemator is lightweight library for data validation, sanitization and API documentation generation.
+
 - Data validation
 - Data sanitization
 - JSON Schema builder
