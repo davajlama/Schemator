@@ -11,9 +11,6 @@ final class TypePropertyAttribute implements PropertyAttribute
 {
     private RuleInterface $rule;
 
-    /**
-     * @param RuleInterface $rule
-     */
     public function __construct(RuleInterface $rule)
     {
         $this->rule = $rule;

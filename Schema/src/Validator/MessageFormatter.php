@@ -4,40 +4,39 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Schema\Validator;
 
-use function array_unshift;
 use function count;
-use function implode;
 
 final class MessageFormatter
 {
     /**
      * @param ErrorMessage[] $errors
-     * @return string[]
+     * @return array<array{field: string, message: string}>
      */
-    public static function formatErrors(array $errors): array
+    public static function toFlatten(array $errors): array
+    {
+        return self::format($errors);
+    }
+
+    /**
+     * @param ErrorMessage[] $errors
+     * @return array<array{field: string, message: string}>
+     */
+    private static function format(array $errors, ?string $path = null): array
     {
         $list = [];
         foreach ($errors as $error) {
-            $path = $error->getPath();
-            array_unshift($path, '^');
-
-            if (count($error->getErrors()) > 0) {
-                foreach ($error->getErrors() as $e2) {
-                    $path = $error->getPath();
-                    array_unshift($path, '^');
-                    $path[] = $error->getProperty() . '[' . $e2->getIndex() . ']';
-
-                    $path = implode('->', $path);
-
-                    $list[] = '[' . $path . '] ' . $e2->getProperty() . ' : ' . $e2->getMessage();
-                }
+            $index = $error->getIndex() !== null ? '[' . $error->getIndex() . ']' : '';
+            $prefix = $path !== null ? $path . $index . '.' : '';
+            $field = $prefix . $error->getProperty();
+            if (count($error->getErrors()) === 0) {
+                $list[] = [
+                    'field' => $field,
+                    'message' => $error->getMessage(),
+                ];
             } else {
-                $path = $error->getPath();
-                array_unshift($path, '^');
-
-                $path = implode('->', $path);
-
-                $list[] = '[' . $path . '] ' . $error->getProperty() . ' : ' . $error->getMessage();
+                foreach (self::format($error->getErrors(), $field) as $subError) {
+                    $list[] = $subError;
+                }
             }
         }
 

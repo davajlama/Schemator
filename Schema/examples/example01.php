@@ -24,5 +24,5 @@ try {
     (new ArrayValidator())->validate($schema, $payload);
     var_dump('Payload is valid.');
 } catch (ValidationFailedException $e) {
-    var_dump(MessageFormatter::formatErrors($e->getErrors()));
+    var_dump(MessageFormatter::toFlatten($e->getErrors()));
 }

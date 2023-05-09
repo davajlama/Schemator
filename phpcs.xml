@@ -13,6 +13,8 @@
     <file>JsonSchema/</file>
     <file>OpenApi/</file>
     <file>Schema/</file>
+    <file>SchemaAttributes/</file>
+    <file>SchemaConditions/</file>
 
     <description>Davajlama project coding standard.</description>
 

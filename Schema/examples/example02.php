@@ -32,5 +32,5 @@ try {
     (new ArrayValidator())->validate(LetterSchema::class, $payload);
     var_dump('Payload is valid.');
 } catch (ValidationFailedException $e) {
-    var_dump(MessageFormatter::formatErrors($e->getErrors()));
+    var_dump(MessageFormatter::toFlatten($e->getErrors()));
 }

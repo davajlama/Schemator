@@ -23,6 +23,7 @@ final class Enum implements PropertyAttribute
     {
         $this->values = $values;
     }
+
     public function apply(Property $property): void
     {
         $property->enum($this->values);

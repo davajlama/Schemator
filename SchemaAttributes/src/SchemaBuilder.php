@@ -12,10 +12,13 @@ use Davajlama\Schemator\Schema\Schema;
 use LogicException;
 use ReflectionClass;
 use ReflectionNamedType;
+use ReflectionProperty;
 use ReflectionUnionType;
 
 use function class_implements;
+use function count;
 use function in_array;
+use function sprintf;
 
 /**
  * @template T of object
@@ -34,7 +37,7 @@ class SchemaBuilder
             $rule->apply($schema);
         }
 
-        foreach ($rfc->getProperties(\ReflectionProperty::IS_PUBLIC) as $reflectionProperty) {
+        foreach ($rfc->getProperties(ReflectionProperty::IS_PUBLIC) as $reflectionProperty) {
             $attributes = $this->loadFromProperty($reflectionProperty);
 
             $prop = $schema->prop($reflectionProperty->getName());
@@ -68,7 +71,7 @@ class SchemaBuilder
     /**
      * @return PropertyAttribute[]
      */
-    private function loadFromProperty(\ReflectionProperty $property): array
+    private function loadFromProperty(ReflectionProperty $property): array
     {
         $originType = $property->getType();
         if ($originType === null) {

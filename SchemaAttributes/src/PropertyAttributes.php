@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\SchemaAttributes;
 
+use ReflectionNamedType;
+
 final class PropertyAttributes
 {
     private bool $nullable;
 
     /**
-     * @var \ReflectionNamedType[]
+     * @var ReflectionNamedType[]
      */
     private array $attributes;
 
     /**
-     * @param \ReflectionNamedType[] $attributes
+     * @param ReflectionNamedType[] $attributes
      */
     public function __construct(bool $nullable, array $attributes)
     {
@@ -28,7 +30,7 @@ final class PropertyAttributes
     }
 
     /**
-     * @return \ReflectionNamedType[]
+     * @return ReflectionNamedType[]
      */
     public function getAttributes(): array
     {
