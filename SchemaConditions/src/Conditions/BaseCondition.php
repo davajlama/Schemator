@@ -26,7 +26,7 @@ abstract class BaseCondition implements ConditionInterface, ExtractorAwareInterf
      * @param string[] $sourceProperties
      * @param string[] $targetProperties
      */
-    public function __construct(array $sourceProperties, array $targetProperties)
+    public function __construct(array $sourceProperties, array $targetProperties = [])
     {
         $this->sourceProperties = $sourceProperties;
         $this->targetProperties = $targetProperties;

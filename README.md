@@ -46,7 +46,24 @@ try {
     // OR
     (new ArrayValidator())->validate((new SchemaBuilder())->build(Author::class), $payload);
 } catch (ValidationFailedException $e) {
-    var_dump(MessageFormatter::formatErrors($e->getErrors()));
+    var_dump(MessageFormatter::toFlatten($e->getErrors()));
+}
+```
+
+Conditional validation:
+```php
+$payload = [
+    'firstname' => 'Dave',
+    'surname' => 'Lister',    
+];
+
+$conditions = new ArraySchemaConditions();
+$conditions->props('firstname', 'surname')->filledAllOrNone();
+
+try {
+    $conditions->validate($payload);
+} catch (ValidationFailedException $e) {
+    var_dump(MessageFormatter::toFlatten($e->getErrors()));
 }
 ```
 

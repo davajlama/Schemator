@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\SchemaConditions\Conditions;
 
-class RequiredIfAllNull extends BaseCondition
+class FilledIfAllNull extends BaseCondition
 {
-    use RequiredIf;
+    use FilledIf;
 
     public function validate(mixed $payload): void
     {
@@ -18,7 +18,7 @@ class RequiredIfAllNull extends BaseCondition
             }
         }
 
-        if ($allNull === true) {
+        if ($allNull) {
             $this->checkRequirements($payload);
         }
     }

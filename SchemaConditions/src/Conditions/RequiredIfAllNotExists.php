@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\SchemaConditions\Conditions;
 
-class RequiredIfAllNull extends BaseCondition
+class RequiredIfAllNotExists extends BaseCondition
 {
     use RequiredIf;
 
     public function validate(mixed $payload): void
     {
-        $allNull = true;
+        $allNotExists = true;
         foreach ($this->targetProperties as $targetProperty) {
-            if (!$this->getExtractor()->exists($payload, $targetProperty) || $this->getExtractor()->extract($payload, $targetProperty) !== null) {
-                $allNull = false;
+            if ($this->getExtractor()->exists($payload, $targetProperty)) {
+                $allNotExists = false;
                 break;
             }
         }
 
-        if ($allNull === true) {
+        if ($allNotExists === true) {
             $this->checkRequirements($payload);
         }
     }
