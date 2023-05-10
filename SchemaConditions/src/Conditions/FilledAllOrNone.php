@@ -12,9 +12,9 @@ class FilledAllOrNone extends BaseCondition
     {
         $oneFilled = false;
         $oneNonFilled = false;
-        foreach ($this->targetProperties as $targetProperty) {
-            $oneFilled = $oneFilled || ($this->getExtractor()->exists($payload, $targetProperty) && $this->getExtractor()->extract($payload, $targetProperty) !== null);
-            $oneNonFilled = $oneNonFilled || (!$this->getExtractor()->exists($payload, $targetProperty) || $this->getExtractor()->extract($payload, $targetProperty) === null);
+        foreach ($this->sourceProperties as $sourceProperty) {
+            $oneFilled = $oneFilled || ($this->getExtractor()->exists($payload, $sourceProperty) && $this->getExtractor()->extract($payload, $sourceProperty) !== null);
+            $oneNonFilled = $oneNonFilled || (!$this->getExtractor()->exists($payload, $sourceProperty) || $this->getExtractor()->extract($payload, $sourceProperty) === null);
 
             if ($oneFilled && $oneNonFilled) {
                 $this->checkRequirements($payload);
