@@ -14,11 +14,15 @@ use function sprintf;
  * @method self requiredIfOneNull(string ...$targetProperties)
  * @method self requiredIfAllNotExists(string ...$targetProperties)
  * @method self requiredIfOneNotExists(string ...$targetProperties)
+ * @method self requiredIfAllNullOrNotExists(string ...$targetProperties)
+ * @method self requiredIfOneNullOrNotExists(string ...$targetProperties)
  * @method self filledIfAllNull(string ...$targetProperties)
  * @method self filledIfOneNull(string ...$targetProperties)
  * @method self filledIfAllNotExists(string ...$targetProperties)
  * @method self filledIfOneNotExists(string ...$targetProperties)
  * @method self filledAllOrNone(string ...$targetProperties)
+ * @method self filledIfAllNullOrNotExists(string ...$targetProperties)
+ * @method self filledIfOneNullOrNotExists(string ...$targetProperties)
  */
 class PropertiesGroup
 {
