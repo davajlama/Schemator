@@ -5,19 +5,18 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Schema\Rules;
 
 use Davajlama\Schemator\Schema\Exception\PropertyIsNotArrayException;
+use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Validator\Message;
 
 use function count;
 use function is_array;
-use function sprintf;
 
 final class MinItems extends BaseRule
 {
     private int $minItems;
 
-    public function __construct(int $minItems, ?string $message = null)
+    public function __construct(int $minItems)
     {
-        parent::__construct($message);
-
         $this->minItems = $minItems;
     }
 
@@ -28,7 +27,7 @@ final class MinItems extends BaseRule
         }
 
         if (count($value) < $this->minItems) {
-            $this->fail(sprintf('Minimum items of an array is %d, %d given.', $this->minItems, count($value)));
+            throw new ValidationFailedException(new Message('Minimum items of an array is :minItems.', [':minItems' => $this->minItems]));
         }
     }
 }

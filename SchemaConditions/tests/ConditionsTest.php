@@ -60,7 +60,7 @@ final class ConditionsTest extends TestCase
         self::assertNotNull($exception);
         self::assertCount(1, $exception->getErrors());
         self::assertSame('vatId', $exception->getErrors()[0]->getProperty());
-        self::assertSame('Property is required.', $exception->getErrors()[0]->getMessage());
+        self::assertSame('Property is required.', $exception->getErrors()[0]->getMessage()->toString());
 
         $payload = [
             'company' => 'Red Dwarf s.r.o.',
@@ -71,7 +71,7 @@ final class ConditionsTest extends TestCase
         self::assertNotNull($exception);
         self::assertCount(1, $exception->getErrors());
         self::assertSame('vatId', $exception->getErrors()[0]->getProperty());
-        self::assertSame('Property cannot be null.', $exception->getErrors()[0]->getMessage());
+        self::assertSame('Property cannot be null.', $exception->getErrors()[0]->getMessage()->toString());
     }
 
     /**

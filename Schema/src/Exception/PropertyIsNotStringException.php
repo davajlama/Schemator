@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Schema\Exception;
 
-use Davajlama\Schemator\Schema\Validator\ErrorMessage;
+use Davajlama\Schemator\Schema\Validator\Message;
+use Davajlama\Schemator\Schema\Validator\PropertyError;
 
 final class PropertyIsNotStringException extends ValidationFailedException
 {
     /**
-     * @param ErrorMessage[] $errors
+     * @param PropertyError[] $errors
      */
     public function __construct(array $errors = [])
     {
-        parent::__construct('Must be a string.', $errors);
+        parent::__construct(new Message('Must be a string.'), $errors);
     }
 }

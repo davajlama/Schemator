@@ -33,6 +33,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Davajlama\\Schemator\\Schema\\Examples\\": "Schema/examples/",
             "Davajlama\\Schemator\\Schema\\Tests\\": "Schema/tests/",
             "Davajlama\\Schemator\\JsonSchema\\Tests\\": "JsonSchema/tests/",
             "Davajlama\\Schemator\\OpenApi\\Tests\\": "OpenApi/tests/",

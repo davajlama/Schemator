@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Schema\Validator;
 
-final class ErrorMessage
+final class PropertyError
 {
-    private string $message;
+    private Message $message;
 
     private string $property;
 
@@ -18,15 +18,15 @@ final class ErrorMessage
     private ?int $index;
 
     /**
-     * @var ErrorMessage[]
+     * @var PropertyError[]
      */
     private array $errors;
 
     /**
      * @param string[] $path
-     * @param ErrorMessage[] $errors
+     * @param self[] $errors
      */
-    public function __construct(string $message, string $property, array $path = [], ?int $index = null, array $errors = [])
+    public function __construct(Message $message, string $property, array $path = [], ?int $index = null, array $errors = [])
     {
         $this->message = $message;
         $this->property = $property;
@@ -35,7 +35,7 @@ final class ErrorMessage
         $this->index = $index;
     }
 
-    public function getMessage(): string
+    public function getMessage(): Message
     {
         return $this->message;
     }
@@ -59,7 +59,7 @@ final class ErrorMessage
     }
 
     /**
-     * @return ErrorMessage[]
+     * @return PropertyError[]
      */
     public function getErrors(): array
     {

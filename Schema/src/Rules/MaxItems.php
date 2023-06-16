@@ -5,19 +5,18 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Schema\Rules;
 
 use Davajlama\Schemator\Schema\Exception\PropertyIsNotArrayException;
+use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Validator\Message;
 
 use function count;
 use function is_array;
-use function sprintf;
 
 final class MaxItems extends BaseRule
 {
     private int $maxItems;
 
-    public function __construct(int $maxItems, ?string $message = null)
+    public function __construct(int $maxItems)
     {
-        parent::__construct($message);
-
         $this->maxItems = $maxItems;
     }
 
@@ -28,7 +27,7 @@ final class MaxItems extends BaseRule
         }
 
         if (count($value) > $this->maxItems) {
-            $this->fail(sprintf('Maximum items of an array is %d, %d given.', $this->maxItems, count($value)));
+            throw new ValidationFailedException(new Message('Maximum items of an array is :maxItems.', [':maxItems' => $this->maxItems]));
         }
     }
 }

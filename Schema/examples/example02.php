@@ -7,7 +7,7 @@ use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
 use Davajlama\Schemator\Schema\Validator\ArrayValidator;
 use Davajlama\Schemator\Schema\Validator\MessageFormatter;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 $payload = [
     'from' => [
@@ -16,7 +16,7 @@ $payload = [
         'age' => 30,
     ],
     'to' => [
-        'firstname' => 'Dave',
+        'firstname' => 1,
         'surname' => 'Lister',
         'age' => 30,
     ],
