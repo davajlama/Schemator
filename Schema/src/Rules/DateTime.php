@@ -32,7 +32,7 @@ final class DateTime extends BaseRule
 
         $dt = \DateTime::createFromFormat($format, $value);
         if ($dt === false) {
-            throw new ValidationFailedException(new Message('Invalid format :format.', [':format' => $format]));
+            throw new ValidationFailedException(new Message('Invalid datetime format :format.', [':format' => $format]));
         }
     }
 }
