@@ -113,6 +113,7 @@ class SchemaBuilder
     private function loadFromType(ReflectionNamedType $type): PropertyAttribute
     {
         switch ($type->getName()) {
+            case 'DateTimeInterface':
             case 'string':
                 return new TypePropertyAttribute(new StringType());
             case 'int':
