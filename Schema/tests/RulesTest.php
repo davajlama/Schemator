@@ -122,7 +122,7 @@ final class RulesTest extends TestCase
             'maxLength' => [new MaxLength(5), 'Must be max 5 chars length.', ['123456', 'ščř']],
             'length' => [new Length(2), 'Must be 2 chars length.', ['CES']],
             'email' => [new Email(), 'Invalid e-mail format.', ['foo', 'foo.cz', 'foo@bar@bar.com']],
-            'dateTime' => [new DateTime('Y-m-d H:i:s'), 'Invalid format Y-m-d H:i:s.', ['2022-06-06']],
+            'dateTime' => [new DateTime('Y-m-d H:i:s'), 'Invalid datetime format Y-m-d H:i:s.', ['2022-06-06']],
             'maxItems' => [new MaxItems(3), 'Maximum items of an array is 3.', [[1, 2, 3, 4]]],
             'minItems' => [new MinItems(1), 'Minimum items of an array is 1.', [[]]],
             'unique' => [new Unique(), 'Array contain non-unique values.', [[1, 1]]],
