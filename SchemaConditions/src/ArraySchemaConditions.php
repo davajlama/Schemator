@@ -7,6 +7,7 @@ namespace Davajlama\Schemator\SchemaConditions;
 use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
 use Davajlama\Schemator\Schema\Extractor\ArrayExtractor;
 use Davajlama\Schemator\Schema\Extractor\ExtractorAwareInterface;
+use Davajlama\Schemator\Schema\Validator\Message;
 use Davajlama\Schemator\SchemaConditions\Conditions\ConditionsFactory;
 
 use function count;
@@ -56,7 +57,7 @@ final class ArraySchemaConditions
         }
 
         if (count($errors) > 0) {
-            throw new ValidationFailedException('Data is not valid.', $errors);
+            throw new ValidationFailedException(new Message('Data is not valid.'), $errors);
         }
     }
 }

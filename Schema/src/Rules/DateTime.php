@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Schema\Rules;
 
 use Davajlama\Schemator\Schema\Exception\PropertyIsNotStringException;
+use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Validator\Message;
 
 use function is_string;
-use function sprintf;
 
 final class DateTime extends BaseRule
 {
     private ?string $format;
 
-    public function __construct(?string $format = null, ?string $message = null)
+    public function __construct(?string $format = null)
     {
-        parent::__construct($message);
-
         $this->format = $format;
     }
 
@@ -33,7 +32,7 @@ final class DateTime extends BaseRule
 
         $dt = \DateTime::createFromFormat($format, $value);
         if ($dt === false) {
-            $this->fail($this->getMessage(sprintf('Invalid format %s.', $format)));
+            throw new ValidationFailedException(new Message('Invalid datetime format :format.', [':format' => $format]));
         }
     }
 }

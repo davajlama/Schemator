@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Schema\Rules;
 
 use Davajlama\Schemator\Schema\Exception\PropertyIsNotArrayException;
+use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Validator\Message;
 
 use function in_array;
 use function is_array;
@@ -19,10 +21,8 @@ final class ArrayOfValues extends BaseRule
     /**
      * @param bool[]|float[]|int[]|string[] $values
      */
-    public function __construct(array $values, ?string $message = null)
+    public function __construct(array $values)
     {
-        parent::__construct($message);
-
         $this->values = $values;
     }
 
@@ -34,7 +34,7 @@ final class ArrayOfValues extends BaseRule
 
         foreach ($value as $item) {
             if (!in_array($item, $this->values, true)) {
-                $this->fail('Array contain one or more non-predefined values.');
+                throw new ValidationFailedException(new Message('Array contain one or more non-predefined values.'));
             }
         }
     }

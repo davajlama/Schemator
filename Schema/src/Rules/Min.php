@@ -5,30 +5,28 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Schema\Rules;
 
 use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Validator\Message;
 
 use function is_float;
 use function is_integer;
-use function sprintf;
 
 class Min extends BaseRule
 {
     private float $min;
 
-    public function __construct(float $min, ?string $message = null)
+    public function __construct(float $min)
     {
-        parent::__construct($message);
-
         $this->min = $min;
     }
 
     public function validateValue(mixed $value): void
     {
         if (!is_float($value) && !is_integer($value)) {
-            throw new ValidationFailedException('Must be a Float or Integer');
+            throw new ValidationFailedException(new Message('Must be a float or an integer.'));
         }
 
         if ($value < $this->min) {
-            throw new ValidationFailedException(sprintf($this->getMessage('Must be greater than %d'), $this->min));
+            throw new ValidationFailedException(new Message('Must be greater than :min.', [':min' => $this->min]));
         }
     }
 }

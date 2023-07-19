@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Schema\Rules;
 
 use Davajlama\Schemator\Schema\Exception\PropertyIsNotArrayException;
+use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Validator\Message;
 use JsonException;
 
 use function array_map;
@@ -25,10 +27,10 @@ final class Unique extends BaseRule
             $uniques = array_unique(array_map(static fn($v) => json_encode($v, JSON_THROW_ON_ERROR), $value));
 
             if (count($value) !== count($uniques)) {
-                $this->fail('Array contain non-unique values.');
+                throw new ValidationFailedException(new Message('Array contain non-unique values.'));
             }
         } catch (JsonException $e) {
-            $this->fail('Array contain non-serializable values.');
+            throw new ValidationFailedException(new Message('Array contain non-serializable values.'));
         }
     }
 }

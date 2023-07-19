@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Schema\Rules;
 
 use Davajlama\Schemator\Schema\Exception\PropertyIsNotArrayException;
+use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Validator\Message;
 
 use function array_keys;
 use function array_map;
@@ -21,7 +23,7 @@ class DynamicObject extends BaseRule
         }
 
         if (array_sum(array_map(static fn($v) => (int) (!is_string($v)), array_keys($value))) > 0) {
-            $this->fail('Array contains one or more not-string keys.');
+            throw new ValidationFailedException(new Message('Array contains one or more not-string keys.'));
         }
     }
 }

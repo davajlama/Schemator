@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Schema\Rules;
 
 use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Validator\Message;
 
-use function array_map;
 use function implode;
 use function in_array;
-use function sprintf;
 
 class Enum extends BaseRule
 {
@@ -21,22 +20,15 @@ class Enum extends BaseRule
     /**
      * @param scalar[] $values
      */
-    public function __construct(array $values, ?string $message = null)
+    public function __construct(array $values)
     {
-        parent::__construct($message);
-
         $this->values = $values;
     }
 
     public function validateValue(mixed $value): void
     {
         if (!in_array($value, $this->values, true)) {
-            throw new ValidationFailedException(
-                sprintf(
-                    $this->getMessage('Must be one of [%s]'),
-                    implode(', ', array_map(static fn($v) => (string) $v, $this->values)),
-                )
-            );
+            throw new ValidationFailedException(new Message('Must be one of [:values].', [':values' => implode('|', $this->values)]));
         }
     }
 }

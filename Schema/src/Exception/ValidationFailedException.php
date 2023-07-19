@@ -4,28 +4,37 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\Schema\Exception;
 
-use Davajlama\Schemator\Schema\Validator\ErrorMessage;
+use Davajlama\Schemator\Schema\Validator\Message;
+use Davajlama\Schemator\Schema\Validator\PropertyError;
 use InvalidArgumentException;
 
 class ValidationFailedException extends InvalidArgumentException
 {
+    private Message $messageObject;
+
     /**
-     * @var ErrorMessage[]
+     * @var PropertyError[]
      */
     private array $errors;
 
     /**
-     * @param ErrorMessage[] $errors
+     * @param PropertyError[] $errors
      */
-    public function __construct(string $message, array $errors = [])
+    public function __construct(Message $messageObject, array $errors = [])
     {
-        parent::__construct($message);
+        parent::__construct($messageObject->toString());
 
+        $this->messageObject = $messageObject;
         $this->errors = $errors;
     }
 
+    public function getMessageObject(): Message
+    {
+        return $this->messageObject;
+    }
+
     /**
-     * @return ErrorMessage[]
+     * @return PropertyError[]
      */
     public function getErrors(): array
     {

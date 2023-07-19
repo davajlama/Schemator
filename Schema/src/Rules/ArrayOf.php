@@ -9,7 +9,8 @@ use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
 use Davajlama\Schemator\Schema\Schema;
 use Davajlama\Schemator\Schema\SchemaFactoryAware;
 use Davajlama\Schemator\Schema\SchemaFactoryAwareInterface;
-use Davajlama\Schemator\Schema\Validator\ErrorMessage;
+use Davajlama\Schemator\Schema\Validator\Message;
+use Davajlama\Schemator\Schema\Validator\PropertyError;
 use Davajlama\Schemator\Schema\Validator\ValidatorAware;
 use Davajlama\Schemator\Schema\Validator\ValidatorAwareInterface;
 
@@ -24,10 +25,8 @@ class ArrayOf extends BaseRule implements ValidatorAwareInterface, SchemaFactory
 
     private Schema|string $schema;
 
-    public function __construct(Schema|string $schema, ?string $message = null)
+    public function __construct(Schema|string $schema)
     {
-        parent::__construct($message);
-
         $this->schema = $schema;
     }
 
@@ -43,13 +42,13 @@ class ArrayOf extends BaseRule implements ValidatorAwareInterface, SchemaFactory
                 $this->getValidator()->validate($this->getSchema(), $item);
             } catch (ValidationFailedException $e) {
                 foreach ($e->getErrors() as $error) {
-                    $errors[] = new ErrorMessage($error->getMessage(), $error->getProperty(), $error->getPath(), $index, $error->getErrors());
+                    $errors[] = new PropertyError($error->getMessage(), $error->getProperty(), $error->getPath(), $index, $error->getErrors());
                 }
             }
         }
 
         if (count($errors) > 0) {
-            $this->fail('Array of items not valid.', $errors);
+            throw new ValidationFailedException(new Message('Array of items not valid.'), $errors);
         }
     }
 

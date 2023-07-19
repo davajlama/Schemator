@@ -9,7 +9,7 @@ use function count;
 final class MessageFormatter
 {
     /**
-     * @param ErrorMessage[] $errors
+     * @param PropertyError[] $errors
      * @return array<array{field: string, message: string}>
      */
     public static function toFlatten(array $errors): array
@@ -18,7 +18,7 @@ final class MessageFormatter
     }
 
     /**
-     * @param ErrorMessage[] $errors
+     * @param PropertyError[] $errors
      * @return array<array{field: string, message: string}>
      */
     private static function format(array $errors, ?string $path = null): array
@@ -31,7 +31,7 @@ final class MessageFormatter
             if (count($error->getErrors()) === 0) {
                 $list[] = [
                     'field' => $field,
-                    'message' => $error->getMessage(),
+                    'message' => $error->getMessage()->toString(),
                 ];
             } else {
                 foreach (self::format($error->getErrors(), $field) as $subError) {

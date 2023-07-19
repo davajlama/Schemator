@@ -21,7 +21,6 @@ use function array_push;
 use function array_search;
 use function count;
 use function is_array;
-use function sprintf;
 
 class ArrayValidator implements ValidatorInterface
 {
@@ -44,14 +43,14 @@ class ArrayValidator implements ValidatorInterface
         $errors = $this->doValidate($schema, $payload, []);
 
         if (count($errors) > 0) {
-            throw new ValidationFailedException('Data is not valid.', $errors);
+            throw new ValidationFailedException(new Message('Data is not valid.'), $errors);
         }
     }
 
     /**
      * @param string[] $path
      * @param mixed[] $payload
-     * @return ErrorMessage[]
+     * @return PropertyError[]
      */
     protected function doValidate(Schema $schema, array $payload, array $path): array
     {
@@ -73,10 +72,10 @@ class ArrayValidator implements ValidatorInterface
                             if (is_array($payload[$unresolvedProperty])) {
                                 $subSubErrors = $this->doValidate($this->schemaFactory->create($property->getReference()), $payload[$unresolvedProperty], $path);
                                 if (count($subSubErrors) > 0) {
-                                    $subErrors[] = new ErrorMessage('Object not valid.', $unresolvedProperty, $path, null, $subSubErrors);
+                                    $subErrors[] = new PropertyError(new Message('Object not valid.'), $unresolvedProperty, $path, null, $subSubErrors);
                                 }
                             } else {
-                                $subErrors[] = new ErrorMessage('Must be an array.', $unresolvedProperty, $path);
+                                $subErrors[] = new PropertyError(new Message('Must be an array.'), $unresolvedProperty, $path);
                             }
 
                             foreach ($subErrors as $subError) {
@@ -106,7 +105,7 @@ class ArrayValidator implements ValidatorInterface
                                 try {
                                     $rule->validate($payload, $unresolvedProperty);
                                 } catch (ValidationFailedException $e) {
-                                    $errors[] = new ErrorMessage($e->getMessage(), $unresolvedProperty, $path, null, $e->getErrors());
+                                    $errors[] = new PropertyError($e->getMessageObject(), $unresolvedProperty, $path, null, $e->getErrors());
                                 }
                             }
                         }
@@ -120,13 +119,12 @@ class ArrayValidator implements ValidatorInterface
         }
 
         if (!$schema->isAdditionalPropertiesAllowed() && count($unresolvedProperties) > 0) {
-            $errors[] = new ErrorMessage('Additional properties not allowed.', '*', $path);
+            $errors[] = new PropertyError(new Message('Additional properties not allowed.'), '*', $path);
         }
 
         foreach ($properties as $name => $property) {
             if ($property->isRequired()) {
-                $message = sprintf('Property is required.');
-                $errors[] = new ErrorMessage($message, $name, $path);
+                $errors[] = new PropertyError(new Message('Property is required.'), $name, $path);
             }
         }
 

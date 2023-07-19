@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\Schema\Rules;
 
 use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
+use Davajlama\Schemator\Schema\Validator\Message;
 
 use function is_float;
 use function is_integer;
-use function sprintf;
 
 class Range extends BaseRule
 {
@@ -16,10 +16,8 @@ class Range extends BaseRule
 
     private float $max;
 
-    public function __construct(float $min, float $max, ?string $message = null)
+    public function __construct(float $min, float $max)
     {
-        parent::__construct($message);
-
         $this->min = $min;
         $this->max = $max;
     }
@@ -27,11 +25,11 @@ class Range extends BaseRule
     public function validateValue(mixed $value): void
     {
         if (!is_float($value) && !is_integer($value)) {
-            throw new ValidationFailedException('Must be a Float or Integer');
+            throw new ValidationFailedException(new Message('Must be a float or an integer.'));
         }
 
         if ($value < $this->min || $value > $this->max) {
-            throw new ValidationFailedException(sprintf($this->getMessage('Must be between %d - %d.'), $this->min, $this->max));
+            throw new ValidationFailedException(new Message('Must be between :min - :max.', [':min' => $this->min, ':max' => $this->max]));
         }
     }
 }
