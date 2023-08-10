@@ -26,7 +26,7 @@ final class DateTimeResolver implements ResolverInterface
             $schemaFormat = $format;
         }
 
-        // @todo
+        $definition->addType('string');
         $definition->setFormat($schemaFormat);
     }
 }
