@@ -11,6 +11,7 @@
 >
   <coverage processUncoveredFiles="true">
     <include>
+      <directory suffix=".php">Arr/src</directory>
       <directory suffix=".php">DataSanitizer/src</directory>
       <directory suffix=".php">JsonSchema/src</directory>
       <directory suffix=".php">OpenApi/src</directory>
@@ -20,6 +21,7 @@
     </include>
   </coverage>
   <testsuite name="all">
+    <directory suffix="Test.php">Arr/tests</directory>
     <directory suffix="Test.php">DataSanitizer/tests</directory>
     <directory suffix="Test.php">JsonSchema/tests</directory>
     <directory suffix="Test.php">OpenApi/tests</directory>

@@ -8,6 +8,7 @@
     <arg name="colors"/>
     <arg name="extensions" value="php"/>
 
+    <file>Arr/</file>
     <file>DataSanitizer/</file>
     <file>Demo/</file>
     <file>JsonSchema/</file>
