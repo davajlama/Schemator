@@ -71,7 +71,7 @@ class Arr
         $payload = $this->payload;
         foreach ($keys as $key) {
             if ($strict === true && (!is_array($payload) || !array_key_exists($key, $payload))) {
-                throw ArrException::propertyNotExists();
+                throw ArrException::propertyNotExists($key);
             }
 
             if (is_array($payload)) {
@@ -91,7 +91,7 @@ class Arr
     {
         $payload = $this->value($path, $default, $strict);
         if (!is_array($payload)) {
-            throw ArrException::propertyIsNotArray();
+            throw ArrException::propertyIsNotArray($path);
         }
 
         return $this->createSelf($payload);
@@ -111,7 +111,7 @@ class Arr
     {
         $me = $this->one($key, $operator, $value);
         if ($me === null) {
-            throw ArrException::propertyIsNotArray();
+            throw ArrException::propertyIsNotArray($key);
         }
 
         return $me;
@@ -131,7 +131,7 @@ class Arr
     {
         $payload = array_slice($this->payload, 0, 1)[0] ?? null;
         if (!is_array($payload)) {
-            throw ArrException::propertyIsNotArray();
+            throw ArrException::propertyIsNotArray(0);
         }
 
         return $this->createSelf($payload);

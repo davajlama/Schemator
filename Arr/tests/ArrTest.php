@@ -74,7 +74,7 @@ final class ArrTest extends TestCase
     public function testThe(): void
     {
         self::expectException(ArrException::class);
-        self::expectErrorMessage('Property is not an array.');
+        self::expectErrorMessage('Property [name] is not an array.');
 
         $this->arr->me('attributes')->the('name', '=', 'Test03');
     }
