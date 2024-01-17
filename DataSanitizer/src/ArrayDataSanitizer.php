@@ -78,9 +78,11 @@ class ArrayDataSanitizer
         }
 
         foreach ($this->arrayReferences as $arrayReference) {
-            $subPayload = $this->arrayExtractor->extract($payload, $arrayReference->getName());
-            if (is_array($subPayload)) {
-                $payload[$arrayReference->getName()] = $arrayReference->getArrayDataSanitizer()->sanitize($subPayload);
+            if ($this->arrayExtractor->exists($payload, $arrayReference->getName())) {
+                $subPayload = $this->arrayExtractor->extract($payload, $arrayReference->getName());
+                if (is_array($subPayload)) {
+                    $payload[$arrayReference->getName()] = $arrayReference->getArrayDataSanitizer()->sanitize($subPayload);
+                }
             }
         }
 

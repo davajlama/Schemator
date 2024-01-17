@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Davajlama\Schemator\SchemaAttributes\Tests\Fixtures;
+namespace Davajlama\Schemator\SanitizerAttributes\Tests\Fixtures;
 
 use Davajlama\Schemator\SanitizerAttributes\Attribute\Trim;
 
