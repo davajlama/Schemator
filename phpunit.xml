@@ -15,6 +15,7 @@
       <directory suffix=".php">DataSanitizer/src</directory>
       <directory suffix=".php">JsonSchema/src</directory>
       <directory suffix=".php">OpenApi/src</directory>
+      <directory suffix=".php">SanitizerAttributes/src</directory>
       <directory suffix=".php">Schema/src</directory>
       <directory suffix=".php">SchemaAttributes/src</directory>
       <directory suffix=".php">SchemaConditions/src</directory>
@@ -25,6 +26,7 @@
     <directory suffix="Test.php">DataSanitizer/tests</directory>
     <directory suffix="Test.php">JsonSchema/tests</directory>
     <directory suffix="Test.php">OpenApi/tests</directory>
+    <directory suffix="Test.php">SanitizerAttributes/tests</directory>
     <directory suffix="Test.php">Schema/tests</directory>
     <directory suffix="Test.php">SchemaAttributes/tests</directory>
     <directory suffix="Test.php">SchemaConditions/tests</directory>

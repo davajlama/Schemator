@@ -29,6 +29,7 @@
             "Davajlama\\Schemator\\OpenApi\\": "OpenApi/src/",
             "Davajlama\\Schemator\\SchemaAttributes\\": "SchemaAttributes/src/",
             "Davajlama\\Schemator\\DataSanitizer\\": "DataSanitizer/src/",
+            "Davajlama\\Schemator\\SanitizerAttributes\\": "SanitizerAttributes/src/",
             "Davajlama\\Schemator\\SchemaConditions\\": "SchemaConditions/src/"
         }
     },
@@ -41,6 +42,7 @@
             "Davajlama\\Schemator\\OpenApi\\Tests\\": "OpenApi/tests/",
             "Davajlama\\Schemator\\SchemaAttributes\\Tests\\": "SchemaAttributes/tests/",
             "Davajlama\\Schemator\\DataSanitizer\\Tests\\": "DataSanitizer/tests/",
+            "Davajlama\\Schemator\\SanitizerAttributes\\Tests\\": "SanitizerAttributes/tests/",
             "Davajlama\\Schemator\\SchemaConditions\\Tests\\": "SchemaConditions/tests/",
             "Davajlama\\Schemator\\Demo\\": "Demo/src/"
         }

@@ -6,6 +6,7 @@ parameters:
         - Demo
         - JsonSchema
         - OpenApi
+        - SanitizerAttributes
         - Schema
         - SchemaAttributes
         - SchemaConditions
