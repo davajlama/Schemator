@@ -129,7 +129,7 @@ final class SanitizerBuilder
         }
 
         foreach ($types as $type) {
-            if (!in_array($type->getName(), ['string', 'int', 'bool', 'float', 'array'], true)) {
+            if (!in_array($type->getName(), ['string', 'int', 'bool', 'float', 'array', 'null'], true)) {
                 return false;
             }
         }
