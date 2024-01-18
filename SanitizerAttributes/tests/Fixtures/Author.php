@@ -13,6 +13,7 @@ final class Author
         public string $firstname,
         public string $lastname,
         public int $age,
+        public array $books,
     ) {
     }
 }
