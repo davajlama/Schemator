@@ -11,6 +11,7 @@ use ReflectionNamedType;
 use ReflectionProperty;
 use ReflectionUnionType;
 
+use function array_map;
 use function class_implements;
 use function in_array;
 
@@ -27,25 +28,27 @@ final class SanitizerBuilder
         $rfc = new ReflectionClass($className);
         $sanitizer = new ArrayDataSanitizer();
 
-        $properties = $this->loadPropertiesFromClass($rfc);
+        $variables = $this->loadPropertiesFromClass($rfc);
+        $variableNames = array_map(static fn(ReflectionVariable $v) => $v->getName(), $variables);
+
         foreach ($this->loadFromClass($rfc) as $attribute) {
-            $group = $sanitizer->props(...$properties);
+            $group = $sanitizer->props(...$variableNames);
             $attribute->apply($group);
         }
 
-        foreach ($rfc->getProperties(ReflectionProperty::IS_PUBLIC) as $reflectionProperty) {
-            if ($this->isScalarProperty($reflectionProperty)) {
-                $attributes = $this->loadFromProperty($reflectionProperty);
+        foreach ($variables as $variable) {
+            if ($this->isScalarProperty($variable)) {
+                $attributes = $this->loadFromProperty($variable);
                 foreach ($attributes as $attribute) {
-                    $group = $sanitizer->props($reflectionProperty->getName());
+                    $group = $sanitizer->props($variable->getName());
                     $attribute->apply($group);
                 }
-            } elseif ($this->isSingleObjectProperty($reflectionProperty)) {
-                    $type = $reflectionProperty->getType();
+            } elseif ($this->isSingleObjectProperty($variable)) {
+                    $type = $variable->getType();
                 if ($type instanceof ReflectionNamedType) {
                     /** @var class-string<T> $refClassName */
                     $refClassName = $type->getName();
-                    $sanitizer->ref($reflectionProperty->getName(), $this->build($refClassName));
+                    $sanitizer->ref($variable->getName(), $this->build($refClassName));
                 }
             } else {
                 throw new LogicException('Multi object properties not supported.');
@@ -57,16 +60,23 @@ final class SanitizerBuilder
 
     /**
      * @param ReflectionClass<T> $class
-     * @return string[]
+     * @return ReflectionVariable[]
      */
     private function loadPropertiesFromClass(ReflectionClass $class): array
     {
-        $properties = [];
-        foreach ($class->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
-            $properties[] = $property->getName();
+        $variables = [];
+        $constructor = $class->getConstructor();
+        if ($constructor !== null) {
+            foreach ($constructor->getParameters() as $parameter) {
+                $variables[] = new ReflectionVariable($parameter);
+            }
+        } else {
+            foreach ($class->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+                $variables[] = new ReflectionVariable($property);
+            }
         }
 
-        return $properties;
+        return $variables;
     }
 
     /**
@@ -91,10 +101,10 @@ final class SanitizerBuilder
     /**
      * @return GroupAttribute[]
      */
-    private function loadFromProperty(ReflectionProperty $property): array
+    private function loadFromProperty(ReflectionVariable $variable): array
     {
         $attributes = [];
-        foreach ($property->getAttributes() as $attribute) {
+        foreach ($variable->getAttributes() as $attribute) {
             if (in_array(GroupAttribute::class, class_implements($attribute->getName()), true)) {
                 /** @var GroupAttribute $filter */
                 $filter = $attribute->newInstance();
@@ -106,9 +116,9 @@ final class SanitizerBuilder
         return $attributes;
     }
 
-    private function isScalarProperty(ReflectionProperty $property): bool
+    private function isScalarProperty(ReflectionVariable $variable): bool
     {
-        $originType = $property->getType();
+        $originType = $variable->getType();
         if ($originType === null) {
             throw new LogicException('Untyped properties not supported.');
         }
@@ -127,13 +137,13 @@ final class SanitizerBuilder
         return true;
     }
 
-    private function isSingleObjectProperty(ReflectionProperty $reflectionProperty): bool
+    private function isSingleObjectProperty(ReflectionVariable $variable): bool
     {
-        if ($this->isScalarProperty($reflectionProperty)) {
+        if ($this->isScalarProperty($variable)) {
             return false;
         }
 
-        $originType = $reflectionProperty->getType();
+        $originType = $variable->getType();
 
         return $originType instanceof ReflectionUnionType === false;
     }

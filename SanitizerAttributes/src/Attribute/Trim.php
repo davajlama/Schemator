@@ -8,7 +8,7 @@ use Attribute;
 use Davajlama\Schemator\DataSanitizer\PropertiesGroup;
 use Davajlama\Schemator\SanitizerAttributes\GroupAttribute;
 
-#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_CLASS)]
+#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_CLASS | Attribute::TARGET_PARAMETER)]
 final class Trim implements GroupAttribute
 {
     private string $characters;
