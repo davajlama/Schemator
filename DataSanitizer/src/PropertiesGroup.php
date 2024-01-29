@@ -17,6 +17,7 @@ use function sprintf;
  * @method self numericToFloat()
  * @method self numericToInt()
  * @method self defaultIfNotExists(mixed $default)
+ * @method self defaultValue(mixed $default)
  * @method self stringedNumberToInt()
  * @method self stringedNumberToFloat()
  */

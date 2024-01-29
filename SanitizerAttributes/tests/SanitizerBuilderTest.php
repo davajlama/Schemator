@@ -16,6 +16,7 @@ final class SanitizerBuilderTest extends TestCase
         $authorPayload = [
             'firstname' => ' Dave ',
             'lastname' => ' Lister ',
+            'country' => null,
         ];
 
         $sanitizer = (new SanitizerBuilder())->build(Author::class);
@@ -23,6 +24,7 @@ final class SanitizerBuilderTest extends TestCase
 
         self::assertSame('Dave', $data['firstname']);
         self::assertSame('Lister', $data['lastname']);
+        self::assertSame('CZ', $data['country']);
 
         $bookPayload = [
             'name' => ' Red Dwarf ',
