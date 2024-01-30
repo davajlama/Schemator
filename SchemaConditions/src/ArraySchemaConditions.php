@@ -21,7 +21,7 @@ final class ArraySchemaConditions
     /**
      * @var PropertiesGroup[]
      */
-    private array $propertiesGroups;
+    private array $propertiesGroups = [];
 
     public function __construct(?ConditionsFactory $conditionsFactory = null, ?ArrayExtractor $arrayExtractor = null)
     {
