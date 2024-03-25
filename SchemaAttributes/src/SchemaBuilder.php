@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\SchemaAttributes;
 
+use Davajlama\Schemator\SanitizerAttributes\ReflectionVariable;
 use Davajlama\Schemator\Schema\Rules\Type\BoolType;
 use Davajlama\Schemator\Schema\Rules\Type\FloatType;
 use Davajlama\Schemator\Schema\Rules\Type\IntegerType;
@@ -37,10 +38,15 @@ class SchemaBuilder
             $rule->apply($schema);
         }
 
-        foreach ($rfc->getProperties(ReflectionProperty::IS_PUBLIC) as $reflectionProperty) {
-            $attributes = $this->loadFromProperty($reflectionProperty);
+        foreach ($this->loadPropertiesFromClass($rfc) as $reflectionVariable) {
+            $attributes = $this->loadFromProperty($reflectionVariable);
 
-            $prop = $schema->prop($reflectionProperty->getName());
+            $prop = $schema->prop($reflectionVariable->getName());
+
+            if ($reflectionVariable->hasDefaultValue()) {
+                $prop->required(false);
+            }
+
             foreach ($attributes as $attribute) {
                 $attribute->apply($prop);
             }
@@ -71,7 +77,7 @@ class SchemaBuilder
     /**
      * @return PropertyAttribute[]
      */
-    private function loadFromProperty(ReflectionProperty $property): array
+    private function loadFromProperty(ReflectionVariable $property): array
     {
         $originType = $property->getType();
         if ($originType === null) {
@@ -89,6 +95,7 @@ class SchemaBuilder
         }
 
         foreach ($types as $type) {
+            /** @var ReflectionNamedType $type */
             if ($type->getName() !== 'null' && $type->getName() !== 'array') {
                 $attributes[] = $this->loadFromType($type);
             }
@@ -108,6 +115,27 @@ class SchemaBuilder
         }
 
         return $attributes;
+    }
+
+    /**
+     * @param ReflectionClass<T> $class
+     * @return ReflectionVariable[]
+     */
+    private function loadPropertiesFromClass(ReflectionClass $class): array
+    {
+        $variables = [];
+        $constructor = $class->getConstructor();
+        if ($constructor !== null) {
+            foreach ($constructor->getParameters() as $parameter) {
+                $variables[] = new ReflectionVariable($parameter);
+            }
+        } else {
+            foreach ($class->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+                $variables[] = new ReflectionVariable($property);
+            }
+        }
+
+        return $variables;
     }
 
     private function loadFromType(ReflectionNamedType $type): PropertyAttribute

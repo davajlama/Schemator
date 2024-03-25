@@ -35,4 +35,13 @@ final class ReflectionVariable
     {
         return $this->property->getType();
     }
+
+    public function hasDefaultValue(): bool
+    {
+        if ($this->property instanceof ReflectionProperty) {
+            return $this->property->hasDefaultValue();
+        }
+
+        return $this->property->isOptional();
+    }
 }

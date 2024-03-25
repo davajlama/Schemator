@@ -8,7 +8,7 @@ use Attribute;
 use Davajlama\Schemator\Schema\Property;
 use Davajlama\Schemator\SchemaAttributes\PropertyAttribute;
 
-#[Attribute(Attribute::TARGET_PROPERTY)]
+#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_PARAMETER)]
 final class MinItems implements PropertyAttribute
 {
     private int $minItems;

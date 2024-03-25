@@ -129,6 +129,7 @@ final class SanitizerBuilder
         }
 
         foreach ($types as $type) {
+            /** @var ReflectionNamedType $type */
             if (!in_array($type->getName(), ['string', 'int', 'bool', 'float', 'array', 'null'], true)) {
                 return false;
             }
