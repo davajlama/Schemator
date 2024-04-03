@@ -8,6 +8,7 @@ use Davajlama\Schemator\JsonSchema\JsonSchemaBuilder;
 use Davajlama\Schemator\Schema\Property;
 use Davajlama\Schemator\Schema\Schema;
 use Davajlama\Schemator\Schema\SchemaFactory;
+use Davajlama\Schemator\Schema\SchemaFactoryInterface;
 use LogicException;
 
 use function array_search;
@@ -21,14 +22,14 @@ final class OpenApiBuilder
 {
     private JsonSchemaBuilder $jsonSchemaBuilder;
 
-    private SchemaFactory $schemaFactory;
+    private SchemaFactoryInterface $schemaFactory;
 
     /**
      * @var SchemaReference[]
      */
     private array $schemas = [];
 
-    public function __construct(?JsonSchemaBuilder $jsonSchemaBuilder = null, ?SchemaFactory $schemaFactory = null)
+    public function __construct(?JsonSchemaBuilder $jsonSchemaBuilder = null, ?SchemaFactoryInterface $schemaFactory = null)
     {
         $this->jsonSchemaBuilder = $jsonSchemaBuilder ?? new JsonSchemaBuilder();
         $this->schemaFactory = $schemaFactory ?? new SchemaFactory();
