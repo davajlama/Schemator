@@ -16,9 +16,22 @@ use function sprintf;
 class SchemaFactory implements SchemaFactoryInterface
 {
     /**
+     * @var SchemaBuilder<object>
+     */
+    private SchemaBuilder $schemaBuilder;
+
+    /**
      * @var array<string, Schema>
      */
     private array $schemaCollection = [];
+
+    /**
+     * @param SchemaBuilder<object>|null $schemaBuilder
+     */
+    public function __construct(?SchemaBuilder $schemaBuilder = null)
+    {
+        $this->schemaBuilder = $schemaBuilder ?? new SchemaBuilder();
+    }
 
     public function create(Schema|string $schema): Schema
     {
@@ -43,7 +56,7 @@ class SchemaFactory implements SchemaFactoryInterface
         }
 
         if ($object === null && class_exists(SchemaBuilder::class)) {
-            $object = (new SchemaBuilder())->build($schema);
+            $object = $this->schemaBuilder->build($schema);
         }
 
         if ($object === null) {
