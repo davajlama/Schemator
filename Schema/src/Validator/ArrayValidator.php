@@ -119,7 +119,9 @@ class ArrayValidator implements ValidatorInterface
         }
 
         if (!$schema->isAdditionalPropertiesAllowed() && count($unresolvedProperties) > 0) {
-            $errors[] = new PropertyError(new Message('Additional properties not allowed.'), '*', $path);
+            foreach ($unresolvedProperties as $unresolvedProperty) {
+                $errors[] = new PropertyError(new Message('Additional properties not allowed.'), $unresolvedProperty, $path);
+            }
         }
 
         foreach ($properties as $name => $property) {

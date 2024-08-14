@@ -47,6 +47,39 @@ final class ValidatorTest extends TestCase
         self::assertInstanceOf(ValidationFailedException::class, $exception);
     }
 
+    public function testAdditionalPropertiesOff(): void
+    {
+        $schema = new Schema();
+        $schema->additionalProperties(false);
+
+        $payload = [
+            'unknownProperty1' => false,
+            'unknownProperty2' => false,
+        ];
+
+        $exception = $this->validate($schema, $payload);
+
+        self::assertInstanceOf(ValidationFailedException::class, $exception);
+        self::assertCount(2, $exception->getErrors());
+        self::assertSame('unknownProperty1', $exception->getErrors()[0]->getProperty());
+        self::assertSame('Additional properties not allowed.', $exception->getErrors()[0]->getMessage()->toString());
+        self::assertSame('unknownProperty2', $exception->getErrors()[1]->getProperty());
+        self::assertSame('Additional properties not allowed.', $exception->getErrors()[1]->getMessage()->toString());
+    }
+
+    public function testAdditionalPropertiesOn(): void
+    {
+        $schema = new Schema();
+        $schema->additionalProperties(true);
+
+        $payload = [
+            'unknownProperty1' => false,
+            'unknownProperty2' => false,
+        ];
+
+        self::assertTrue($this->validate($schema, $payload));
+    }
+
     /**
      * @param mixed[] $payload
      */
