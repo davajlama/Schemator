@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\SanitizerAttributes;
 
 use Davajlama\Schemator\DataSanitizer\ArrayDataSanitizer;
+use Davajlama\Schemator\Schema\Value;
 use LogicException;
 use ReflectionClass;
 use ReflectionNamedType;
@@ -130,7 +131,7 @@ final class SanitizerBuilder
 
         foreach ($types as $type) {
             /** @var ReflectionNamedType $type */
-            if (!in_array($type->getName(), ['string', 'int', 'bool', 'float', 'array', 'null'], true)) {
+            if (!in_array($type->getName(), ['string', 'int', 'bool', 'float', 'array', 'null', Value::class], true)) {
                 return false;
             }
         }
