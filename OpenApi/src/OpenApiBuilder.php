@@ -14,9 +14,12 @@ use LogicException;
 use function array_search;
 use function array_walk_recursive;
 use function count;
+use function explode;
 use function in_array;
 use function is_array;
 use function reset;
+use function strtr;
+use function ucfirst;
 
 final class OpenApiBuilder
 {
@@ -65,11 +68,14 @@ final class OpenApiBuilder
             throw new LogicException('Cannot create reference name for Property.');
         }
 
+
         if ($schema->getSchema() instanceof Schema) {
-            return $schema->getSchema()->getName() ?? $schema->getSchema()::class;
+            $name = $schema->getSchema()->getName() ?? $schema->getSchema()::class;
+        } else {
+            $name = $schema->getSchema();
         }
 
-        return $schema->getSchema();
+        return $this->capitalize($name);
     }
 
     /**
@@ -130,6 +136,18 @@ final class OpenApiBuilder
 
     private function generateSchemaReference(string $class): string
     {
-        return '#/components/schemas/' . $class;
+        return '#/components/schemas/' . $this->capitalize($class);
+    }
+
+    private function capitalize(string $name): string
+    {
+        $result = '';
+
+        $name = strtr($name, '\\', '/');
+        foreach (explode('/', $name) as $word) {
+            $result .= ucfirst($word);
+        }
+
+        return $result;
     }
 }

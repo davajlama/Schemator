@@ -6,6 +6,7 @@ namespace Davajlama\Schemator\OpenApi\Api;
 
 use Davajlama\Schemator\OpenApi\DefinitionInterface;
 use Davajlama\Schemator\OpenApi\PropertyHelper;
+use Davajlama\Schemator\OpenApi\PropertySchema;
 use Davajlama\Schemator\Schema\Schema;
 use LogicException;
 
@@ -98,6 +99,16 @@ class Method implements DefinitionInterface
         return $this->parameters()->param($name)->required($required)->inQuery();
     }
 
+    public function integerQueryParam(string $name, bool $required = false): Parameter
+    {
+        return $this->parameters()->param($name)->required($required)->inQuery()->schema(PropertySchema::integer());
+    }
+
+    public function stringQueryParam(string $name, bool $required = false): Parameter
+    {
+        return $this->parameters()->param($name)->required($required)->inQuery()->schema(PropertySchema::string());
+    }
+
     public function headerParam(string $name, bool $required = false): Parameter
     {
         return $this->parameters()->param($name)->required($required)->inHeader();
@@ -106,6 +117,16 @@ class Method implements DefinitionInterface
     public function pathParam(string $name, bool $required = false): Parameter
     {
         return $this->parameters()->param($name)->required($required)->inPath();
+    }
+
+    public function integerPathParam(string $name, bool $required = false): Parameter
+    {
+        return $this->parameters()->param($name)->required($required)->inPath()->schema(PropertySchema::integer());
+    }
+
+    public function stringPathParam(string $name, bool $required = false): Parameter
+    {
+        return $this->parameters()->param($name)->required($required)->inPath()->schema(PropertySchema::string());
     }
 
     public function parameters(): Parameters

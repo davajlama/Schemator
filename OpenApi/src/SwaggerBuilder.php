@@ -17,7 +17,7 @@ final class SwaggerBuilder
         $this->openApiBuilder = $openApiBuilder ?? new OpenApiBuilder();
     }
 
-    public function build(Api $api, string $title = 'Project documentation'): string
+    public function build(Api $api, string $title = 'Project documentation', string $version = '5.18.2'): string
     {
         $spec = $this->openApiBuilder->build($api);
         $json = json_encode($spec, JSON_THROW_ON_ERROR);
@@ -27,6 +27,7 @@ final class SwaggerBuilder
         return strtr($content, [
             '::title' => $title,
             '::spec' => $json,
+            '::version' => $version,
         ]);
     }
 }

@@ -21,4 +21,24 @@ final class PropertySchema
     {
         return self::prop()->enum($values);
     }
+
+    public static function integer(): Property
+    {
+        return self::prop()->integer();
+    }
+
+    public static function string(): Property
+    {
+        return self::prop()->string();
+    }
+
+    public static function arrayOfString(): Property
+    {
+        return self::prop()->arrayOfString();
+    }
+
+    public static function arrayOfInteger(): Property
+    {
+        return self::prop()->arrayOfInteger();
+    }
 }
