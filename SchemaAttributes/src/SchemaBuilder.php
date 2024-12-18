@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\SchemaAttributes;
 
+use Davajlama\Schemator\JsonSchema\ReflectionExtractor;
 use Davajlama\Schemator\SanitizerAttributes\ReflectionVariable;
 use Davajlama\Schemator\Schema\Rules\Type\BoolType;
 use Davajlama\Schemator\Schema\Rules\Type\FloatType;
 use Davajlama\Schemator\Schema\Rules\Type\IntegerType;
 use Davajlama\Schemator\Schema\Rules\Type\StringType;
 use Davajlama\Schemator\Schema\Schema;
+use Davajlama\Schemator\SchemaAttributes\Attribute\AnyOf;
 use LogicException;
 use ReflectionClass;
 use ReflectionNamedType;
@@ -150,10 +152,38 @@ class SchemaBuilder
                 return new TypePropertyAttribute(new BoolType());
             case 'float':
                 return new TypePropertyAttribute(new FloatType());
-            default:
-                /** @var class-string<T> $className */
-                $className = $type->getName();
-                return new ReferencedPropertyAttribute($this->build($className));
         }
+
+        /** @var class-string<T> $className */
+        $className = $type->getName();
+
+        $discriminator = $this->findDiscriminator($className);
+        if ($discriminator !== null) {
+            return $discriminator;
+        }
+
+        return new ReferencedPropertyAttribute($this->build($className));
+    }
+
+    /**
+     * @param class-string<T> $className
+     */
+    private function findDiscriminator(string $className): ?PropertyAttribute
+    {
+        $rfc = new ReflectionClass($className);
+
+        $discriminatorAttribute = $rfc->getAttributes('Symfony\Component\Serializer\Attribute\DiscriminatorMap')[0] ?? null;
+        if ($discriminatorAttribute !== null) {
+            $discriminator = $discriminatorAttribute->newInstance();
+            /** @var string $typeProperty */
+            $typeProperty = ReflectionExtractor::getProperty($discriminator, 'typeProperty');
+
+            /** @var array<string, string> $mapping */
+            $mapping = ReflectionExtractor::getProperty($discriminator, 'mapping');
+
+            return new AnyOf($typeProperty, $mapping);
+        }
+
+        return null;
     }
 }

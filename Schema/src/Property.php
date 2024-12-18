@@ -30,6 +30,7 @@ use function sprintf;
  * @method self range(float $min, float $max)
  *
  * @method self arrayOf(Schema|string $schema)
+ * @method self anyOf(string $typeProperty, array $mapping)
  * @method self maxItems(int $maxItems)
  * @method self minItems(int $minItems)
  * @method self unique()
