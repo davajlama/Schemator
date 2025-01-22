@@ -14,6 +14,7 @@ use function sprintf;
  * @method self integer()
  * @method self float()
  * @method self bool()
+ * @method self number()
  * @method self array()
  * @method self arrayOfString()
  * @method self arrayOfInteger()

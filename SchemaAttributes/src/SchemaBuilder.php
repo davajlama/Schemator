@@ -9,6 +9,7 @@ use Davajlama\Schemator\SanitizerAttributes\ReflectionVariable;
 use Davajlama\Schemator\Schema\Rules\Type\BoolType;
 use Davajlama\Schemator\Schema\Rules\Type\FloatType;
 use Davajlama\Schemator\Schema\Rules\Type\IntegerType;
+use Davajlama\Schemator\Schema\Rules\Type\NumberType;
 use Davajlama\Schemator\Schema\Rules\Type\StringType;
 use Davajlama\Schemator\Schema\Schema;
 use Davajlama\Schemator\SchemaAttributes\Attribute\AnyOf;
@@ -94,6 +95,23 @@ class SchemaBuilder
         $attributes = [];
         if ($originType->allowsNull()) {
             $attributes[] = new NullablePropertyAttribute();
+        }
+
+        $floatPointer = null;
+        $intPointer = null;
+        foreach ($types as $key => $type) {
+            if ($type->getName() === 'float') {
+                $floatPointer = $key;
+            }
+
+            if ($type->getName() === 'int') {
+                $intPointer = $key;
+            }
+        }
+
+        if ($floatPointer !== null && $intPointer !== null) {
+            unset($types[$floatPointer], $types[$intPointer]);
+            $attributes[] = new TypePropertyAttribute(new NumberType());
         }
 
         foreach ($types as $type) {
