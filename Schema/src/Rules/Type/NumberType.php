@@ -8,6 +8,9 @@ use Davajlama\Schemator\Schema\Exception\ValidationFailedException;
 use Davajlama\Schemator\Schema\Rules\BaseRule;
 use Davajlama\Schemator\Schema\Validator\Message;
 
+use function is_float;
+use function is_int;
+
 final class NumberType extends BaseRule
 {
     public function validateValue(mixed $value): void

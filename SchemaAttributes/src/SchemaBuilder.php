@@ -97,9 +97,14 @@ class SchemaBuilder
             $attributes[] = new NullablePropertyAttribute();
         }
 
+        if (!$property->hasDefaultValue()) {
+            $attributes[] = new RequiredPropertyAttribute();
+        }
+
         $floatPointer = null;
         $intPointer = null;
         foreach ($types as $key => $type) {
+            /** @var ReflectionNamedType $type */
             if ($type->getName() === 'float') {
                 $floatPointer = $key;
             }
