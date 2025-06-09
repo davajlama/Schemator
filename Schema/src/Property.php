@@ -38,6 +38,7 @@ use function sprintf;
  *
  * @method self callback(callable $callback)
  * @method self dateTime(string $format = null)
+ * @method self url()
  */
 class Property
 {

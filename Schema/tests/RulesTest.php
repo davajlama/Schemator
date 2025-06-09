@@ -28,6 +28,7 @@ use Davajlama\Schemator\Schema\Rules\Type\FloatType;
 use Davajlama\Schemator\Schema\Rules\Type\IntegerType;
 use Davajlama\Schemator\Schema\Rules\Type\StringType;
 use Davajlama\Schemator\Schema\Rules\Unique;
+use Davajlama\Schemator\Schema\Rules\Url;
 use PHPUnit\Framework\TestCase;
 
 final class RulesTest extends TestCase
@@ -77,6 +78,7 @@ final class RulesTest extends TestCase
             'maxItems' => [new MaxItems(3), [[], [1, 2, 3]]],
             'minItems' => [new MinItems(1), [[1]]],
             'unique' => [new Unique(), [[], [1, 2]]],
+            'url' => [new Url(), ['https://example.com', 'https://example.com/foobar']],
         ];
     }
 
@@ -126,6 +128,7 @@ final class RulesTest extends TestCase
             'maxItems' => [new MaxItems(3), 'Maximum items of an array is 3.', [[1, 2, 3, 4]]],
             'minItems' => [new MinItems(1), 'Minimum items of an array is 1.', [[]]],
             'unique' => [new Unique(), 'Array contain non-unique values.', [[1, 1]]],
+            'url' => [new Url(), 'Invalid url format.', ['https://', '/foobar']],
         ];
     }
 
