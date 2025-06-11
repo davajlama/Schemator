@@ -14,6 +14,7 @@ use function sprintf;
  * @method self integer()
  * @method self float()
  * @method self bool()
+ * @method self number()
  * @method self array()
  * @method self arrayOfString()
  * @method self arrayOfInteger()
@@ -30,12 +31,14 @@ use function sprintf;
  * @method self range(float $min, float $max)
  *
  * @method self arrayOf(Schema|string $schema)
+ * @method self anyOf(string $typeProperty, array $mapping)
  * @method self maxItems(int $maxItems)
  * @method self minItems(int $minItems)
  * @method self unique()
  *
  * @method self callback(callable $callback)
  * @method self dateTime(string $format = null)
+ * @method self url()
  */
 class Property
 {
