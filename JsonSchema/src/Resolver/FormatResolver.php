@@ -20,6 +20,7 @@ final class FormatResolver implements ResolverInterface
     public function resolve(Definition $definition, RuleInterface $rule): void
     {
         if ($rule instanceof Email) {
+            $definition->addType('string');
             $definition->setFormat('email');
         } elseif ($rule instanceof Url) {
             $definition->setFormat('uri');

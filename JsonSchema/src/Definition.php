@@ -59,6 +59,8 @@ class Definition
      */
     private ?array $examples = null;
 
+    private string|int|float|bool|null $example = null;
+
     /**
      * @return array<string, mixed>
      */
@@ -82,6 +84,7 @@ class Definition
             $this->prop('maximum', $this->maximum),
             $this->prop('format', $this->format),
             $this->prop('examples', $this->examples),
+            $this->prop('example', $this->example),
         );
     }
 
@@ -174,6 +177,13 @@ class Definition
     public function setExamples(array $examples): Definition
     {
         $this->examples = $examples;
+
+        return $this;
+    }
+
+    public function setExample(float|bool|int|string|null $example): Definition
+    {
+        $this->example = $example;
 
         return $this;
     }

@@ -9,6 +9,7 @@ use Davajlama\Schemator\OpenApi\PropertyHelper;
 use Davajlama\Schemator\Schema\Schema;
 use LogicException;
 
+use function is_array;
 use function sprintf;
 
 class Response implements DefinitionInterface
@@ -67,6 +68,25 @@ class Response implements DefinitionInterface
     public function jsonContent(): Content
     {
         return $this->content('application/json');
+    }
+
+    /**
+     * @param mixed[]|string $json
+     */
+    public function addJsonExample(array|string $json, string|null $summary): self
+    {
+        $example = is_array($json) ? new Example($json, $summary) : new JsonExample($json, $summary);
+
+        $this->jsonContent()->addExample($example);
+
+        return $this;
+    }
+
+    public function addJsonFileExample(string $jsonFile, string|null $summary): self
+    {
+        $this->jsonContent()->addExample(new JsonFileExample($jsonFile, $summary));
+
+        return $this;
     }
 
     public function content(string $type): Content

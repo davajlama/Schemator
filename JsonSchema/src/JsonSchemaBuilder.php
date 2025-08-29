@@ -126,6 +126,10 @@ final class JsonSchemaBuilder
                 $definition->setDescription($property->getDescription());
             }
 
+            if ($property->getExample() !== null) {
+                $definition->setExample($property->getExample());
+            }
+
             if ($property->getExamples() !== null) {
                 $definition->setExamples($property->getExamples());
             }

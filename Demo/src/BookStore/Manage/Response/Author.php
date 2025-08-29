@@ -6,6 +6,7 @@ namespace Davajlama\Schemator\Demo\BookStore\Manage\Response;
 
 use Davajlama\Schemator\SchemaAttributes\Attribute\DateTime;
 use Davajlama\Schemator\SchemaAttributes\Attribute\Enum;
+use Davajlama\Schemator\SchemaAttributes\Attribute\Example;
 use Davajlama\Schemator\SchemaAttributes\Attribute\RangeLength;
 use Davajlama\Schemator\SchemaAttributes\Attribute\RequiredAll;
 
@@ -26,8 +27,8 @@ final class Author
 
     public function __construct(
         int $id,
-        #[RangeLength(1, 30)] string $firstname,
-        #[RangeLength(1, 30)] string $surname,
+        #[RangeLength(1, 30)] #[Example('Dave')] string $firstname,
+        #[RangeLength(1, 30)] #[Example('Lister')] string $surname,
         ?Contact $contact,
         #[DateTime('Y-m-d H:i:s')] string $birthday,
         #[Enum(['MALE', 'FEMALE'])] string $sex,

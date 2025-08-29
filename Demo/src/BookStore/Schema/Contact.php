@@ -13,8 +13,10 @@ final class Contact extends Schema
         parent::__construct();
 
         $this->requiredDefaultValue(true);
-        $this->prop('id')->integer();
-        $this->prop('email')->email();
-        $this->prop('phone')->string();
+        $this->prop('id')->integer()->examples(1, 2, 3);
+        $this->prop('email')->email()->examples('john@doe.com', 'foobar+256@gmail.com');
+        $this->prop('phone')->string()
+            ->example('+420789456132')
+            ->description('The phone number with county prefix.');
     }
 }

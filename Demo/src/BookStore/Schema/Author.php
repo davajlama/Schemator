@@ -14,8 +14,8 @@ final class Author extends Schema
 
         $this->requiredDefaultValue(true);
         $this->prop('id')->integer();
-        $this->prop('firstname')->string()->minLength(1)->maxLength(50);
-        $this->prop('surname')->string()->minLength(1)->maxLength(50);
+        $this->prop('firstname')->string()->minLength(1)->maxLength(50)->example('John');
+        $this->prop('surname')->string()->minLength(1)->maxLength(50)->example('Doe');
         $this->prop('contact')->ref(Contact::class)->nullable();
         $this->prop('birthday')->dateTime('Y-m-d H:i:s');
         $this->prop('sex')->enum(['MALE', 'FEMALE']);

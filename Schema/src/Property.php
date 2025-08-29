@@ -59,6 +59,8 @@ class Property
      */
     private ?array $examples = null;
 
+    private string|int|float|bool|null $example = null;
+
     /**
      * @var RuleInterface[]
      */
@@ -126,6 +128,13 @@ class Property
         return $this;
     }
 
+    public function example(string|int|float|bool|null $example): self
+    {
+        $this->example = $example;
+
+        return $this;
+    }
+
     public function isRequired(): bool
     {
         return $this->required;
@@ -165,6 +174,11 @@ class Property
     public function getExamples(): ?array
     {
         return $this->examples;
+    }
+
+    public function getExample(): float|bool|int|string|null
+    {
+        return $this->example;
     }
 
     /**

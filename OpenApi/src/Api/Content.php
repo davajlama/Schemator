@@ -9,6 +9,8 @@ use Davajlama\Schemator\OpenApi\PropertyHelper;
 use Davajlama\Schemator\OpenApi\SchemaReference;
 use Davajlama\Schemator\Schema\Schema;
 
+use function count;
+
 class Content implements DefinitionInterface
 {
     use PropertyHelper;
@@ -21,6 +23,16 @@ class Content implements DefinitionInterface
      * @var array<int, array<string, SchemaReference>>
      */
     private ?array $oneOf = null;
+
+    /**
+     * @var mixed[]|null
+     */
+    private ?array $examples = null;
+
+    /**
+     * @var mixed[]|null
+     */
+    private ?array $example = null;
 
     public function __construct(string $type)
     {
@@ -43,6 +55,8 @@ class Content implements DefinitionInterface
                     $this->prop('$ref', $this->schema),
                     $this->prop('oneOf', $this->oneOf),
                 )),
+                $this->prop('examples', $this->examples),
+                $this->prop('example', $this->example),
             ),
         ];
     }
@@ -62,6 +76,37 @@ class Content implements DefinitionInterface
         }
 
         $this->oneOf = $list;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed[] $data
+     */
+    public function setExample(array $data): self
+    {
+        $this->examples = $data;
+
+        return $this;
+    }
+
+    public function addExample(Example $example): self
+    {
+        $examples = $this->examples ?? [];
+
+        $name = 'Example ' . (count($examples) + 1);
+
+        $data = [
+            'value' => $example->getData(),
+        ];
+
+        if ($example->getSummary() !== null) {
+            $data['summary'] = $example->getSummary();
+        }
+
+        $examples[$name] = $data;
+
+        $this->examples = $examples;
 
         return $this;
     }
