@@ -15,6 +15,8 @@ final class Book
         public Author|null $secondAuthor,
         public int $pages,
         public Value|int|null $authorId = Value::NONE,
+        public Value|Author $thirdAuthor = Value::NONE,
+        public Value|Author|null $fourthAuthor = Value::NONE,
     ) {
     }
 }

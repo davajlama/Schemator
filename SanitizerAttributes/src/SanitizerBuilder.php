@@ -10,10 +10,12 @@ use LogicException;
 use ReflectionClass;
 use ReflectionNamedType;
 use ReflectionProperty;
+use ReflectionType;
 use ReflectionUnionType;
 
 use function array_map;
 use function class_implements;
+use function count;
 use function in_array;
 
 /**
@@ -45,7 +47,7 @@ final class SanitizerBuilder
                     $attribute->apply($group);
                 }
             } elseif ($this->isSingleObjectProperty($variable)) {
-                    $type = $variable->getType();
+                    $type = $this->getSingleObjectPropertyType($variable->getType());
                 if ($type instanceof ReflectionNamedType) {
                     /** @var class-string<T> $refClassName */
                     $refClassName = $type->getName();
@@ -147,6 +149,52 @@ final class SanitizerBuilder
 
         $originType = $variable->getType();
 
-        return $originType instanceof ReflectionUnionType === false;
+        if ($originType instanceof ReflectionNamedType) {
+            return true;
+        }
+
+        if ($originType instanceof ReflectionUnionType) {
+            $types = [];
+            foreach ($originType->getTypes() as $type) {
+                if ($type instanceof ReflectionNamedType && in_array($type->getName(), ['null', Value::class], true)) {
+                    continue;
+                }
+
+                if (!$type instanceof ReflectionNamedType) {
+                    return false;
+                }
+
+                $types[] = $type;
+            }
+
+            return count($types) === 1;
+        }
+
+        return false;
+    }
+
+    private function getSingleObjectPropertyType(ReflectionType|null $type): ReflectionType|null
+    {
+        if ($type instanceof ReflectionNamedType) {
+            return $type;
+        }
+
+        if ($type instanceof ReflectionUnionType) {
+            $types = [];
+
+            foreach ($type->getTypes() as $subType) {
+                if ($subType instanceof ReflectionNamedType && in_array($subType->getName(), ['null', Value::class], true)) {
+                    continue;
+                }
+
+                $types[] = $subType;
+            }
+
+            if (count($types) === 1) {
+                return $types[0];
+            }
+        }
+
+        return $type;
     }
 }
