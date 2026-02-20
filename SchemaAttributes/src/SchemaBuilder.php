@@ -13,6 +13,7 @@ use Davajlama\Schemator\Schema\Rules\Type\NumberType;
 use Davajlama\Schemator\Schema\Rules\Type\StringType;
 use Davajlama\Schemator\Schema\Schema;
 use Davajlama\Schemator\SchemaAttributes\Attribute\AnyOf;
+use Davajlama\Schemator\SchemaAttributes\Resolver\BackedEnumTypeResolver;
 use LogicException;
 use ReflectionClass;
 use ReflectionNamedType;
@@ -29,6 +30,23 @@ use function sprintf;
  */
 class SchemaBuilder
 {
+    /**
+     * @var PropertyTypeResolver[]
+     */
+    private array $propertyTypeResolvers = [];
+
+    public function __construct()
+    {
+        $this->addPropertyTypeResolver(new BackedEnumTypeResolver());
+    }
+
+    public function addPropertyTypeResolver(PropertyTypeResolver $propertyTypeResolver): static
+    {
+        $this->propertyTypeResolvers[] = $propertyTypeResolver;
+
+        return $this;
+    }
+
     /**
      * @param class-string<T> $className
      */
@@ -165,6 +183,12 @@ class SchemaBuilder
 
     private function loadFromType(ReflectionNamedType $type): PropertyAttribute
     {
+        foreach ($this->propertyTypeResolvers as $propertyTypeResolver) {
+            if ($propertyTypeResolver->support($type)) {
+                return $propertyTypeResolver->resolve($type);
+            }
+        }
+
         switch ($type->getName()) {
             case 'DateTimeInterface':
             case 'string':
