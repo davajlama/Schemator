@@ -12,6 +12,7 @@ use Davajlama\Schemator\Schema\Rules\Type\IntegerType;
 use Davajlama\Schemator\Schema\Rules\Type\NumberType;
 use Davajlama\Schemator\Schema\Rules\Type\StringType;
 use Davajlama\Schemator\Schema\Schema;
+use Davajlama\Schemator\Schema\Value;
 use Davajlama\Schemator\SchemaAttributes\Attribute\AnyOf;
 use Davajlama\Schemator\SchemaAttributes\Resolver\BackedEnumTypeResolver;
 use LogicException;
@@ -139,7 +140,7 @@ class SchemaBuilder
 
         foreach ($types as $type) {
             /** @var ReflectionNamedType $type */
-            if ($type->getName() !== 'null' && $type->getName() !== 'array') {
+            if ($type->getName() !== 'null' && $type->getName() !== 'array' && $type->getName() !== Value::class) {
                 $attributes[] = $this->loadFromType($type);
             }
         }
