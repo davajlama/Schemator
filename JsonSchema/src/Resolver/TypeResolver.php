@@ -12,6 +12,7 @@ use Davajlama\Schemator\Schema\Rules\Type\ArrayType;
 use Davajlama\Schemator\Schema\Rules\Type\BoolType;
 use Davajlama\Schemator\Schema\Rules\Type\FloatType;
 use Davajlama\Schemator\Schema\Rules\Type\IntegerType;
+use Davajlama\Schemator\Schema\Rules\Type\NumberType;
 use Davajlama\Schemator\Schema\Rules\Type\StringType;
 
 final class TypeResolver implements ResolverInterface
@@ -19,6 +20,7 @@ final class TypeResolver implements ResolverInterface
     public function support(RuleInterface $rule): bool
     {
         return $rule instanceof StringType
+            || $rule instanceof NumberType
             || $rule instanceof FloatType
             || $rule instanceof ArrayType
             || $rule instanceof BoolType
@@ -31,6 +33,8 @@ final class TypeResolver implements ResolverInterface
     {
         if ($rule instanceof StringType) {
             $definition->addType('string');
+        } elseif ($rule instanceof NumberType) {
+            $definition->addType('number');
         } elseif ($rule instanceof FloatType) {
             $definition->addType('number');
         } elseif ($rule instanceof ArrayType) {
