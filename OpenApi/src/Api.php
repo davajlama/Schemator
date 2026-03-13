@@ -12,6 +12,8 @@ class Api implements DefinitionInterface
 {
     use PropertyHelper;
 
+    private DecoratorChain $decorator;
+
     private string $version;
 
     private ?Info $info = null;
@@ -24,6 +26,12 @@ class Api implements DefinitionInterface
     public function __construct(string $version = '3.0.2')
     {
         $this->version = $version;
+        $this->decorator = new DecoratorChain();
+    }
+
+    public function getDecorator(): DecoratorChain
+    {
+        return $this->decorator;
     }
 
     /**
@@ -76,7 +84,7 @@ class Api implements DefinitionInterface
     {
         $path = $this->findPath($name);
         if ($path === null) {
-            $path = new Path($name);
+            $path = $this->decorator->decoratePath(new Path($name, $this->decorator));
             $this->addPath($path);
         }
 

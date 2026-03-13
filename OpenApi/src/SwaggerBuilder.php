@@ -10,11 +10,17 @@ use function strtr;
 
 final class SwaggerBuilder
 {
+    public const UNSAFE_MARKDOWN = 1 << 0;
+
     private OpenApiBuilder $openApiBuilder;
 
-    public function __construct(?OpenApiBuilder $openApiBuilder = null)
+    private bool $unsafeMarkdown;
+
+    public function __construct(?OpenApiBuilder $openApiBuilder = null, int $flags = 0)
     {
         $this->openApiBuilder = $openApiBuilder ?? new OpenApiBuilder();
+
+        $this->unsafeMarkdown = ($flags & self::UNSAFE_MARKDOWN) === self::UNSAFE_MARKDOWN;
     }
 
     public function build(Api $api, string $title = 'Project documentation', string $version = '5.18.2'): string
@@ -28,6 +34,7 @@ final class SwaggerBuilder
             '::title' => $title,
             '::spec' => $json,
             '::version' => $version,
+            '::unsafeMarkdown' => $this->unsafeMarkdown ? 'true' : 'false',
         ]);
     }
 }

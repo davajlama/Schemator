@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\OpenApi\Api;
 
+use Davajlama\Schemator\OpenApi\DecoratorChain;
 use Davajlama\Schemator\OpenApi\DefinitionInterface;
 use Davajlama\Schemator\OpenApi\PropertyHelper;
 use LogicException;
@@ -14,6 +15,8 @@ final class Path implements DefinitionInterface
 {
     use PropertyHelper;
 
+    private DecoratorChain $decorator;
+
     private string $name;
 
     /**
@@ -21,9 +24,10 @@ final class Path implements DefinitionInterface
      */
     private ?array $methods = null;
 
-    public function __construct(string $name)
+    public function __construct(string $name, DecoratorChain $decorator)
     {
         $this->name = $name;
+        $this->decorator = $decorator;
     }
 
     /**
@@ -70,7 +74,7 @@ final class Path implements DefinitionInterface
     {
         $method = $this->findMethod($name);
         if ($method === null) {
-            $method = new Method($name);
+            $method = $this->decorator->decorateMethod(new Method($name));
             $this->addMethod($method);
         }
 
@@ -108,7 +112,7 @@ final class Path implements DefinitionInterface
         return $result;
     }
 
-    protected function findMethod(string $name): ?Method
+    public function findMethod(string $name): ?Method
     {
         if ($this->methods !== null) {
             foreach ($this->methods as $method) {

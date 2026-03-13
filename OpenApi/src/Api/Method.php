@@ -178,6 +178,11 @@ class Method implements DefinitionInterface
         return $this->response(200, 'Ok.');
     }
 
+    public function response202Accepted(): Response
+    {
+        return $this->response(202, 'Accepted.');
+    }
+
     public function response204NoContent(): Response
     {
         return $this->response(204, 'Ok. No content.');

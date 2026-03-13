@@ -28,6 +28,7 @@
             spec: spec,
             dom_id: '#swagger-ui',
             deepLinking: true,
+            useUnsafeMarkdown: ::unsafeMarkdown,
             docExpansion:'none',
             presets: [
                 SwaggerUIBundle.presets.apis,
