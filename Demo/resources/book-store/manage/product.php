@@ -63,6 +63,20 @@ return Partition::create(static function (Api $api): void {
     $ep->jsonResponse401AuthorizationRequired(Problem::class);
     $ep->response500InternalServerError();
 
+    // Demonstrates OpenAPI 3.0 callbacks: register a URL that the API calls back when a product is created.
+    $ep = $api->post('/book-store/manage/product/webhook');
+    $ep->tags('BookStore', 'BookStore - Manage');
+    $ep->headerParam('x-api-key', true)->description('User api key');
+    $ep->jsonRequestBody(ProductSearch::class);
+    $ep->response(201, 'Webhook registered.');
+    $ep->jsonResponse400BadRequest(Problem::class);
+
+    $callback = $ep->callback('product.created')->expression('{$request.body#/url}')->post();
+    $callback->summary('Product created callback');
+    $callback->description('POSTed to the registered URL whenever a product is created. The schema is resolved into components automatically.');
+    $callback->jsonRequestBody(Product::class);
+    $callback->response(200, 'Delivery acknowledged.');
+
     $ep = $api->put('/book-store/manage/product/update/{id}');
     $ep->tags('BookStore', 'BookStore - Manage');
     $ep->headerParam('x-api-key', true)->description('User api key');

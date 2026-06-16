@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Davajlama\Schemator\OpenApi\Api;
 
+use Davajlama\Schemator\OpenApi\DecoratorChain;
 use Davajlama\Schemator\OpenApi\DefinitionInterface;
 use Davajlama\Schemator\OpenApi\PropertyHelper;
 use Davajlama\Schemator\OpenApi\PropertySchema;
@@ -26,6 +27,8 @@ class Method implements DefinitionInterface
 
     private ?string $summary = null;
 
+    private ?string $description = null;
+
     private ?Parameters $parameters = null;
 
     private ?RequestBody $requestBody = null;
@@ -39,6 +42,11 @@ class Method implements DefinitionInterface
      * @var Response[]|null
      */
     private ?array $responses = null;
+
+    /**
+     * @var Callback[]|null
+     */
+    private ?array $callbacks = null;
 
     public function __construct(string $name)
     {
@@ -58,10 +66,12 @@ class Method implements DefinitionInterface
         return [
             $this->name => $this->join(
                 $this->prop('summary', $this->summary),
+                $this->prop('description', $this->description),
                 $this->prop('tags', $this->tags),
                 $this->prop('parameters', $this->parameters?->buildParameters()),
                 $this->prop('requestBody', $this->requestBody?->build()),
                 $this->prop('responses', $this->buildResponses()),
+                $this->prop('callbacks', $this->buildCallbacks()),
             ),
         ];
     }
@@ -69,6 +79,13 @@ class Method implements DefinitionInterface
     public function summary(string $summary): self
     {
         $this->summary = $summary;
+
+        return $this;
+    }
+
+    public function description(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
@@ -271,6 +288,61 @@ class Method implements DefinitionInterface
             $result = [];
             foreach ($this->responses as $response) {
                 $result = $this->join($result, $response->build());
+            }
+        }
+
+        return $result;
+    }
+
+    public function callback(string $name): Callback
+    {
+        $callback = $this->findCallback($name);
+        if ($callback === null) {
+            $callback = new Callback($name, new DecoratorChain());
+            $this->addCallback($callback);
+        }
+
+        return $callback;
+    }
+
+    public function addCallback(Callback $callback): self
+    {
+        if ($this->callbacks === null) {
+            $this->callbacks = [];
+        }
+
+        if ($this->findCallback($callback->getName()) !== null) {
+            throw new LogicException(sprintf('Callback %s already exists.', $callback->getName()));
+        }
+
+        $this->callbacks[] = $callback;
+
+        return $this;
+    }
+
+    protected function findCallback(string $name): ?Callback
+    {
+        if ($this->callbacks !== null) {
+            foreach ($this->callbacks as $callback) {
+                if ($callback->getName() === $name) {
+                    return $callback;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return mixed[]|null
+     */
+    protected function buildCallbacks(): ?array
+    {
+        $result = null;
+        if ($this->callbacks !== null) {
+            $result = [];
+            foreach ($this->callbacks as $callback) {
+                $result = $this->join($result, $callback->build());
             }
         }
 
