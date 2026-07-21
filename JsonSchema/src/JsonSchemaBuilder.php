@@ -117,24 +117,24 @@ final class JsonSchemaBuilder
             if ($property->isNullable()) {
                 $definition->addType('null');
             }
-
-            if ($property->getTitle() !== null) {
-                $definition->setTitle($property->getTitle());
-            }
-
-            if ($property->getDescription() !== null) {
-                $definition->setDescription($property->getDescription());
-            }
-
-            if ($property->getExample() !== null) {
-                $definition->setExample($property->getExample());
-            }
-
-            if ($property->getExamples() !== null) {
-                $definition->setExamples($property->getExamples());
-            }
         } else {
             $this->generateFromSchema($this->schemaFactory->create($property->getReference()), $definition);
+        }
+
+        if ($property->getTitle() !== null) {
+            $definition->setTitle($property->getTitle());
+        }
+
+        if ($property->getDescription() !== null) {
+            $definition->setDescription($property->getDescription());
+        }
+
+        if ($property->getExample() !== null) {
+            $definition->setExample($property->getExample());
+        }
+
+        if ($property->getExamples() !== null) {
+            $definition->setExamples($property->getExamples());
         }
 
         return $definition;
