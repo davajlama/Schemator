@@ -12,14 +12,12 @@ use Davajlama\Schemator\Schema\SchemaFactoryInterface;
 use LogicException;
 
 use function array_search;
+use function array_unshift;
 use function array_walk_recursive;
 use function count;
-use function explode;
 use function in_array;
 use function is_array;
 use function reset;
-use function strtr;
-use function ucfirst;
 
 final class OpenApiBuilder
 {
@@ -32,10 +30,24 @@ final class OpenApiBuilder
      */
     private array $schemas = [];
 
+    /**
+     * @var ComponentNameResolverInterface[]
+     */
+    private array $componentNameResolvers = [];
+
     public function __construct(?JsonSchemaBuilder $jsonSchemaBuilder = null, ?SchemaFactoryInterface $schemaFactory = null)
     {
         $this->jsonSchemaBuilder = $jsonSchemaBuilder ?? new JsonSchemaBuilder();
         $this->schemaFactory = $schemaFactory ?? new SchemaFactory();
+
+        $this->componentNameResolvers[] = new DefaultComponentNameResolver();
+    }
+
+    public function prependComponentNameResolver(ComponentNameResolverInterface $componentNameResolver): self
+    {
+        array_unshift($this->componentNameResolvers, $componentNameResolver);
+
+        return $this;
     }
 
     /**
@@ -68,14 +80,16 @@ final class OpenApiBuilder
             throw new LogicException('Cannot create reference name for Property.');
         }
 
+        /** @var Schema|string $reference */
+        $reference = $schema->getSchema();
 
-        if ($schema->getSchema() instanceof Schema) {
-            $name = $schema->getSchema()->getName() ?? $schema->getSchema()::class;
-        } else {
-            $name = $schema->getSchema();
+        foreach ($this->componentNameResolvers as $componentNameResolver) {
+            if ($componentNameResolver->support($reference)) {
+                return $componentNameResolver->resolve($reference);
+            }
         }
 
-        return $this->capitalize($name);
+        throw new LogicException('No component name resolver supports given schema.');
     }
 
     /**
@@ -134,20 +148,8 @@ final class OpenApiBuilder
         }
     }
 
-    private function generateSchemaReference(string $class): string
+    private function generateSchemaReference(string $name): string
     {
-        return '#/components/schemas/' . $this->capitalize($class);
-    }
-
-    private function capitalize(string $name): string
-    {
-        $result = '';
-
-        $name = strtr($name, '\\', '/');
-        foreach (explode('/', $name) as $word) {
-            $result .= ucfirst($word);
-        }
-
-        return $result;
+        return '#/components/schemas/' . $name;
     }
 }
