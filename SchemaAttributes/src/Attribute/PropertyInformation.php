@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Davajlama\Schemator\SchemaAttributes\Attribute;
 
 use Attribute;
+use Davajlama\Schemator\Schema\Exception\PropertyNotExistsException;
 use Davajlama\Schemator\Schema\Schema;
-use Davajlama\Schemator\SchemaAttributes\SchemaAttribute;
+use Davajlama\Schemator\SchemaAttributes\DeferredSchemaAttribute;
+
+use function sprintf;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE)]
-final class PropertyInformation implements SchemaAttribute
+final class PropertyInformation implements DeferredSchemaAttribute
 {
     private string $name;
 
@@ -39,6 +42,10 @@ final class PropertyInformation implements SchemaAttribute
 
     public function apply(Schema $schema): void
     {
+        if (!$schema->hasProperty($this->name)) {
+            throw new PropertyNotExistsException(sprintf('Property [%s] not exists in schema [%s].', $this->name, $schema->getName() ?? 'unknown'));
+        }
+
         $property = $schema->prop($this->name);
 
         if ($this->description !== null) {

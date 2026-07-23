@@ -56,7 +56,15 @@ class SchemaBuilder
         $rfc = new ReflectionClass($className);
 
         $schema = new Schema($className);
+
+        $deferred = [];
         foreach ($this->loadFromClass($rfc) as $rule) {
+            if ($rule instanceof DeferredSchemaAttribute) {
+                $deferred[] = $rule;
+
+                continue;
+            }
+
             $rule->apply($schema);
         }
 
@@ -72,6 +80,10 @@ class SchemaBuilder
             foreach ($attributes as $attribute) {
                 $attribute->apply($prop);
             }
+        }
+
+        foreach ($deferred as $rule) {
+            $rule->apply($schema);
         }
 
         return $schema;

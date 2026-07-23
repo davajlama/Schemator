@@ -52,6 +52,11 @@ class Schema
         return $this->registerProperty($name);
     }
 
+    public function hasProperty(string $name): bool
+    {
+        return array_key_exists($name, $this->properties);
+    }
+
     public function isAdditionalPropertiesAllowed(): bool
     {
         return $this->additionalProperties;
