@@ -69,7 +69,13 @@ final class OpenApiBuilder
             }
         });
 
-        $data['components'] = $this->createComponent();
+        $components = [];
+        if (isset($data['components']) && is_array($data['components'])) {
+            $components = $data['components'];
+        }
+
+        $components['schemas'] = $this->createComponentSchema();
+        $data['components'] = $components;
 
         return $data;
     }
@@ -90,16 +96,6 @@ final class OpenApiBuilder
         }
 
         throw new LogicException('No component name resolver supports given schema.');
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function createComponent(): array
-    {
-        return [
-            'schemas' => $this->createComponentSchema(),
-        ];
     }
 
     /**

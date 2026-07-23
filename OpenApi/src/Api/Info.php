@@ -17,6 +17,12 @@ class Info implements DefinitionInterface
 
     private ?string $description = null;
 
+    private ?string $termsOfService = null;
+
+    private ?Contact $contact = null;
+
+    private ?License $license = null;
+
     public function version(string $version): self
     {
         $this->version = $version;
@@ -38,6 +44,31 @@ class Info implements DefinitionInterface
         return $this;
     }
 
+    public function termsOfService(string $termsOfService): self
+    {
+        $this->termsOfService = $termsOfService;
+
+        return $this;
+    }
+
+    public function contact(): Contact
+    {
+        if ($this->contact === null) {
+            $this->contact = new Contact();
+        }
+
+        return $this->contact;
+    }
+
+    public function license(string $name): License
+    {
+        if ($this->license === null) {
+            $this->license = new License($name);
+        }
+
+        return $this->license;
+    }
+
     /**
      * @return mixed[]
      */
@@ -47,6 +78,9 @@ class Info implements DefinitionInterface
             $this->prop('version', $this->version),
             $this->prop('title', $this->title),
             $this->prop('description', $this->description),
+            $this->prop('termsOfService', $this->termsOfService),
+            $this->prop('contact', $this->contact?->build()),
+            $this->prop('license', $this->license?->build()),
         );
     }
 }

@@ -29,6 +29,15 @@ class Method implements DefinitionInterface
 
     private ?string $description = null;
 
+    private ?string $operationId = null;
+
+    private ?bool $deprecated = null;
+
+    /**
+     * @var array<int, array<string, string[]>>|null
+     */
+    private ?array $security = null;
+
     private ?Parameters $parameters = null;
 
     private ?RequestBody $requestBody = null;
@@ -67,11 +76,14 @@ class Method implements DefinitionInterface
             $this->name => $this->join(
                 $this->prop('summary', $this->summary),
                 $this->prop('description', $this->description),
+                $this->prop('operationId', $this->operationId),
                 $this->prop('tags', $this->tags),
                 $this->prop('parameters', $this->parameters?->buildParameters()),
                 $this->prop('requestBody', $this->requestBody?->build()),
                 $this->prop('responses', $this->buildResponses()),
                 $this->prop('callbacks', $this->buildCallbacks()),
+                $this->prop('deprecated', $this->deprecated),
+                $this->prop('security', $this->security),
             ),
         ];
     }
@@ -93,6 +105,38 @@ class Method implements DefinitionInterface
     public function tags(string ...$tags): self
     {
         $this->tags = $tags;
+
+        return $this;
+    }
+
+    public function operationId(string $operationId): self
+    {
+        $this->operationId = $operationId;
+
+        return $this;
+    }
+
+    public function deprecated(bool $deprecated = true): self
+    {
+        $this->deprecated = $deprecated;
+
+        return $this;
+    }
+
+    public function security(string $name, string ...$scopes): self
+    {
+        if ($this->security === null) {
+            $this->security = [];
+        }
+
+        $this->security[] = [$name => $scopes];
+
+        return $this;
+    }
+
+    public function withoutSecurity(): self
+    {
+        $this->security = [];
 
         return $this;
     }
