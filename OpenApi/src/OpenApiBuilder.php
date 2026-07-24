@@ -111,18 +111,33 @@ final class OpenApiBuilder
             unset($data['$schema']);
 
             $this->arrayWalkRecursive($data, '', static function (&$value, $key, &$parent, $context): void {
-                if ($context !== 'properties' && $key === 'type' && is_array($value)) {
-                    if (in_array('null', $value, true)) {
-                        $parent['nullable'] = true;
-                        unset($value[array_search('null', $value, true)]);
-                    }
-
-                    if (count($value) > 1) {
-                        throw new LogicException('Multiple types not supported.');
-                    }
-
-                    $value = reset($value);
+                if ($context === 'properties' || $key !== 'type') {
+                    return;
                 }
+
+                // OpenAPI 3.0 has no null type, and nullable is only allowed
+                // alongside another type. A null-only type is dropped entirely,
+                // leaving a schema that accepts any value.
+                if ($value === 'null' || $value === ['null']) {
+                    unset($parent[$key]);
+
+                    return;
+                }
+
+                if (!is_array($value)) {
+                    return;
+                }
+
+                if (in_array('null', $value, true)) {
+                    $parent['nullable'] = true;
+                    unset($value[array_search('null', $value, true)]);
+                }
+
+                if (count($value) > 1) {
+                    throw new LogicException('Multiple types not supported.');
+                }
+
+                $value = reset($value);
             });
 
             $list[$schemaClass] = $data;

@@ -79,6 +79,7 @@ final class JsonSchemaBuilder
 
     public function generateFromSchema(Schema $schema, Definition $def): void
     {
+        $def->addType('object');
         $def->setAdditionalProperties($schema->isAdditionalPropertiesAllowed());
 
         foreach ($schema->getProperties() as $name => $property) {

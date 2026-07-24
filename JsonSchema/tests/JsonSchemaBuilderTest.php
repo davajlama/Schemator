@@ -53,6 +53,25 @@ final class JsonSchemaBuilderTest extends TestCase
         self::assertArrayNotHasKey('example', $address);
     }
 
+    public function testObjectSchemasHaveExplicitObjectType(): void
+    {
+        $referenced = new Schema();
+        $referenced->prop('street')->string();
+
+        $schema = new Schema();
+        $schema->prop('address')->ref($referenced);
+        $schema->prop('addresses')->arrayOf($referenced);
+
+        $spec = (new JsonSchemaBuilder())->build($schema);
+
+        self::assertSame('object', $spec['type'] ?? null);
+
+        $properties = $spec['properties'] ?? [];
+        self::assertSame('object', $properties['address']['type'] ?? null);
+        self::assertSame('array', $properties['addresses']['type'] ?? null);
+        self::assertSame('object', $properties['addresses']['items']['type'] ?? null);
+    }
+
     public function testScalarPropertyDocumentationIsUnchanged(): void
     {
         $schema = new Schema();
